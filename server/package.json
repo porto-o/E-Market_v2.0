@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "MIT",
@@ -19,8 +20,10 @@
     "jwt-simple": "^0.5.6",
     "moment": "^2.29.1",
     "mongoose": "^5.12.2",
-    "nodemon": "^2.0.7",
     "qrcode": "^1.4.4",
     "stripe": "^8.139.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
