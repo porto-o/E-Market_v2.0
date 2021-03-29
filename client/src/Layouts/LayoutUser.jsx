@@ -35,10 +35,6 @@ const LayoutUser = (props) => {
         );
     }
 
-    const datos = JSON.stringify(user);
-    console.log(datos)
-    const datos2 = datos.split(",");
-    console.log(datos2[1]);
     return (
         <div>
             <Navbar/>

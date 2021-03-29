@@ -12,8 +12,8 @@ import {notification} from "antd";
 import {ListItemText} from "@material-ui/core";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import MyList from "../../pages/Comensal/MyList";
-//import {render} from "@testing-library/react";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
+import BtnAgregarRest from "./Home/BtnAgregarRest";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FolderList() {
-
+export default function ListaRestaurantes(props) {
+    console.log(props.valor)
     const classes = useStyles();
     const [stateNombre, setNombres] = useState([]);
     var nombres;
@@ -63,11 +63,10 @@ export default function FolderList() {
         }
     }
     mostrar()
-    console.log(stateNombre)
     return (
         <Router>
             {stateNombre.map((item) =>
-                <List className={classes.root} >
+                <List className={classes.root}>
                     <ListItem>
                         <ListItemAvatar>
                             <MenuBookIcon/>
@@ -83,23 +82,21 @@ export default function FolderList() {
                 <Route path="/comensal/menu/:nombres" exact={true} component={Menus}/>
                 <Route path="/comensal/menu/elminar/:nombre/:id" exact={true} component={Eliminar}/>
             </Switch>
-
-
         </Router>
     );
 }
 
 export const Menus = () => {
     window.location.reload()
-    return(
-            <MyList/>
+    return (
+        <MyList/>
     )
 }
 
 export const Eliminar = () => {
     window.location.reload()
-    return(
-            <EliminarRest/>
+    return (
+        <EliminarRest/>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Transfer, notification} from 'antd';
 import {useParams} from "react-router-dom"
 import {getMenuApi} from "../../api/ComensalApi";
@@ -18,20 +18,18 @@ var arrayOrden = []
 
 
 const Llenar = () => {
-    const { nombres } = useParams();
+    const {nombres} = useParams();
 
     window.onload = async () => {
-
-
         const result = await getMenuApi(nombres)
         console.log(result)
-        if(result.message) {
+        if (result.message) {
             notification.info({
                 message: result.message,
                 placement: 'bottomLeft'
             })
 
-        }else {
+        } else {
 
             result.filter(function (el) {
                 nombreVista = el.nombre
@@ -45,7 +43,7 @@ const Llenar = () => {
 
             notification.info({
                 message: "Si el menú no aparece, de click en el botón arriba a la izquierda de la tabla de la izquierda.",
-                placement:"bottomLeft"
+                placement: "bottomLeft"
             })
         }
         for (let i = 0; i < arrayNombres.length; i++) {
@@ -56,28 +54,21 @@ const Llenar = () => {
                 price: arrayPrecio[i]
             });
         }
-
-
-        console.log(mockData)
     }
 }
 
-// const initialTargetKeys = mockData.filter(item => +item.title > 10).map(item => item.title);
+//const initialTargetKeys = mockData.filter(item => +item.title > 10).map(item => item.title);
 
 const MyList = () => {
-    const { nombres } = useParams();
-
+    const {nombres} = useParams();
 
 
     const [targetKeys, setTargetKeys] = useState();
     const [selectedKeys, setSelectedKeys] = useState([]);
 
 
-
     const onChange = (nextTargetKeys) => {
-        console.log('platillos finales:', nextTargetKeys);
-        for (let i = 0; i < nextTargetKeys.length; i++){
-            console.log("FOR: "+nextTargetKeys[i])
+        for (let i = 0; i < nextTargetKeys.length; i++) {
             const indice = nextTargetKeys[i]
             nombrePedido = mockData[indice].title
             arrayOrden.push(nombrePedido)
@@ -88,16 +79,16 @@ const MyList = () => {
 
     };
 
-    const ordenar = async() => {
-        if(arrayOrden === "" || arrayOrden === null || !arrayOrden){
+    const ordenar = async () => {
+        if (arrayOrden === "" || arrayOrden === null || !arrayOrden) {
             notification.info({
                 message: "Porfavor selecciona un platillo.",
                 placement: 'bottomLeft',
             })
-        }else {
+        } else {
             //const id = token.id
             //const result = await ordenarApi(arrayOrden,nombres,id)
-            while(arrayOrden.length > 0){
+            while (arrayOrden.length > 0) {
                 arrayOrden.pop();
             }
         }
@@ -108,9 +99,6 @@ const MyList = () => {
         console.log('targetSelectedKeys:', targetSelectedKeys);
         setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
     };
-
-
-
 
 
     Llenar()
@@ -132,7 +120,7 @@ const MyList = () => {
 
             />
             <IconButton color="primary" aria-label="add to shopping cart" onClick={ordenar} href={"/comensal/status"}>
-                <AddShoppingCartIcon /> Ordenar
+                <AddShoppingCartIcon/> Ordenar
             </IconButton>
         </div>
 

@@ -10,8 +10,6 @@ export function signUpApi(data) {
     },
   };
 
-  console.log("Datos recibidos en user.js cliente ", data);
-
   return fetch(url, params)
     .then((response) => {
       return response.json();
@@ -67,7 +65,6 @@ export function AddRestaurantApi(id, data){
       return response.json();
     })
     .then((result) => {
-      //console.log(result);
       return result;
     })
     .catch((err) => {
@@ -76,7 +73,6 @@ export function AddRestaurantApi(id, data){
 }
 
 export function getRestaurantApi(idComensal){
-  console.log("id recibido para el getRestaurant API "+idComensal)
   const url = `${BASE_PATH}/${API_VERSION}/getRestaurante/${idComensal}`;
 
   const params = {
@@ -91,7 +87,6 @@ export function getRestaurantApi(idComensal){
         return response.json();
       })
       .then((result) => {
-        //console.log(result);
         return result;
       })
       .catch((err) => {
@@ -112,7 +107,6 @@ export function deleteAccountComensalApi (id) {
         return response.json();
       })
       .then((result) => {
-        //console.log(result);
         return result;
       })
       .catch((err) => {
@@ -133,7 +127,6 @@ export function changeNameComensalApi(id, newName) {
         return response.json();
       })
       .then((result) => {
-        //console.log(result);
         return result;
       })
       .catch((err) => {
@@ -154,7 +147,6 @@ export function changePasswordComensalApi (id, pass) {
         return response.json();
       })
       .then((result) => {
-        //console.log(result);
         return result;
       })
       .catch((err) => {
@@ -163,7 +155,6 @@ export function changePasswordComensalApi (id, pass) {
 }
 
 export function getMenuApi(nombreRestaurante){
-  console.log("nombre recibido para el getMenuApi API "+nombreRestaurante)
   const url = `${BASE_PATH}/${API_VERSION}/getMenus/${nombreRestaurante}`;
 
   const params = {
@@ -178,7 +169,6 @@ export function getMenuApi(nombreRestaurante){
         return response.json();
       })
       .then((result) => {
-        //console.log(result);
         return result;
       })
       .catch((err) => {
@@ -187,7 +177,6 @@ export function getMenuApi(nombreRestaurante){
 }
 
 export function ordenarApi(order, restaurantName, idComensal){
-  console.log("Pedido recibido en ordsdenar API: ", order, restaurantName, idComensal)
   const url = `${BASE_PATH}/${API_VERSION}/ordenar/${order}/${restaurantName}/${idComensal}`;
 
   const params = {
@@ -202,7 +191,6 @@ export function ordenarApi(order, restaurantName, idComensal){
         return response.json();
       })
       .then((result) => {
-        //console.log(result);
         return result;
       })
       .catch((err) => {
@@ -226,7 +214,6 @@ export function eliminarRestauranteApi(nombre, id){
             return response.json();
         })
         .then((result) => {
-            console.log(result);
             return result;
         })
         .catch((err) => {
@@ -250,7 +237,6 @@ export function getStatusComensalApi(id) {
             return response.json();
         })
         .then((result) => {
-            //console.log(result);
             return result;
         })
         .catch((err) => {
@@ -275,7 +261,6 @@ export function cancelOrderApi (id) {
             return response.json();
         })
         .then((result) => {
-            console.log(result);
             return result;
         })
         .catch((err) => {
@@ -297,7 +282,6 @@ export function getTicketsApi(nombre){
             return response.json();
         })
         .then((result) => {
-            //console.log(result);
             return result;
         })
         .catch((err) => {
@@ -321,7 +305,6 @@ export function getPresentacionApi(id){
             return response.json();
         })
         .then((result) => {
-            //console.log(result);
             return result;
         })
         .catch((err) => {
@@ -345,7 +328,6 @@ export function verificarFirma(firma){
             return response.json();
         })
         .then((result) => {
-            //console.log(result);
             return result;
         })
         .catch((err) => {
