@@ -49,7 +49,8 @@ const BtnAgregarRest = () => {
         message: "Restaurante agregado satisfactoriamente",
         style: { width: 500, marginTop: 50 },
       });
-      window.location = "/comensal"
+      setOpen(false);
+      //window.location = "/comensal"
     }
   }
 

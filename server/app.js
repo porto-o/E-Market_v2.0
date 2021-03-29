@@ -6,8 +6,7 @@ const { API_VERSION } = require("./config");
 
 // Load routes
 // ...
-const authRoutesComensal = require("./routers/auth");
-
+const authRoutesComensal = require("./routers/authRoutes");
 const ComensalRouters = require("./routers/ComensalRoutes");
 const RestaurantRouters = require("./routers/RestaurantRoutes");
 

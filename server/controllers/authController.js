@@ -2,7 +2,6 @@ const jwt = require("../services/jwt");
 const moment = require("moment");
 const Comensal = require("../models/ComensalModel");
 const Restaurante = require("../models/RestauranteModel");
-//función para checar si el token ha experiado
 
 function willExpireToken(token) {
   const { exp } = jwt.decodedToken(token);
@@ -14,50 +13,47 @@ function willExpireToken(token) {
   return false;
 }
 
-function refreshAccessToken(req, res) {
-  const { refreshToken, accessToken } = req.body;
+const refreshAccessToken = (req, res) => {
+  console.log("Estamos refrescando el access token");
+  const { refreshToken } = req.body;
   const isTokenExpired = willExpireToken(refreshToken);
 
   if (isTokenExpired) {
     res.status(404).send({ message: "El refreshToken ha expirado" });
   } else {
     const { id } = jwt.decodedToken(refreshToken);
-    const { role } = jwt.decodedToken(accessToken);
-if(role === "comensal"){
+
     Comensal.findOne({ _id: id }, (err, userStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         if (!userStored) {
           res.status(404).send({ message: "Usuario no encontrado." });
-        } else {
-          res.status(200).send({
-            accessToken: jwt.createAccessToken(userStored),
-            refreshToken: refreshToken,
-            message: jwt.decodedToken(accessToken),
+          Restaurante.findOne({ _id: id }, (err, userStored) => {
+            if (err) {
+              res.status(500).send({ message: "Error del servidor." });
+            } else {
+              if (!userStored) {
+                res.status(404).send({ message: "Usuario no encontrado." });
+              } else {
+                res.status(200).send({
+                  accessToken: jwt.createAccessToken(userStored),
+                  refreshToken: refreshToken,
+                });
+              }
+            }
           });
-        }
-      }
-    });
-  }else{
-    Restaurante.findOne({ _id: id }, (err, userStored) => {
-      if (err) {
-        res.status(500).send({ message: "Error del servidor." });
-      } else {
-        if (!userStored) {
-          res.status(404).send({ message: "Usuario no encontrado." });
         } else {
           res.status(200).send({
             accessToken: jwt.createAccessToken(userStored),
             refreshToken: refreshToken,
-            message: jwt.decodedToken(accessToken),
           });
         }
       }
     });
   }
-}
-}
+};
+
 module.exports = {
   refreshAccessToken,
 };

@@ -809,7 +809,7 @@ const getPresentacion = (req,res) => {
 
     OrdersModel.findOne({"Comensal":idComensal}, (err,resName) => {
         if(err){
-            console.log("Error en el servidor")
+            console.log("Error en el servidor: ", err)
         }else{
             if(!resName){
                 console.log("No hay datos que coincidan")

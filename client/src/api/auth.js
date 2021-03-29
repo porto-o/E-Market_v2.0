@@ -22,11 +22,10 @@ export function getRefreshTokenApi() {
   return willExpireToken(refreshToken) ? null : refreshToken;
 }
 
-export function refreshAccessTokenApi(refreshToken, accesToken) {
+export function refreshAccessTokenApi(refreshToken) {
   const url = `${BASE_PATH}/${API_VERSION}/refresh-access-token`;
   const bodyObj = {
     refreshToken: refreshToken,
-    accessToken: accesToken,
   };
   const params = {
     method: "POST",
