@@ -31,18 +31,17 @@ export function refreshAccessTokenApi(refreshToken) {
     method: "POST",
     body: JSON.stringify(bodyObj),
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
-
   fetch(url, params)
-    .then(response => {
+    .then((response) => {
       if (response.status !== 200) {
         return null;
       }
       return response.json();
     })
-    .then(result => {
+    .then((result) => {
       if (!result) {
         logout();
       } else {
@@ -52,12 +51,10 @@ export function refreshAccessTokenApi(refreshToken) {
       }
     });
 }
-
 export function logout() {
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(REFRESH_TOKEN);
 }
-
 function willExpireToken(token) {
   const seconds = 60;
   const metaToken = jwtDecode(token);

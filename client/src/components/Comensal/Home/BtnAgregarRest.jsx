@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import ReactDOM from 'react-dom'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,8 +10,6 @@ import jwtDecode from "jwt-decode";
 import {ACCESS_TOKEN} from "../../../utils/constants";
 import {notification} from "antd";
 import {AddRestaurantApi} from "../../../api/ComensalApi";
-import ListaRestaurantes, {Mostrar} from "../ListaRestaurantes";
-import ListRestLayout, {LoadRestaurants} from "../ListRestLayout";
 
 const BtnAgregarRest = () => {
     const [open, setOpen] = useState(false);

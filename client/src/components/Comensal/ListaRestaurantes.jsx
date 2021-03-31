@@ -13,7 +13,7 @@ import {ListItemText} from "@material-ui/core";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import MyList from "../../pages/Comensal/MyList";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
-import BtnAgregarRest from "./Home/BtnAgregarRest";
+
 
 
 const useStyles = makeStyles((theme) => ({

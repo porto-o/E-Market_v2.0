@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "OLIMPO",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
