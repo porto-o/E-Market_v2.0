@@ -1,5 +1,5 @@
 import React from "react";
-import {Form, Input, Tooltip, Checkbox, Button, notification} from "antd";
+import { Form, Input, Tooltip, Checkbox, Button, notification } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { signUpApi } from "../../api/ComensalApi";
 
@@ -42,10 +42,8 @@ const RegistrationFormComensal = () => {
         style: { width: 500, marginTop: 50 },
       });
     }
-    window.location = "/signin"
+    window.location = "/signin";
   };
-
-
 
   return (
     <Form
@@ -144,7 +142,8 @@ const RegistrationFormComensal = () => {
         {...tailFormItemLayout}
       >
         <Checkbox>
-          He leído y acepto las <a href={"/politicas"}>Políticas de términos y condiciones de uso</a>
+          He leído y acepto las{" "}
+          <a href={"/politicas"}>Políticas de términos y condiciones de uso</a>
         </Checkbox>
       </Form.Item>
       <Form.Item {...tailFormItemLayout}>

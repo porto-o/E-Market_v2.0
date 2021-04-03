@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,9 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import { SignInApi } from "../../api/ComensalApi";
 import { notification } from "antd";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../utils/constants";
-import { Link } from 'react-router-dom';
-import {CircularProgress} from "@material-ui/core";
-
+import { Link } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -64,23 +63,26 @@ const SignInComensal = () => {
         style: { width: 500, marginTop: 50 },
       });
     } else {
-
-      const { accessToken, refreshToken} = result;
+      const { accessToken, refreshToken } = result;
       localStorage.setItem(ACCESS_TOKEN, accessToken);
       localStorage.setItem(REFRESH_TOKEN, refreshToken);
-      const element = <CircularProgress/>
-      ReactDOM.render(element, document.getElementById("principal"))
-      async function load(){
-        window.location = "/comensal"
+      const element = <CircularProgress />;
+      ReactDOM.render(element, document.getElementById("principal"));
+      async function load() {
+        window.location = "/comensal";
       }
-      setTimeout(load, 1500)
+      setTimeout(load, 1500);
     }
   };
 
-  
-
   return (
-    <div id="principal" className={classes.root} onChange={changeForm} onSubmit={login} align={"center"}>
+    <div
+      id="principal"
+      className={classes.root}
+      onChange={changeForm}
+      onSubmit={login}
+      align={"center"}
+    >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -127,9 +129,7 @@ const SignInComensal = () => {
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
-                <Link to={"/signup"}>
-                  {"No tienes una cuenta? Registrate"}
-                </Link>
+                <Link to={"/signup"}>{"No tienes una cuenta? Registrate"}</Link>
               </Grid>
             </Grid>
           </form>

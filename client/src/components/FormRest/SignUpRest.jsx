@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Checkbox, Button, notification } from "antd";
-import {signUpApi} from "../../api/RestaurantApi";
+import { signUpApi } from "../../api/RestaurantApi";
 //import DragAndDrop from "./DragAndDrop";
 
 const formItemLayout = {
@@ -42,7 +42,7 @@ const RegistrationFormRestaurant = () => {
         style: { width: 500, marginTop: 50 },
       });
     }
-    window.location = "/signin"
+    window.location = "/signin";
   };
 
   return (
@@ -115,8 +115,6 @@ const RegistrationFormRestaurant = () => {
       >
         <Input style={{ width: "100%" }} />
       </Form.Item>
-
-
 
       <Form.Item
         name="presentationRes"

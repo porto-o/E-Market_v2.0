@@ -1,5 +1,5 @@
 import { Upload, message } from "antd";
-import { CloudUploadOutlined  } from "@ant-design/icons";
+import { CloudUploadOutlined } from "@ant-design/icons";
 
 const { Dragger } = Upload;
 
@@ -26,9 +26,7 @@ const DragAndDrop = () => {
       <p className="ant-upload-drag-icon">
         <CloudUploadOutlined />
       </p>
-      <p className="ant-upload-text">
-        Haz click o arrastra la foto aquí
-      </p>
+      <p className="ant-upload-text">Haz click o arrastra la foto aquí</p>
       <p className="ant-upload-hint">
         Esta imagen será tu forma de presentación a tus comensales.
       </p>
