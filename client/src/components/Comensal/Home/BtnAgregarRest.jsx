@@ -48,7 +48,7 @@ const BtnAgregarRest = () => {
             setOpen(false);
         } else {
             notification["success"]({
-                message: "Restaurante agregado satisfactoriamente",
+                message: "Restaurante agregado satisfactoriamente!",
                 style: {width: 500, marginTop: 50},
             });
             setOpen(false);
@@ -67,7 +67,7 @@ const BtnAgregarRest = () => {
                 <DialogTitle id="form-dialog-title">Agregar Restaurante</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Ingresa el id (identificador) del restaurante.
+                        Ingresa el 'id' (identificador) del restaurante.
                     </DialogContentText>
                     <TextField
                         onChange={changeForm}
