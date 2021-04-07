@@ -5,7 +5,6 @@ import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {IconButton} from "@material-ui/core";
 import jwtDecode from "jwt-decode";
-import {ACCESS_TOKEN} from "../../utils/constants";
 
 const mockData = [];
 
