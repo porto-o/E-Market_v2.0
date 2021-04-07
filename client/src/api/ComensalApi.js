@@ -72,6 +72,27 @@ export function AddRestaurantApi(id, data){
     });
 }
 
+export function getInfoResApi(nombre){
+    console.log("getInfoApi")
+    const url = `${BASE_PATH}/${API_VERSION}/getInfoRes/${nombre}`;
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+}
+
 export function getRestaurantApi(idComensal){
   const url = `${BASE_PATH}/${API_VERSION}/getRestaurante/${idComensal}`;
 

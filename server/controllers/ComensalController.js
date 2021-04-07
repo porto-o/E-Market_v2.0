@@ -204,9 +204,32 @@ const AddRestaurant = (req, res) => {
   }
 };
 
-const getRestaurants = (req, res) => {
-  console.log("GetRestaurants")
+const getInfoRes = (req,res) => {
+  const params = req.params;
+  var phone;
+  var code;
+  var presentation;
+  var admin;
+  var email;
 
+  Restaurant.findOne({"userName": params.nombre}, (err,reSearch) => {
+    if(err){
+      console.log(err)
+    }else{
+      const info = {
+        phone: reSearch.phone,
+        code: reSearch.codeRes,
+        presentation: reSearch.presentation,
+        admin: reSearch.administrator,
+        email: reSearch.email
+      }
+      res.status(200).send(info)
+    }
+  })
+
+}
+
+const getRestaurants = (req, res) => {
   const body = req.params;
   const idComensal = body.id;
 
@@ -217,7 +240,6 @@ const getRestaurants = (req, res) => {
       if (!listData) {
         res.status(500).send({ message: "No tienes restaurantes" });
       } else {
-        console.log(listData)
         res.status(200).send(listData.Restaurantes);
       }
     }
@@ -974,4 +996,5 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
+  getInfoRes
 };

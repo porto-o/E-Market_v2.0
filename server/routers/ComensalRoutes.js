@@ -7,6 +7,7 @@ api.post("/signInComensal", ComensalController.SignIn);
 api.post("/addRestaurant/:id/:data", ComensalController.AddRestaurant);
 api.get("/getRestaurante/:id", ComensalController.getRestaurants);
 api.get("/getMenus/:nombre", ComensalController.getMenus);
+api.get("/getInfoRes/:nombre", ComensalController.getInfoRes)
 api.post("/eliminarRestComensal/:nombre/:id", ComensalController.eliminarRestaurante)
 api.get("/getPresentacion/:id", ComensalController.getPresentacion)
 //Account
