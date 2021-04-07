@@ -16,7 +16,7 @@ api.post("/changeNameComensal/:id/:name", ComensalController.ChangeName);
 //Orders
 api.get("/getTickets/:nombre", ComensalController.getTickets);
 api.post("/ordenar/:order/:restaurantName/:idComensal", ComensalController.addOrder);
-api.post("/", ComensalController.deleteDishFromOrder);
+//api.post("/", ComensalController.deleteDishFromOrder);
 api.post("/cancelOrder/:id", ComensalController.cancelOrder);
 //
 api.get("/getMenus/:nombre", ComensalController.getMenus);

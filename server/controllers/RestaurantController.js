@@ -102,7 +102,8 @@ const getPresentacion = (req,res) => {
             console.log(err)
         }else{
             if(!resPres){
-                console.log("No tiene presentacion")
+                //console.log("No tiene presentacion")
+                res.status(200)
             }else{
                 const pres = resPres.presentation
                 console.log(pres)

@@ -10,7 +10,7 @@ import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import HomeComensal from "../pages/Comensal/HomeComensal";
-import MyList from "../pages/Comensal/MyList";
+import Menu from "../pages/Comensal/Menu";
 import Pay from "../pages/Comensal/Pay";
 import PaymentMethods from "../pages/Comensal/PaymentMethods";
 import Profile from "../pages/Comensal/Profile";
@@ -46,7 +46,7 @@ const routes = [
       },
       {
         path: "/comensal/menu/:nombres",
-        component: MyList,
+        component: Menu,
         exact: true,
       },
       {

@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import {Transfer, notification} from 'antd';
+import {notification, Transfer} from 'antd';
 import {useParams} from "react-router-dom"
-import {getMenuApi} from "../../api/ComensalApi";
+import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {IconButton} from "@material-ui/core";
+import jwtDecode from "jwt-decode";
+import {ACCESS_TOKEN} from "../../utils/constants";
 
 const mockData = [];
 
@@ -59,7 +61,7 @@ const Llenar = () => {
 
 //const initialTargetKeys = mockData.filter(item => +item.title > 10).map(item => item.title);
 
-const MyList = () => {
+const Menu = () => {
     const {nombres} = useParams();
 
 
@@ -80,14 +82,16 @@ const MyList = () => {
     };
 
     const ordenar = async () => {
+        const token = jwtDecode(localStorage.getItem("accessToken"));
+
         if (arrayOrden === "" || arrayOrden === null || !arrayOrden) {
             notification.info({
                 message: "Porfavor selecciona un platillo.",
                 placement: 'bottomLeft',
             })
         } else {
-            //const id = token.id
-            //const result = await ordenarApi(arrayOrden,nombres,id)
+            const id = token.id
+            const result = await ordenarApi(arrayOrden,nombres,id)
             while (arrayOrden.length > 0) {
                 arrayOrden.pop();
             }
@@ -128,4 +132,4 @@ const MyList = () => {
 };
 
 
-export default MyList
+export default Menu

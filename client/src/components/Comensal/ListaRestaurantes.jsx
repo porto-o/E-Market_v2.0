@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import { notification } from "antd";
 import { ListItemText } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import MyList from "../../pages/Comensal/MyList";
+import Menu from "../../pages/Comensal/Menu";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +52,7 @@ export default function ListaRestaurantes(props) {
           nombres = el.restaurantName;
           id = el._id;
           arrayNombres.push(nombres);
+          // eslint-disable-next-line
           return nombres, id;
         });
 
@@ -94,7 +95,7 @@ export default function ListaRestaurantes(props) {
 
 export const Menus = () => {
   window.location.reload();
-  return <MyList />;
+  return <Menu />;
 };
 
 export const Eliminar = () => {
