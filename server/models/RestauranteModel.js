@@ -7,10 +7,10 @@ const RestauranteSchema = Schema({
     unique: true
   },
   password: String,
-  contactNumber:{
-    type: String,
-    unique: true
-  },
+  email: String,
+  phone: String,
+  schedule: Array,
+  administrator: String,
   photo: String,
   presentation: String,
   codeRes: {

@@ -44,7 +44,7 @@ export default function ListaRestaurantes(props) {
       if (result.message) {
         notification.info({
           message:
-            "Aùn no hay restaurantes en tu lista registrados, añade uno en la parte derecha de tu pantalla.",
+            "Aún no hay restaurantes registrados en tu lista, añade uno en la parte derecha de tu pantalla.",
           placement: "bottomLeft",
         });
       } else {

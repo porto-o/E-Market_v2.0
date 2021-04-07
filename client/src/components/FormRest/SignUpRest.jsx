@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Checkbox, Button, notification } from "antd";
+import { Form, Input, Checkbox, Button, notification, TimePicker  } from "antd";
 import { signUpApi } from "../../api/RestaurantApi";
 //import DragAndDrop from "./DragAndDrop";
 
@@ -30,6 +30,7 @@ const RegistrationFormRestaurant = () => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
+    console.log(values);
     const result = await signUpApi(values);
     if (result.ok === false) {
       notification["error"]({
@@ -42,7 +43,7 @@ const RegistrationFormRestaurant = () => {
         style: { width: 500, marginTop: 50 },
       });
     }
-    window.location = "/signin";
+    //window.location = "/signin";
   };
 
   return (
@@ -59,7 +60,7 @@ const RegistrationFormRestaurant = () => {
         rules={[
           {
             required: true,
-            message: "Porfavor ingresa el nombre del restaurante!",
+            message: "¡Porfavor ingresa el nombre del restaurante!",
           },
         ]}
       >
@@ -72,7 +73,7 @@ const RegistrationFormRestaurant = () => {
         rules={[
           {
             required: true,
-            message: "Porfavor ingresa una contraseña",
+            message: "¡Porfavor ingresa una contraseña",
           },
         ]}
         hasFeedback
@@ -88,7 +89,7 @@ const RegistrationFormRestaurant = () => {
         rules={[
           {
             required: true,
-            message: "Porfavor confirma tu contraseña!",
+            message: "¡Porfavor confirma tu contraseña!",
           },
           ({ getFieldValue }) => ({
             validator(rule, value) {
@@ -104,12 +105,42 @@ const RegistrationFormRestaurant = () => {
       </Form.Item>
 
       <Form.Item
-        name="phone"
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: "email",
+              message: "¡El e-mail ingresado no es válido!",
+            },
+            {
+              required: true,
+              message: "¡Porfavor ingresa un e-mail!",
+            },
+          ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+          name="phone"
+          label="Número de contacto"
+          rules={[
+            {
+              required: true,
+              message: "¡Porfavor ingresa un número de contacto!",
+            },
+          ]}
+      >
+        <Input style={{ width: "100%" }} />
+      </Form.Item>
+
+      <Form.Item
+        name="administrator"
         label="Nombre del representante"
         rules={[
           {
             required: true,
-            message: "Porfavor ingresa un nombre de representante!",
+            message: "¡Porfavor ingresa un nombre de representante!",
           },
         ]}
       >
@@ -122,7 +153,7 @@ const RegistrationFormRestaurant = () => {
         rules={[
           {
             required: true,
-            message: "Porfavor escribe tu carta de presentación!",
+            message: "¡Porfavor escribe tu carta de presentación!",
           },
         ]}
       >
@@ -157,3 +188,24 @@ const RegistrationFormRestaurant = () => {
 };
 
 export default RegistrationFormRestaurant;
+
+/*
+
+Horario de servicio unu
+
+
+
+      <Form.Item
+          name="schedule"
+          label="Horario de servicio"
+          rules={[
+            {
+              required: true,
+              message: "¡Porfavor ingresa un horario!",
+            },
+          ]}
+      >
+        <TimePicker.RangePicker format={"HH:mm"}/>
+      </Form.Item>
+
+* */

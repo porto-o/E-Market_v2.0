@@ -8,15 +8,19 @@ const VentasModel = require("../models/VentasModel")
 const SignUp = (req, res) => {
     console.log("req.body en el restaurantController.js servidor ", req.body);
     const user = new Restaurante();
-    const {userName, password, phone, photoRes, presentationRes} = req.body;
+    const {userName, password, email, phone, /*schedule,*/ administrator, photoRes, presentationRes} = req.body;
     user.userName = userName;
     user.password = password;
-    user.contactNumber = phone;
+    //Colocar en la vista los campos faltantes (email y horario)
+    user.email = email;//
+    user.phone = phone;
+    /*user.schedule = schedule;*/
+    user.administrator = administrator;
     user.photo = photoRes;
     user.presentation = presentationRes;
     user.role = "restaurante";
     user.codeRes = random()
-
+    //console.log("a ver que hace", user);
     if (!password) {
         res.status(404).send({message: "Los datos son obligatorias."});
     } else {
@@ -25,7 +29,7 @@ const SignUp = (req, res) => {
                 res.status(500).send({message: "Error al encriptar la contraseña."});
             } else {
                 user.password = hash;
-
+                //console.log("segundo else", user);
                 user.save((err, userStored) => {
                     if (err) {
                         res
