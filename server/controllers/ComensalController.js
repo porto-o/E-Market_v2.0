@@ -232,6 +232,13 @@ const DeleteAccount = (req, res) => {
   if (idComensal == null || idComensal == "") {
     console.log("Error al eliminar Cuenta id nulo");
   } else {
+    MiLista.findOneAndDelete({Comensal: idComensal}, (err, resDelete) => {
+      if (err) {
+        console.log("Error al eliminar la lista", err);
+      } else {
+        console.log("Lista eliminada");
+      }
+    });
     Comensal.findOneAndRemove({ _id: idComensal }, (err, resDelete) => {
       if (err) {
         console.log("Error al eliminar la cuenta", err);
@@ -243,26 +250,8 @@ const DeleteAccount = (req, res) => {
           .send(
             {
               message: "Cuenta eliminada exitosamente.",
-            } /*, {
-    const params = req.params;
-    const idComensal = params.id;
-    if (idComensal == null || idComensal == "") {
-        console.log("Error al eliminar Cuenta id nulo");
-    } else {
-        MiLista.findOneAndDelete({Comensal: idComensal}, (err, resDelete) => {
-            if (err) {
-                console.log("Error al eliminar la lista", err);
-            } else {
-                console.log("Lista eliminada");
             }
-        });
-        Comensal.findOneAndRemove({_id: idComensal}, (err2, resRemove) => {
-            if (err2) {
-                console.log("Error al eliminar la cuenta", err2);
-                res.status(500).send({message: "Error del servidor."});
-            } else {
-                console.log("Cuenta eliminada");
-                res.status(200).send({message: "Cuenta eliminada exitosamente."}/*, {
+                /*,
                     accessToken: localStorage.removeItem(),
                     refreshToken: localStorage.removeItem(),
                 }*/
@@ -1017,24 +1006,5 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
-    SignUp,
-    SignIn,
-    DeleteAccount,
-    ChangePassword,
-    ChangeName,
-    ChangePhoto,
-    AddRestaurant,
-    cancelOrder,
-    getRestaurants,
-    deleteDishFromOrder,
-    addOrder,
-    getMenus,
-    eliminarRestaurante,
-    getStatus,
-    setStripe,
-    getOrder,
-    pay,
-    getPresentacion,
-    getTickets,
-    verificarFirma
+  ChangePhoto,
 };
