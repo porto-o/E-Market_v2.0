@@ -12,6 +12,7 @@ const ComensalSchema = Schema({
   },
   password: String,
   role: String,
+  photo: String,
 });
 
 module.exports = mongoose.model("Comensal", ComensalSchema);

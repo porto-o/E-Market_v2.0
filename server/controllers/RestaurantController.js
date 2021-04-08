@@ -3,7 +3,8 @@ const Restaurante = require("../models/RestauranteModel");
 const jwt = require("../services/jwt");
 const MenuModel = require("../models/MenuModel");
 const OrdersModel = require ("../models/OrdenesModel");
-const VentasModel = require("../models/VentasModel")
+const VentasModel = require("../models/VentasModel");
+const MiLista = require("../models/MiListaModel");
 
 const SignUp = (req, res) => {
     console.log("req.body en el restaurantController.js servidor ", req.body);
@@ -251,12 +252,39 @@ const DeleteAccount = (req, res) => {
     if (idRestaurant == null || idRestaurant == "") {
         console.log("Error al eliminar Cuenta id nulo");
     } else {
-        Restaurante.findByIdAndRemove({_id: idRestaurant}, (err, resDelete) => {
+        /*
+        Restaurante.findById({_id: idRestaurant},(err, userData) => {
             if (err) {
-                console.log("Error al eliminar la cuenta", err)
+                res.status(500).send({message: "Error 500 1"})
+                console.log(err);
+            } else {
+                if (!userData) {
+                    res.status(500).send({message: "Error 500 1"})
+                    console.log(err);
+                } else {
+                    const name = userData.userName;
+                    const pin = userData.codeRes;
+                    const restaurantData = {
+                        restaurantName: name,
+                        restaurantPin: pin
+                    };
+                    MiLista.updateMany({Restaurantes: restaurantData}, {$pull: {Restaurantes: restaurantData}}, (err, resUpdate) => {
+                        if (err) {
+                            console.log("Error al eliminar el restaurante de lista", err);
+                        } else {
+                            console.log("Restaurante eliminado de la lista", resUpdate);
+                        }
+                    });
+                }
+            }
+        });
+        */
+        Restaurante.findByIdAndRemove({_id: idRestaurant}, (err2, resDelete) => {
+            if (err2) {
+                console.log("Error al eliminar la cuenta", err2);
                 res.status(500).send({message: "Error del servidor."});
             } else {
-                console.log("Cuenta eliminada")
+                console.log("Cuenta eliminada");
                 res.status(200).send({message: "Cuenta eliminada exitosamente."});
             }
         });
@@ -301,7 +329,7 @@ const ChangeName = (req, res) => {
         console.log("Error al cambiar nombre, id nulo");
     } else {
         if (newName == null || newName == "") {
-            console.log("Error al cambiar contraseña, contraseña nula o invalida");
+            console.log("Error al cambiar nombre, nombre nulo o invalido");
             //Enviar mensaje l cliente
         } else {
             Restaurante.findByIdAndUpdate({_id: idRestaurant},{userName: newName}, (err, resUpdate) => {
@@ -322,10 +350,10 @@ const ChangePresentation = (req, res) => {
     const idRestaurant = params.id;
     const newPresentation = params.presentation;
     if (idRestaurant == null || idRestaurant == "") {
-        console.log("Error al cambiar nombre, id nulo");
+        console.log("Error al cambiar presentación, id nulo");
     } else {
         if (newPresentation == null || newPresentation == "") {
-            console.log("Error al cambiar contraseña, contraseña nula o invalida");
+            console.log("Error al cambiar presentación, presentación nula o invalida");
             //Enviar mensaje l cliente
         } else {
             Restaurante.findByIdAndUpdate({_id: idRestaurant},{presentation: newPresentation}, (err, resUpdate) => {
@@ -340,6 +368,101 @@ const ChangePresentation = (req, res) => {
         }
     }
 }
+
+const ChangeEmail = (req, res) => {
+    const params = req.params;
+    const idRestaurant = params.id;
+    const newEmail = params.email;
+    if (idRestaurant == null || idRestaurant == "") {
+        console.log("Error al cambiar email, id nulo");
+    } else {
+        if (newEmail == null || newEmail == "") {
+            console.log("Error al cambiar email, email nulo o invalido");
+            //Enviar mensaje l cliente
+        } else {
+            Restaurante.findByIdAndUpdate({_id: idRestaurant},{email: newEmail}, (err, resUpdate) => {
+                if (err) {
+                    console.log("Error al cambiar el email", err)
+                    res.status(500).send({message: "Error del servidor."});
+                } else {
+                    console.log("Email modificado")
+                    res.status(200).send({message: "Email modificado exitosamente."});
+                }
+            });
+        }
+    }
+}
+
+const ChangePhone = (req, res) => {
+    const params = req.params;
+    const idRestaurant = params.id;
+    const newPhone = params.phone;
+    if (idRestaurant == null || idRestaurant == "") {
+        console.log("Error al cambiar el número, id nulo");
+    } else {
+        if (newPhone == null || newPhone == "") {
+            console.log("Error al cambiar el número, el número nula o invalida");
+            //Enviar mensaje l cliente
+        } else {
+            Restaurante.findByIdAndUpdate({_id: idRestaurant},{phone: newPhone}, (err, resUpdate) => {
+                if (err) {
+                    console.log("Error al cambiar el número", err)
+                    res.status(500).send({message: "Error del servidor."});
+                } else {
+                    console.log("Número modificado")
+                    res.status(200).send({message: "Número modificado exitosamente."});
+                }
+            });
+        }
+    }
+}
+
+const ChangeAdministrator = (req, res) => {
+    const params = req.params;
+    const idRestaurant = params.id;
+    const newAdministrator = params.administrator;
+    if (idRestaurant == null || idRestaurant == "") {
+        console.log("Error al cambiar nombre de administrador, id nulo");
+    } else {
+        if (newAdministrator == null || newAdministrator == "") {
+            console.log("Error al cambiar nombre de administrador, nombre de administrador nulo o invalido");
+            //Enviar mensaje l cliente
+        } else {
+            Restaurante.findByIdAndUpdate({_id: idRestaurant},{administrator: newAdministrator}, (err, resUpdate) => {
+                if (err) {
+                    console.log("Error al cambiar el nombre de administrador", err)
+                    res.status(500).send({message: "Error del servidor."});
+                } else {
+                    console.log("Nombre de administrador modificado")
+                    res.status(200).send({message: "Nombre de administrador modificado exitosamente."});
+                }
+            });
+        }
+    }
+}
+
+const ChangePhoto = (req, res) => {
+    const params = req.params;
+    const idRestaurant = params.id;
+    const newPhoto = params.photo;
+    if (idRestaurant == null || idRestaurant == "") {
+        console.log("Error al cambiar foto, id nulo");
+    } else {
+        if (newPhoto == null || newPhoto == "") {
+            console.log("Error al cambiar foto, foto nula o invalida");
+            //Enviar mensaje l cliente
+        } else {
+            Restaurante.findByIdAndUpdate({_id: idRestaurant},{photo: newPhoto}, (err, resUpdate) => {
+                if (err) {
+                    console.log("Error al cambiar la foto", err)
+                    res.status(500).send({message: "Error del servidor."});
+                } else {
+                    console.log("Foto modificado")
+                    res.status(200).send({message: "Foto modificado exitosamente."});
+                }
+            });
+        }
+    }}
 
 //Orders.
 
@@ -526,6 +649,69 @@ const setStatus = (req,res) => {
     })
 }
 
+//Stats
+
+const getTotalClients = (req, res) => {
+    const user = Restaurante();
+    const client = MiLista();
+    const params = req.params;
+    //Quizá sea necesario cambiar el modelo de mi lista, para eliminar el arreglo de objetos "restaurante"
+    const id = params.id;
+    const name = params.name;
+    if (!id || id == null) {
+        console.log("No se recibio ninguna id");
+    } else {
+        if (!name || name == null) {
+            console.log("No se recibio ningun nombre");
+        } else {
+            user.findById({_id: id},(err, userData) => {
+                if (err) {
+                    res.status(500).send({message: "Error 500 1"})
+                    console.log(err);
+                } else {
+                    if (!userData) {
+                        res.status(500).send({message: "Error 500 1"})
+                        console.log(err);
+                    } else {
+                        const pin = userData.codeRes;
+                        const restaurantData = {
+                            restaurantName: name,
+                            restaurantPin: pin
+                        };
+                        const total = client.find({Restaurantes: restaurantData}).count();
+                        console.log(total)
+                        res.status(200).send({total})
+                    }
+                }
+            });
+        }
+    }
+}
+const getTotalClientsV2 = (req, res) => {
+    const user = Restaurante();
+    const params = req.params;
+    const id = params.id;
+    if (!id || id == null) {
+        console.log("No se recibio ninguna id");
+    } else {
+        user.findById({_id: id},(err, userData) => {
+            if (err) {
+                res.status(500).send({message: "Error 500 1"})
+                console.log(err);
+            } else {
+                if (!userData) {
+                    res.status(500).send({message: "Error 500 1"})
+                    console.log(err);
+                } else {
+                    const total = userData.clients;
+                    console.log(total);
+                    res.status(200).send({total});
+                }
+            }
+        });
+    }
+}
+
 module.exports = {
     SignUp,
     SignIn,
@@ -533,6 +719,10 @@ module.exports = {
     ChangePassword,
     ChangeName,
     ChangePresentation,
+    ChangeEmail,
+    ChangeAdministrator,
+    ChangePhone,
+    ChangePhoto,
     getCode,
     saveMenu,
     updateOrderStatus,
@@ -544,4 +734,6 @@ module.exports = {
     setStatus,
     getHistoryOrders,
     getPresentacion,
+    getTotalClients,
+    getTotalClientsV2,
 };

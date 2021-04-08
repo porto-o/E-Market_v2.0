@@ -43,7 +43,7 @@ const RegistrationFormRestaurant = () => {
         style: { width: 500, marginTop: 50 },
       });
     }
-    //window.location = "/signin";
+    window.location = "/signin";
   };
 
   return (

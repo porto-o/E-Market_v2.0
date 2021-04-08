@@ -79,6 +79,8 @@ const SignIn = (req, res) => {
 };
 
 const AddRestaurant = (req, res) => {
+    //Añadir contador
+    var clients_f = 0;
     const params = req.params;
     const id = params.id;
     const pin = JSON.parse(params.data);
@@ -101,6 +103,23 @@ const AddRestaurant = (req, res) => {
                                 console.log(("No existe el restaurante"));
                                 res.status(404).send({message: "El cógido ingresado no corresponde a ningún restaurante."})
                             } else {
+                                if (restaurantData.clients == null || restaurantData.clients == 0 || restaurantData.clients == "0") {
+                                    var client_i = "1";
+                                } else {
+                                    var client_i = parseInt(restaurantData.clients) + 1;
+                                }
+                                clients_f = client_i;
+
+                                console.log("Client_i: ",client_i," Client_f: ", clients_f);
+
+
+                                Restaurant.findOneAndUpdate({codeRes: pin.pin}, {clients: clients_f}, (errr, resUpdate)=> {
+                                    if (errr) {
+                                        console.log("Error al actualizar clientes", errr);
+                                    } else {
+                                        console.log(("Clientes actualizados", resUpdate));
+                                    }
+                                });
                                 const restaurantes = {restaurantId: restaurantData.id, restaurantName: restaurantData.userName, restaurantPin: restaurantData.codeRes};
                                 list.Comensal = id;
                                 list.Restaurantes = restaurantes;
@@ -130,6 +149,21 @@ const AddRestaurant = (req, res) => {
                                         console.log(("No existe el restaurante"));
                                         res.status(404).send({message: "El cógido ingresado no corresponde a ningún restaurante."})
                                     } else {
+                                        if (restaurantData.clients == null || restaurantData.clients == 0 || restaurantData.clients == "0") {
+                                            var client_i = "1";
+                                        } else {
+                                            var client_i = parseInt(restaurantData.clients) + 1;
+                                        }
+                                        clients_f = client_i;
+
+                                        console.log("Client_i: ",client_i," Client_f: ", clients_f);
+                                        Restaurant.findOneAndUpdate({codeRes: pin.pin}, {clients: clients_f}, (errr, resUpdate)=> {
+                                            if (errr) {
+                                                console.log("Error al actualizar clientes", errr);
+                                            } else {
+                                                console.log(("Clientes actualizados", resUpdate));
+                                            }
+                                        });
                                         const array = existingListData.Restaurantes;
                                         const indexes = [];
                                         const element = {restaurantName: restaurantData.userName, restaurantPin: restaurantData.codeRes};
@@ -190,9 +224,16 @@ const DeleteAccount = (req, res) => {
     if (idComensal == null || idComensal == "") {
         console.log("Error al eliminar Cuenta id nulo");
     } else {
-        Comensal.findOneAndRemove({_id: idComensal}, (err, resDelete) => {
+        MiLista.findOneAndDelete({Comensal: idComensal}, (err, resDelete) => {
             if (err) {
-                console.log("Error al eliminar la cuenta", err);
+                console.log("Error al eliminar la lista", err);
+            } else {
+                console.log("Lista eliminada");
+            }
+        });
+        Comensal.findOneAndRemove({_id: idComensal}, (err2, resRemove) => {
+            if (err2) {
+                console.log("Error al eliminar la cuenta", err2);
                 res.status(500).send({message: "Error del servidor."});
             } else {
                 console.log("Cuenta eliminada");
@@ -291,6 +332,7 @@ const ChangeName = (req, res) => {
 }
 
 const eliminarRestaurante = (req,res) => {
+    //Eliminar del contador
     const params = req.params
     const nombre = params.nombre
     const id = params.id
@@ -332,6 +374,30 @@ const eliminarRestaurante = (req,res) => {
         }
     })
 
+}
+
+const ChangePhoto = (req, res) => {
+    const params = req.params;
+    const idComensal = params.id;
+    const newPhoto = params.photo;
+    if (idComensal == null || idComensal == "") {
+        console.log("Error al cambiar foto, id nulo");
+    } else {
+        if (newPhoto == null || newPhoto == "") {
+            console.log("Error al cambiar foto, foto nula o invalida");
+            //Enviar mensaje l cliente
+        } else {
+            Comensal.findByIdAndUpdate({_id: idComensal},{photo: newPhoto}, (err, resUpdate) => {
+                if (err) {
+                    console.log("Error al cambiar el foto", err)
+                    res.status(500).send({message: "Error del servidor."});
+                } else {
+                    console.log("Foto modificado")
+                    res.status(200).send({message: "Foto modificado exitosamente."});
+                }
+            });
+        }
+    }
 }
 
 //Orders
@@ -866,6 +932,7 @@ module.exports = {
     DeleteAccount,
     ChangePassword,
     ChangeName,
+    ChangePhoto,
     AddRestaurant,
     cancelOrder,
     getRestaurants,

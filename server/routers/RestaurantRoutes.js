@@ -16,6 +16,10 @@ api.post("/deleteAccountRestaurant/:id", RestaurantController.DeleteAccount);
 api.post("/changePasswordRestaurant/:id/:pass", RestaurantController.ChangePassword);
 api.post("/changeNameRestaurant/:id/:name", RestaurantController.ChangeName);
 api.post("/changePresentationRestaurant/:id/:presentation", RestaurantController.ChangePresentation);
+api.post("/changeEmailRestaurant/:id/:email", RestaurantController.ChangeEmail);
+api.post("/changePhoneRestaurant/:id/:phone", RestaurantController.ChangePhone);
+api.post("/changeAdministratorRestaurant/:id/:administrator", RestaurantController.ChangeAdministrator);
+api.post("/changePhotoRestaurant/:id/:photo", RestaurantController.ChangePhoto);
 api.get("/getPresentacionRes/:id", RestaurantController.getPresentacion)
 //Orders
 api.get("/getCurrentOrders/:nombre", RestaurantController.getCurrentOrders)
