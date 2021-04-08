@@ -121,7 +121,7 @@ const Status = () => {
                 </Grid>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
-                        <Button onClick={cancelOrder} id={"cancelButton"} hidden={false}><Cancel/></Button>
+                        <Button onclick={cancelOrder} id={"cancelButton"} hidden={false}><Cancel/></Button>
                         <Button onClick={handleClick} id={"payButton"} hidden={true}><Pay/></Button>
                     </Paper>
                 </Grid>
