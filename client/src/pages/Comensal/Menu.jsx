@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {notification, Transfer} from 'antd';
 import {useParams} from "react-router-dom"
-import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
+import {getMenuApi} from "../../api/ComensalApi";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {IconButton} from "@material-ui/core";
-import jwtDecode from "jwt-decode";
 
 const mockData = [];
 
@@ -23,7 +22,6 @@ const Llenar = () => {
 
     window.onload = async () => {
         const result = await getMenuApi(nombres)
-        console.log(result)
         if (result.message) {
             notification.info({
                 message: result.message,
@@ -81,16 +79,12 @@ const Menu = () => {
     };
 
     const ordenar = async () => {
-        const token = jwtDecode(localStorage.getItem("accessToken"));
-
         if (arrayOrden === "" || arrayOrden === null || !arrayOrden) {
             notification.info({
                 message: "Porfavor selecciona un platillo.",
                 placement: 'bottomLeft',
             })
         } else {
-            const id = token.id
-            const result = await ordenarApi(arrayOrden,nombres,id)
             while (arrayOrden.length > 0) {
                 arrayOrden.pop();
             }

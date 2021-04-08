@@ -17,11 +17,11 @@ const fs = require("fs");
 
 const SignUp = (req, res) => {
   const user = new Comensal();
-  const { userName, email, password } = req.body;
+  const { userName, email, password, photo } = req.body;
   user.userName = userName;
   user.email = email.toLowerCase();
   user.role = "comensal";
-  const saltRounds = 10;
+  user.photo = photo;
 
   if (!password) {
     res.status(404).send({ message: "Las contraseñas son obligatorias." });
@@ -102,12 +102,10 @@ const AddRestaurant = (req, res) => {
             } else {
               if (!restaurantData) {
                 console.log("No existe el restaurante");
-                res
-                  .status(404)
-                  .send({
-                    message:
-                      "El cógido ingresado no corresponde a ningún restaurante.",
-                  });
+                res.status(404).send({
+                  message:
+                    "El cógido ingresado no corresponde a ningún restaurante.",
+                });
               } else {
                 const restaurantes = {
                   restaurantId: restaurantData.id,
@@ -138,21 +136,17 @@ const AddRestaurant = (req, res) => {
                 { codeRes: pin.pin },
                 (err, restaurantData) => {
                   if (err) {
-                    res
-                      .status(500)
-                      .send({
-                        message:
-                          "Error al buscar el restaurante, intente más tarde.",
-                      });
+                    res.status(500).send({
+                      message:
+                        "Error al buscar el restaurante, intente más tarde.",
+                    });
                   } else {
                     if (!restaurantData) {
                       console.log("No existe el restaurante");
-                      res
-                        .status(404)
-                        .send({
-                          message:
-                            "El cógido ingresado no corresponde a ningún restaurante.",
-                        });
+                      res.status(404).send({
+                        message:
+                          "El cógido ingresado no corresponde a ningún restaurante.",
+                      });
                     } else {
                       const array = existingListData.Restaurantes;
                       const indexes = [];
@@ -167,12 +161,10 @@ const AddRestaurant = (req, res) => {
                       }
                       if (indexes.length > 0) {
                         console.log("Ya existe", indexes.length);
-                        res
-                          .status(500)
-                          .send({
-                            message:
-                              "Ya tienes ese restaurante agregado a tu lista.",
-                          });
+                        res.status(500).send({
+                          message:
+                            "Ya tienes ese restaurante agregado a tu lista.",
+                        });
                       } else {
                         array.push(element);
                         console.log(array);
@@ -204,30 +196,25 @@ const AddRestaurant = (req, res) => {
   }
 };
 
-const getInfoRes = (req,res) => {
+const getInfoRes = (req, res) => {
   const params = req.params;
-  var phone;
-  var code;
-  var presentation;
-  var admin;
-  var email;
 
-  Restaurant.findOne({"userName": params.nombre}, (err,reSearch) => {
-    if(err){
-      console.log(err)
-    }else{
+  Restaurant.findOne({ userName: params.nombre }, (err, reSearch) => {
+    if (err) {
+      console.log(err);
+    } else {
       const info = {
         phone: reSearch.phone,
         code: reSearch.codeRes,
         presentation: reSearch.presentation,
         admin: reSearch.administrator,
-        email: reSearch.email
-      }
-      res.status(200).send(info)
+        email: reSearch.email,
+        photo: reSearch.photo
+      };
+      res.status(200).send(info);
     }
-  })
-
-}
+  });
+};
 
 const getRestaurants = (req, res) => {
   const body = req.params;
@@ -260,16 +247,14 @@ const DeleteAccount = (req, res) => {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         console.log("Cuenta eliminada");
-        res
-          .status(200)
-          .send(
-            {
-              message: "Cuenta eliminada exitosamente.",
-            } /*, {
+        res.status(200).send(
+          {
+            message: "Cuenta eliminada exitosamente.",
+          } /*, {
                     accessToken: localStorage.removeItem(),
                     refreshToken: localStorage.removeItem(),
                 }*/
-          );
+        );
       }
     });
   }
@@ -295,12 +280,10 @@ const getMenus = (req, res) => {
           console.log("Error 2 " + err);
         } else {
           if (!resMenu) {
-            res
-              .status(500)
-              .send({
-                message:
-                  "El restaurante aún no tiene un menú. Comunícate con el gerente.",
-              });
+            res.status(500).send({
+              message:
+                "El restaurante aún no tiene un menú. Comunícate con el gerente.",
+            });
           } else {
             console.log(resMenu.Menu);
             res.status(200).send(resMenu.Menu);
@@ -498,11 +481,9 @@ const addOrder = (req, res) => {
                           order.save((err, resSave) => {
                             if (err) {
                               console.log("Error al guardar la orden", err);
-                              res
-                                .status(500)
-                                .send({
-                                  message: "No se logro generar la orden",
-                                });
+                              res.status(500).send({
+                                message: "No se logro generar la orden",
+                              });
                             } else {
                               console.log("Orden generada exitosamente");
                               res
@@ -529,11 +510,9 @@ const addOrder = (req, res) => {
                                   "Error al actualizar la orden",
                                   error
                                 );
-                                res
-                                  .status(500)
-                                  .send({
-                                    message: "Error al actualizar la orden",
-                                  });
+                                res.status(500).send({
+                                  message: "Error al actualizar la orden",
+                                });
                               } else {
                                 console.log("Orden actualizada");
                                 res
@@ -832,8 +811,6 @@ const setStripe = async (req, res) => {
         var platillos = menuData.Platillos;
         var total = menuData.Total;
 
-
-
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           locale: "es",
@@ -969,13 +946,12 @@ const verificarFirma = (req, res) => {
     res.status(200).send(result);
   } else {
     console.log(result);
-    res
-      .status(500)
-      .send({
-        message: "Error 406, la firma no es válida para el ticket generado.",
-      });
+    res.status(500).send({
+      message: "Error 406, la firma no es válida para el ticket generado.",
+    });
   }
 };
+
 
 module.exports = {
   SignUp,
@@ -996,5 +972,5 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
-  getInfoRes
+  getInfoRes,
 };

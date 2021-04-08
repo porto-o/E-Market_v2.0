@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -6,10 +6,9 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
-import {getInfoResApi, getRestaurantApi} from "../../api/ComensalApi";
+import {getRestaurantApi} from "../../api/ComensalApi";
 import Button from "@material-ui/core/Button";
 import { notification } from "antd";
-import { ListItemText } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Menu from "../../pages/Comensal/Menu";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
@@ -27,14 +26,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListaRestaurantes(props) {
-  console.log(props.valor);
+
   const classes = useStyles();
   const [stateNombre, setNombres] = useState([]);
   var nombres;
   var id;
   var arrayNombres = [];
-
-
 
   const mostrar = () => {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
@@ -66,6 +63,7 @@ export default function ListaRestaurantes(props) {
     };
   };
   mostrar();
+
   return (
     <Router>
       {stateNombre.map((item) => (
@@ -74,7 +72,6 @@ export default function ListaRestaurantes(props) {
             <ListItemAvatar>
               <MenuBookIcon />
             </ListItemAvatar>
-            <ListItemText>{item}</ListItemText>
             <PopOverInfo content={item}/>
             <Button
               size="small"

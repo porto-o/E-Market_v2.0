@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import { Popover, Button } from 'antd';
 import {getInfoResApi} from "../../api/ComensalApi";
+import "../utils/StyleUpload.css";
+
 var phone;
 var codeRes;
 var email;
 var admin;
-var presentation;
-var content;
-
+var photo;
 class PopOverInfo extends Component {
 
     state = {
@@ -16,7 +16,8 @@ class PopOverInfo extends Component {
         code: "",
         emai: "",
         presentation: "",
-        admin: ""
+        admin: "",
+        photo: ""
 
     };
 
@@ -26,12 +27,14 @@ class PopOverInfo extends Component {
         codeRes = info.code;
         email = info.email;
         admin = info.admin;
+        photo = info.photo;
 
         this.setState({
             phone: phone,
             code: codeRes,
             emai: email,
-            admin: admin
+            admin: admin,
+            photo: photo
         })
     }
 
@@ -42,7 +45,8 @@ class PopOverInfo extends Component {
 
     handleContenido = () => {
         return(
-            <div>
+            <div style={{width: "50%"}}>
+                <img src={this.state.photo} alt="avatar" style={{ width: "100%"}}/>
                 <p><b>Número:</b> {this.state.phone}</p>
                 <p><b>E-Mail:</b> {this.state.emai}</p>
                 <p><b>Administrador:</b> {this.state.admin}</p>
@@ -53,18 +57,16 @@ class PopOverInfo extends Component {
 
 
     render() {
-
-
         return (
             <div>
                 <Popover
                     content={this.handleContenido}
-                    title="Title"
-                    trigger="click"
+                    title="INFORMACIÓN DE CONTACTO"
+                    trigger="hover"
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}
                 >
-                    <Button type="primary">Click me</Button>
+                    <Button type="primary">{this.props.content}</Button>
                 </Popover>
             </div>
         );

@@ -1,7 +1,7 @@
 import React from "react";
-import { Form, Input, Checkbox, Button, notification, TimePicker  } from "antd";
+import { Form, Input, Checkbox, Button, notification } from "antd";
 import { signUpApi } from "../../api/RestaurantApi";
-//import DragAndDrop from "./DragAndDrop";
+import AvatarUpload from "../utils/AvatarUpload";
 
 const formItemLayout = {
   labelCol: {
@@ -31,6 +31,7 @@ const RegistrationFormRestaurant = () => {
 
   const onFinish = async (values) => {
     console.log(values);
+    values.photo = localStorage.getItem("PhotoBlob")
     const result = await signUpApi(values);
     if (result.ok === false) {
       notification["error"]({
@@ -42,6 +43,7 @@ const RegistrationFormRestaurant = () => {
         message: result.message,
         style: { width: 500, marginTop: 50 },
       });
+      localStorage.removeItem("PhotoBlob")
     }
     //window.location = "/signin";
   };
@@ -105,31 +107,31 @@ const RegistrationFormRestaurant = () => {
       </Form.Item>
 
       <Form.Item
-          name="email"
-          label="E-mail"
-          rules={[
-            {
-              type: "email",
-              message: "¡El e-mail ingresado no es válido!",
-            },
-            {
-              required: true,
-              message: "¡Porfavor ingresa un e-mail!",
-            },
-          ]}
+        name="email"
+        label="E-mail"
+        rules={[
+          {
+            type: "email",
+            message: "¡El e-mail ingresado no es válido!",
+          },
+          {
+            required: true,
+            message: "¡Porfavor ingresa un e-mail!",
+          },
+        ]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-          name="phone"
-          label="Número de contacto"
-          rules={[
-            {
-              required: true,
-              message: "¡Porfavor ingresa un número de contacto!",
-            },
-          ]}
+        name="phone"
+        label="Número de contacto"
+        rules={[
+          {
+            required: true,
+            message: "¡Porfavor ingresa un número de contacto!",
+          },
+        ]}
       >
         <Input style={{ width: "100%" }} />
       </Form.Item>
@@ -158,6 +160,10 @@ const RegistrationFormRestaurant = () => {
         ]}
       >
         <Input style={{ width: "100%" }} />
+      </Form.Item>
+
+      <Form.Item name="photo" label="Logo">
+        <AvatarUpload />
       </Form.Item>
 
       <Form.Item
