@@ -242,6 +242,69 @@ export function changePasswordRestaurantApi (id, pass) {
         });
 }
 
+export function changeEmailRestaurantApi(id, newEmail) {
+    const url = `${BASE_PATH}/${API_VERSION}/changeEmailRestaurant/${id}/${newEmail}`;
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            //console.log(result);
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+}
+
+export function changePhoneRestaurantApi(id, newPhone) {
+    const url = `${BASE_PATH}/${API_VERSION}/changePhoneRestaurant/${id}/${newPhone}`;
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            //console.log(result);
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+}
+
+export function changeAdministratorRestaurantApi(id, newAdministrator) {
+    const url = `${BASE_PATH}/${API_VERSION}/changeAdministratorRestaurant/${id}/${newAdministrator}`;
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            //console.log(result);
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+}
+
 export function getOrdenesApi (nombre) {
 
     const url = `${BASE_PATH}/${API_VERSION}/getCurrentOrders/${nombre}`;

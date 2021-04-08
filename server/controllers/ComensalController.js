@@ -217,6 +217,8 @@ const getInfoRes = (req, res) => {
 };
 
 const getRestaurants = (req, res) => {
+  console.log("GetRestaurants")
+
   const body = req.params;
   const idComensal = body.id;
 
@@ -227,6 +229,7 @@ const getRestaurants = (req, res) => {
       if (!listData) {
         res.status(500).send({ message: "No tienes restaurantes" });
       } else {
+        console.log(listData)
         res.status(200).send(listData.Restaurantes);
       }
     }
@@ -241,12 +244,26 @@ const DeleteAccount = (req, res) => {
   if (idComensal == null || idComensal == "") {
     console.log("Error al eliminar Cuenta id nulo");
   } else {
+    MiLista.findOneAndDelete({Comensal: idComensal}, (err, resDelete) => {
+      if (err) {
+        console.log("Error al eliminar la lista", err);
+      } else {
+        console.log("Lista eliminada");
+      }
+    });
     Comensal.findOneAndRemove({ _id: idComensal }, (err, resDelete) => {
       if (err) {
         console.log("Error al eliminar la cuenta", err);
         res.status(500).send({ message: "Error del servidor." });
       } else {
         console.log("Cuenta eliminada");
+        res
+          .status(200)
+          .send(
+            {
+              message: "Cuenta eliminada exitosamente.",
+            }
+                /*,
         res.status(200).send(
           {
             message: "Cuenta eliminada exitosamente.",
@@ -408,6 +425,30 @@ const eliminarRestaurante = (req, res) => {
     }
   });
 };
+
+const ChangePhoto = (req, res) => {
+    const params = req.params;
+    const idComensal = params.id;
+    const newPhoto = params.photo;
+    if (idComensal == null || idComensal == "") {
+        console.log("Error al cambiar foto, id nulo");
+    } else {
+        if (newPhoto == null || newPhoto == "") {
+            console.log("Error al cambiar foto, foto nula o invalida");
+            //Enviar mensaje l cliente
+        } else {
+            Comensal.findByIdAndUpdate({_id: idComensal},{photo: newPhoto}, (err, resUpdate) => {
+                if (err) {
+                    console.log("Error al cambiar el foto", err)
+                    res.status(500).send({message: "Error del servidor."});
+                } else {
+                    console.log("Foto modificado")
+                    res.status(200).send({message: "Foto modificado exitosamente."});
+                }
+            });
+        }
+    }
+}
 
 //Orders
 
@@ -811,6 +852,8 @@ const setStripe = async (req, res) => {
         var platillos = menuData.Platillos;
         var total = menuData.Total;
 
+
+
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           locale: "es",
@@ -973,4 +1016,5 @@ module.exports = {
   getTickets,
   verificarFirma,
   getInfoRes,
+  ChangePhoto,
 };

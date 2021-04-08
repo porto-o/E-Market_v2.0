@@ -45,7 +45,7 @@ const RegistrationFormRestaurant = () => {
       });
       localStorage.removeItem("PhotoBlob")
     }
-    //window.location = "/signin";
+    window.location = "/signin";
   };
 
   return (

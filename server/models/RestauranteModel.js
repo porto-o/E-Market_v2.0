@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+//Añadir clientes o toatal de clientes
 const RestauranteSchema = Schema({
   userName: {
     type: String,
@@ -18,7 +18,7 @@ const RestauranteSchema = Schema({
     unique: true
   },
   role: String,
-
+  clients: String,
   
 });
 
