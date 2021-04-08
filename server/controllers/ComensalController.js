@@ -201,9 +201,10 @@ const getInfoRes = (req, res) => {
 
   Restaurant.findOne({ userName: params.nombre }, (err, reSearch) => {
     if (err) {
-      console.log(err);
+      console.log("Error al obtener información: "+err);
     } else {
       const info = {
+        nombre: reSearch.userName,
         phone: reSearch.phone,
         code: reSearch.codeRes,
         presentation: reSearch.presentation,
@@ -217,8 +218,6 @@ const getInfoRes = (req, res) => {
 };
 
 const getRestaurants = (req, res) => {
-  console.log("GetRestaurants")
-
   const body = req.params;
   const idComensal = body.id;
 
@@ -229,7 +228,23 @@ const getRestaurants = (req, res) => {
       if (!listData) {
         res.status(500).send({ message: "No tienes restaurantes" });
       } else {
-        console.log(listData)
+        listData.Restaurantes.filter(function (el) {
+            Restaurant.findOne({userName: el.restaurantName}, (err2,reSearch) => {
+              if(err2){
+                console.log("Error al obtener la info: "+err2)
+              }else{
+                const info = {
+                  phone: reSearch.phone,
+                  code: reSearch.codeRes,
+                  presentation: reSearch.presentation,
+                  admin: reSearch.administrator,
+                  email: reSearch.email,
+                  photo: reSearch.photo
+                };
+              }
+            })
+        })
+        console.log(listData.Restaurantes)
         res.status(200).send(listData.Restaurantes);
       }
     }
@@ -822,6 +837,7 @@ const pay = (req, res) => {
 const getStatus = (req, res) => {
   const params = req.params;
   const id = params.idComensal;
+
 
   OrdersModel.findOne({ Comensal: id }, (err, statusData) => {
     if (err) {
