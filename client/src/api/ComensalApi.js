@@ -72,9 +72,8 @@ export function AddRestaurantApi(id, data){
     });
 }
 
-export function getInfoResApi(nombre){
-    console.log("getInfoApi")
-    const url = `${BASE_PATH}/${API_VERSION}/getInfoRes/${nombre}`;
+export function getInfoComensalApi(nombre){
+    const url = `${BASE_PATH}/${API_VERSION}/getInfoComensal/${nombre}`;
     const params = {
         method: "GET",
         headers: {
@@ -86,6 +85,7 @@ export function getInfoResApi(nombre){
             return response.json();
         })
         .then((result) => {
+            console.log(result)
             return result;
         })
         .catch((err) => {
@@ -173,6 +173,26 @@ export function changePasswordComensalApi (id, pass) {
       .catch((err) => {
         return err.message;
       });
+}
+
+export function changePhotoComensalApi (id, photo) {
+    const url = `${BASE_PATH}/${API_VERSION}/changePhotoComensal/${id}/${photo}`;
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
 }
 
 export function getMenuApi(nombreRestaurante){

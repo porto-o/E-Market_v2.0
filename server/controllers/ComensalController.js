@@ -196,19 +196,15 @@ const AddRestaurant = (req, res) => {
   }
 };
 
-const getInfoRes = (req, res) => {
+const getInfoComensal = (req, res) => {
   const params = req.params;
 
-  Restaurant.findOne({ userName: params.nombre }, (err, reSearch) => {
+  Comensal.findOne({ userName: params.nombre }, (err, reSearch) => {
     if (err) {
       console.log("Error al obtener información: " + err);
     } else {
       const info = {
-        nombre: reSearch.userName,
-        phone: reSearch.phone,
-        code: reSearch.codeRes,
-        presentation: reSearch.presentation,
-        admin: reSearch.administrator,
+        name: reSearch.userName,
         email: reSearch.email,
         photo: reSearch.photo,
       };
@@ -218,6 +214,7 @@ const getInfoRes = (req, res) => {
 };
 
 const getRestaurants = (req, res) => {
+
   const body = req.params;
   const idComensal = body.id;
 
@@ -1027,6 +1024,7 @@ module.exports = {
   addOrder,
   getMenus,
   eliminarRestaurante,
+  getInfoComensal,
   getStatus,
   setStripe,
   getOrder,
@@ -1034,6 +1032,5 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
-  getInfoRes,
   ChangePhoto,
 };

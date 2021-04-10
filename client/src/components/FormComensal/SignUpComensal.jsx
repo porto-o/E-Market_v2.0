@@ -161,7 +161,7 @@ const RegistrationFormComensal = () => {
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Vamos!
+          ¡Vamos!
         </Button>
       </Form.Item>
     </Form>
