@@ -1007,7 +1007,6 @@ const verificarFirma = (req, res) => {
   }
 };
 
-
 module.exports = {
   SignUp,
   SignIn,
@@ -1020,6 +1019,7 @@ module.exports = {
   addOrder,
   getMenus,
   eliminarRestaurante,
+  getInfoComensal,
   getStatus,
   setStripe,
   getOrder,
@@ -1027,6 +1027,5 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
-  getInfoRes,
   ChangePhoto,
 };

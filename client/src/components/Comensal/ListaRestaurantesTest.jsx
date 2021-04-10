@@ -3,7 +3,8 @@ import {Avatar, Button, List, notification, Space} from 'antd';
 import {LikeOutlined, MessageOutlined, StarOutlined} from '@ant-design/icons';
 import jwtDecode from "jwt-decode";
 import {ACCESS_TOKEN} from "../../utils/constants";
-import {getInfoResApi, getRestaurantApi} from "../../api/ComensalApi";
+import {getRestaurantApi} from "../../api/ComensalApi";
+import {getInfoResApi} from "../../api/RestaurantApi";
 import PopOverInfo from "../Restaurant/PopOverInfo";
 
 const listData = [];
