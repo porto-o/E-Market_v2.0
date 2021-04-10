@@ -12,12 +12,13 @@ import { ACCESS_TOKEN } from "../../utils/constants";
 import {
   deleteAccountComensalApi,
   changeNameComensalApi,
-  changePasswordComensalApi,
+  changePasswordComensalApi, getInfoComensalApi, changePhotoComensalApi,
 } from "../../api/ComensalApi";
 import { logout } from "../../api/auth";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 import Menu from "@material-ui/core/Menu";
 import Paper from "@material-ui/core/Paper";
+import AvatarUpload from "../utils/AvatarUpload";
 
 const formItemLayout = {
   labelCol: {
@@ -127,6 +128,26 @@ export function FuncionesPerfil() {
       });
     }
   };
+  const changePhoto = async (values) => {
+
+    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+    const id = token.id;
+console.log(values)
+    const result = await changePhotoComensalApi(id, values);
+
+    if (result.response) {
+      notification["error"]({
+        message: result.message,
+        style: { width: 500, marginTop: 50 },
+      });
+    } else {
+      notification["success"]({
+        message: result.message,
+        style: { width: 500, marginTop: 50 },
+      });
+    }
+  };
+
   return (
     <Card>
       <CardContent>
@@ -260,6 +281,44 @@ export function FuncionesPerfil() {
             )}
           </PopupState>
 
+          <PopupState variant="popover" popupId="demo-popup-menu">
+            {(popupState) => (
+                <React.Fragment>
+                  <Button
+                      size="large"
+                      color="Secondary"
+                      {...bindTrigger(popupState)}
+                  >
+                    Cambiar Foto
+                  </Button>
+                  <Menu {...bindMenu(popupState)}>
+                    <Paper>
+                        <Form
+                            {...formItemLayout}
+                            form={form}
+                            name="changePhoto"
+                            onFinish={changePhoto}
+                        >
+                          <Form.Item
+                              name="photo"
+                              label="Foto de perfil"
+                          >
+                            <AvatarUpload />
+                          </Form.Item>
+                          <Button type="primary"
+                                  size="large"
+                                  color="secondary"
+                                  variant="contained"
+                                  onClick={popupState.close}>
+                            Cambiar
+                          </Button>
+                        </Form>
+                    </Paper>
+                  </Menu>
+                </React.Fragment>
+            )}
+          </PopupState>
+
           <div onSubmit={deleteAccount}>
             <form action="/deleteAccountComensal" method="POST" noValidate>
               <Button size="large" color="secondary" type="submit">
@@ -271,6 +330,31 @@ export function FuncionesPerfil() {
       </CardContent>
     </Card>
   );
+}
+
+export function Perfil() {
+  const [stateInfo, setInfo] = useState(0)
+  const getInfo =  () => {
+    window.onload = async () => {
+      const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+      const name = token.userName
+      const result = await getInfoComensalApi(name)
+      setInfo(result, stateInfo);
+    }
+
+  }
+  getInfo();
+  const {Meta} = Card;
+  return (
+      <Form onSubmitCapture={getInfo}>
+        <Card
+            cover={<img src={stateInfo.photo} style={{ width: "100%"}}/>}
+        >
+          <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description={stateInfo.email}
+          />
+        </Card>
+      </Form>
+  )
 }
 
 export function MisPedidos() {

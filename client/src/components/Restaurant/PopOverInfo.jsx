@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Popover, Button } from 'antd';
-import {getInfoResApi} from "../../api/ComensalApi";
+import {getInfoResApi} from "../../api/RestaurantApi";
 import "../utils/StyleUpload.css";
 
 var phone;
@@ -8,6 +8,7 @@ var codeRes;
 var email;
 var admin;
 var photo;
+
 class PopOverInfo extends Component {
 
     state = {
@@ -28,7 +29,6 @@ class PopOverInfo extends Component {
         email = info.email;
         admin = info.admin;
         photo = info.photo;
-
         this.setState({
             phone: phone,
             code: codeRes,

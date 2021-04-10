@@ -49,7 +49,7 @@ export function SignInApi(data) {
             return response.json();
         })
         .then((result) => {
-            console.log(result);
+            localStorage.setItem("CODE", result.code);
             return result;
         })
         .catch((err) => {
@@ -57,30 +57,7 @@ export function SignInApi(data) {
         });
 }
 
-export function CodeApi(data) {
-    const url = `${BASE_PATH}/${API_VERSION}/restaurante-code/${data}`;
-    const params = {
-        method: "PUT",
-        headers: {
-            "Content-type": "application/json",
-        },
-    };
-
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            console.log(result.message);
-            localStorage.setItem("CODE", result.message);
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
-
-}
-
+/*
 export function getPresentacionApi(id){
     const url = `${BASE_PATH}/${API_VERSION}/getPresentacionRes/${id}`;
     const params = {
@@ -97,6 +74,27 @@ export function getPresentacionApi(id){
         .then((result) => {
             console.log(result.message);
             return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+}
+*/
+
+export function getInfoResApi(nombre){
+    const url = `${BASE_PATH}/${API_VERSION}/getInfoRestaurant/${nombre}`;
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            return result.info;
         })
         .catch((err) => {
             return err.message;

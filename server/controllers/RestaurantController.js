@@ -77,9 +77,12 @@ const SignIn = (req, res) => {
               .status(404)
               .send({ message: "La contraseña es incorrecta :c." });
           } else {
+              const code = userStored.codeRes;
+              console.log(code)
             res.status(200).send({
               accessToken: jwt.createAccessToken(userStored),
               refreshToken: jwt.createRefreshToken(userStored),
+                code
             });
           }
         });
@@ -87,7 +90,7 @@ const SignIn = (req, res) => {
     }
   });
 };
-
+/*
 const getCode = (req, res) => {
   const params = req.params;
   const code = random();
@@ -106,7 +109,9 @@ const getCode = (req, res) => {
     }
   });
 };
+*/
 
+/*
 const getPresentacion = (req, res) => {
   const params = req.params;
   const id = params.id;
@@ -116,15 +121,36 @@ const getPresentacion = (req, res) => {
       console.log(err);
     } else {
       if (!resPres) {
-        //console.log("No tiene presentacion")
         res.status(200);
       } else {
         const pres = resPres.presentation;
-        console.log(pres);
         res.status(200).send({ pres });
       }
     }
   });
+};
+*/
+
+const getInfoRes = (req, res) => {
+    const params = req.params;
+
+    Restaurante.findOne({ userName: params.nombre }, (err, reSearch) => {
+        if (err) {
+            console.log(err);
+        } else {
+            const info = {
+                name: reSearch.userName,
+                phone: reSearch.phone,
+                code: reSearch.codeRes,
+                presentation: reSearch.presentation,
+                admin: reSearch.administrator,
+                email: reSearch.email,
+                photo: reSearch.photo
+            };
+            console.log("GET INFO CONTROLADOR")
+            res.status(200).send({info});
+        }
+    });
 };
 
 //MENU
@@ -774,7 +800,7 @@ module.exports = {
     ChangeAdministrator,
     ChangePhone,
     ChangePhoto,
-    getCode,
+    //getCode,
     saveMenu,
     updateOrderStatus,
     cancelOrder,
@@ -784,7 +810,8 @@ module.exports = {
     deleteMenu,
     setStatus,
     getHistoryOrders,
-    getPresentacion,
+    //getPresentacion,
     getTotalClients,
     getTotalClientsV2,
+    getInfoRes,
 };
