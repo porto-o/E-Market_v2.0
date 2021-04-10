@@ -45,8 +45,7 @@ class PopOverInfo extends Component {
 
     handleContenido = () => {
         return(
-            <div style={{width: "50%"}}>
-                <img src={this.state.photo} alt="avatar" style={{ width: "100%"}}/>
+            <div style={{alignContent: "center", alignItems: "center"}}>
                 <p><b>Número:</b> {this.state.phone}</p>
                 <p><b>E-Mail:</b> {this.state.emai}</p>
                 <p><b>Administrador:</b> {this.state.admin}</p>
@@ -62,11 +61,11 @@ class PopOverInfo extends Component {
                 <Popover
                     content={this.handleContenido}
                     title="INFORMACIÓN DE CONTACTO"
-                    trigger="hover"
+                    trigger="click"
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}
                 >
-                    <Button type="primary">{this.props.content}</Button>
+                    <Button type="primary">Informacion de contacto</Button>
                 </Popover>
             </div>
         );

@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Menu from "../../pages/Comensal/Menu";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
 import PopOverInfo from "../Restaurant/PopOverInfo";
+import ListaRestaurantesTest from "./ListaRestaurantesTest";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +59,6 @@ export default function ListaRestaurantes(props) {
           return nombres, id;
         });
         setNombres([...arrayNombres, ...stateNombre]);
-
       }
     };
   };
@@ -66,33 +66,10 @@ export default function ListaRestaurantes(props) {
 
   return (
     <Router>
-      {stateNombre.map((item) => (
-        <List className={classes.root}>
-          <ListItem>
-            <ListItemAvatar>
-              <MenuBookIcon />
-            </ListItemAvatar>
-            <PopOverInfo content={item}/>
-            <Button
-              size="small"
-              color="primary"
-              className={classes.button}
-              href={`/comensal/menu/${item}`}
-            >
-              Ver menú
-            </Button>
-          </ListItem>
-        </List>
-      ))}
-      <Switch>
-        <Route path="/comensal/menu/:nombres" exact={true} component={Menus} />
-        <Route
-          path="/comensal/menu/elminar/:nombre/:id"
-          exact={true}
-          component={Eliminar}
-        />
-      </Switch>
+
+<ListaRestaurantesTest/>
     </Router>
+
   );
 }
 

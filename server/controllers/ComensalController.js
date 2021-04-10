@@ -201,7 +201,7 @@ const getInfoComensal = (req, res) => {
 
   Comensal.findOne({ userName: params.nombre }, (err, reSearch) => {
     if (err) {
-      console.log(err);
+      console.log("Error al obtener información: "+err);
     } else {
       const info = {
         name: reSearch.userName,
@@ -212,7 +212,6 @@ const getInfoComensal = (req, res) => {
     }
   });
 };
-
 
 const getRestaurants = (req, res) => {
 
@@ -226,7 +225,23 @@ const getRestaurants = (req, res) => {
       if (!listData) {
         res.status(500).send({ message: "No tienes restaurantes" });
       } else {
-        console.log(listData)
+        listData.Restaurantes.filter(function (el) {
+            Restaurant.findOne({userName: el.restaurantName}, (err2,reSearch) => {
+              if(err2){
+                console.log("Error al obtener la info: "+err2)
+              }else{
+                const info = {
+                  phone: reSearch.phone,
+                  code: reSearch.codeRes,
+                  presentation: reSearch.presentation,
+                  admin: reSearch.administrator,
+                  email: reSearch.email,
+                  photo: reSearch.photo
+                };
+              }
+            })
+        })
+        console.log(listData.Restaurantes)
         res.status(200).send(listData.Restaurantes);
       }
     }
@@ -1012,6 +1027,6 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
-  getInfoComensal,
+  getInfoRes,
   ChangePhoto,
 };
