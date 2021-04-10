@@ -268,7 +268,8 @@ export function FuncionesPerfil() {
             });
         }
     };
-    const changePhoto = async (values) => {};
+    //const changePhoto = async (values) => {};
+    
     const deleteAccount = async(e) => {
         e.preventDefault();
         const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));

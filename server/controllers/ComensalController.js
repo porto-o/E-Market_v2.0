@@ -201,7 +201,7 @@ const getInfoRes = (req, res) => {
 
   Restaurant.findOne({ userName: params.nombre }, (err, reSearch) => {
     if (err) {
-      console.log("Error al obtener información: "+err);
+      console.log("Error al obtener información: " + err);
     } else {
       const info = {
         nombre: reSearch.userName,
@@ -210,7 +210,7 @@ const getInfoRes = (req, res) => {
         presentation: reSearch.presentation,
         admin: reSearch.administrator,
         email: reSearch.email,
-        photo: reSearch.photo
+        photo: reSearch.photo,
       };
       res.status(200).send(info);
     }
@@ -229,22 +229,25 @@ const getRestaurants = (req, res) => {
         res.status(500).send({ message: "No tienes restaurantes" });
       } else {
         listData.Restaurantes.filter(function (el) {
-            Restaurant.findOne({userName: el.restaurantName}, (err2,reSearch) => {
-              if(err2){
-                console.log("Error al obtener la info: "+err2)
-              }else{
+          Restaurant.findOne(
+            { userName: el.restaurantName },
+            (err2, reSearch) => {
+              if (err2) {
+                console.log("Error al obtener la info: " + err2);
+              } else {
                 const info = {
                   phone: reSearch.phone,
                   code: reSearch.codeRes,
                   presentation: reSearch.presentation,
                   admin: reSearch.administrator,
                   email: reSearch.email,
-                  photo: reSearch.photo
+                  photo: reSearch.photo,
                 };
               }
-            })
-        })
-        console.log(listData.Restaurantes)
+            }
+          );
+        });
+        //console.log(listData.Restaurantes);
         res.status(200).send(listData.Restaurantes);
       }
     }
@@ -259,7 +262,7 @@ const DeleteAccount = (req, res) => {
   if (idComensal == null || idComensal == "") {
     console.log("Error al eliminar Cuenta id nulo");
   } else {
-    MiLista.findOneAndDelete({Comensal: idComensal}, (err, resDelete) => {
+    MiLista.findOneAndDelete({ Comensal: idComensal }, (err, resDelete) => {
       if (err) {
         console.log("Error al eliminar la lista", err);
       } else {
@@ -272,13 +275,11 @@ const DeleteAccount = (req, res) => {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         console.log("Cuenta eliminada");
-        res
-          .status(200)
-          .send(
-            {
-              message: "Cuenta eliminada exitosamente.",
-            }
-                /*,
+        res.status(200).send(
+          {
+            message: "Cuenta eliminada exitosamente.",
+          }
+          /*,
         res.status(200).send(
           {
             message: "Cuenta eliminada exitosamente.",
@@ -442,28 +443,32 @@ const eliminarRestaurante = (req, res) => {
 };
 
 const ChangePhoto = (req, res) => {
-    const params = req.params;
-    const idComensal = params.id;
-    const newPhoto = params.photo;
-    if (idComensal == null || idComensal == "") {
-        console.log("Error al cambiar foto, id nulo");
+  const params = req.params;
+  const idComensal = params.id;
+  const newPhoto = params.photo;
+  if (idComensal == null || idComensal == "") {
+    console.log("Error al cambiar foto, id nulo");
+  } else {
+    if (newPhoto == null || newPhoto == "") {
+      console.log("Error al cambiar foto, foto nula o invalida");
+      //Enviar mensaje l cliente
     } else {
-        if (newPhoto == null || newPhoto == "") {
-            console.log("Error al cambiar foto, foto nula o invalida");
-            //Enviar mensaje l cliente
-        } else {
-            Comensal.findByIdAndUpdate({_id: idComensal},{photo: newPhoto}, (err, resUpdate) => {
-                if (err) {
-                    console.log("Error al cambiar el foto", err)
-                    res.status(500).send({message: "Error del servidor."});
-                } else {
-                    console.log("Foto modificado")
-                    res.status(200).send({message: "Foto modificado exitosamente."});
-                }
-            });
+      Comensal.findByIdAndUpdate(
+        { _id: idComensal },
+        { photo: newPhoto },
+        (err, resUpdate) => {
+          if (err) {
+            console.log("Error al cambiar el foto", err);
+            res.status(500).send({ message: "Error del servidor." });
+          } else {
+            console.log("Foto modificado");
+            res.status(200).send({ message: "Foto modificado exitosamente." });
+          }
         }
+      );
     }
-}
+  }
+};
 
 //Orders
 
@@ -838,7 +843,6 @@ const getStatus = (req, res) => {
   const params = req.params;
   const id = params.idComensal;
 
-
   OrdersModel.findOne({ Comensal: id }, (err, statusData) => {
     if (err) {
       res.status(404).send({ message: "Error en el servidor" });
@@ -868,8 +872,6 @@ const setStripe = async (req, res) => {
         var platillos = menuData.Platillos;
         var total = menuData.Total;
 
-
-
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           locale: "es",
@@ -887,6 +889,8 @@ const setStripe = async (req, res) => {
           ],
           mode: "payment",
 
+
+          // cambiar las url de localhost al dominio de producción
           success_url: "http://localhost:3000/comensal/success",
           cancel_url: "http://localhost:3000/comensal/status",
         });
@@ -1010,7 +1014,6 @@ const verificarFirma = (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   SignUp,

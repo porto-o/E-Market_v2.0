@@ -1,34 +1,15 @@
 import React, {useState} from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
 import {getRestaurantApi} from "../../api/ComensalApi";
-import Button from "@material-ui/core/Button";
 import { notification } from "antd";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Menu from "../../pages/Comensal/Menu";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
-import PopOverInfo from "../Restaurant/PopOverInfo";
 import ListaRestaurantesTest from "./ListaRestaurantesTest";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "50%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  button: {
-    alignContent: 20,
-  },
-}));
 
 export default function ListaRestaurantes(props) {
 
-  const classes = useStyles();
   const [stateNombre, setNombres] = useState([]);
   var nombres;
   var id;
