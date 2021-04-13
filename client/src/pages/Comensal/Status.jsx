@@ -10,15 +10,131 @@ import {loadStripe} from '@stripe/stripe-js';
 import PaymentIcon from '@material-ui/icons/Payment';
 import {CoffeeOutlined, ProfileOutlined, RocketOutlined} from "@ant-design/icons";
 import {notification, Steps} from "antd";
+import { Rate } from 'antd';
 import jwtDecode from "jwt-decode";
 import {ACCESS_TOKEN} from "../../utils/constants";
 import {getStatusComensalApi, cancelOrderApi} from "../../api/ComensalApi";
+import { Comment, Avatar, Form, List, Input } from 'antd';
+import moment from 'moment';
 
 const stripePromise = loadStripe('pk_test_51I76NLIDgbX8kir9ZnIVCe2dFDOsNrbBrhtP6OEGohHsbqYU3qJDKHC0l1fkbtrrLIs6okl7umdxAdiV60pFSL9L00RuOGSI0v');
 
 
 const {Step} = Steps;
 
+const desc = ['terrible', 'malo', 'normal', 'bueno', 'excelente'];
+class Rater extends React.Component {
+    state = {
+      value: 3,
+    };
+  
+    handleChange = value => {
+      this.setState({ value });
+    };
+  
+    render() {
+      const { value } = this.state;
+      return (
+        <span>
+          <Rate tooltips={desc} onChange={this.handleChange} value={value} />
+          {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''}
+        </span>
+      );
+    }
+  }
+
+  const { TextArea } = Input;
+
+  const CommentList = ({ comments }) => (
+    <List
+      dataSource={comments}
+      header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+      itemLayout="horizontal"
+      renderItem={props => <Comment {...props} />}
+    />
+  );
+  
+  const Editor = ({ onChange, onSubmit, submitting, value }) => (
+    <>
+      <Form.Item>
+        <TextArea rows={4} onChange={onChange} value={value} />
+      </Form.Item>
+      <Form.Item>
+        <Button onclick={onSubmit} id={"sendButton"} hidden={false} loading={submitting} variant="contained" color="primary" >
+
+          Enviar
+        </Button>
+      </Form.Item>
+    </>
+  );
+  //<Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
+  class App extends React.Component {
+    state = {
+      comments: [],
+      submitting: false,
+      value: '',
+    };
+  
+    handleSubmit = () => {
+      if (!this.state.value) {
+        return;
+      }
+  
+      this.setState({
+        submitting: true,
+      });
+  
+      setTimeout(() => {
+        this.setState({
+          submitting: false,
+          value: '',
+          comments: [
+            ...this.state.comments,
+            {
+              author: 'Han Solo',
+              avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              content: <p>{this.state.value}</p>,
+              datetime: moment().fromNow(),
+            },
+          ],
+        });
+      }, 1000);
+    };
+  
+    handleChange = e => {
+      this.setState({
+        value: e.target.value,
+      });
+    };
+  
+    render() {
+      const { comments, submitting, value } = this.state;
+  
+      return (
+        <>
+          {comments.length > 0 && <CommentList comments={comments} />}
+          <Comment
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            content={
+              <Editor
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
+                submitting={submitting}
+                value={value}
+              />
+            }
+          />
+        </>
+      );
+    }
+  }
+  
+ 
 
 const Status = () => {
 
@@ -131,6 +247,15 @@ const Status = () => {
                             Carta de Presentación
                         </Typography>
                         <MediaCard/>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h5" gutterBottom className={classes.header}>
+                            Calificación por estrellas
+                        </Typography>
+                        <Rater/>
+                        <App />
                     </Paper>
                 </Grid>
             </Grid>
