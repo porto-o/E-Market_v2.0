@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Button, List, notification, Space } from "antd";
+import { List, notification, Space } from "antd";
 import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
-import { getRestaurantApi } from "../../api/ComensalApi";
+import { eliminarRestauranteApi, getRestaurantApi } from "../../api/ComensalApi";
 import { getInfoResApi } from "../../api/RestaurantApi";
 import PopOverInfo from "../Restaurant/PopOverInfo";
 import Avatar from "@material-ui/core/Avatar";
+import { Button } from "@material-ui/core";
 
 const listData = [];
 
@@ -31,14 +32,13 @@ const TablaListRestaurantes = () => {
       if (result.message) {
         notification.info({
           message:
-            "Aún no hay restaurantes registrados en tu lista, añade uno en la parte derecha de tu pantalla.",
+            "Aún no hay restaurantes registrados en tu lista, tienes algunas recomendaciones en la parte derecha de tu pantalla!",
           placement: "bottomLeft",
         });
       } else {
         result.filter(function (el) {
           const consulta = async () => {
             result2 = await getInfoResApi(el.restaurantName);
-
             listData.push({
               nombres: result2.name,
               photo: result2.photo,
@@ -52,13 +52,40 @@ const TablaListRestaurantes = () => {
       }
     };
   };
+  /**
+   * 
+   */
+  const handleDelete = async (nombre) => {
+    //console.log(stateNombre)
+    //const filtredData = stateNombre.filter(item => item.nombres !== nombre);
+    //setNombres(["",...stateNombre])
+    //setNombres([...filtredData, ...stateNombre]);
+    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN))
+    const id = token.id
+    const result = await eliminarRestauranteApi(nombre,id)
+    if (result.message) {
+      notification["warning"]({
+        message: result.message,
+        style: { width: 500, marginTop: 50 },
+      });
+    } else {
+      notification["success"]({
+        message: "Restaurante eliminado satisfactoriamente!",
+        style: { width: 500, marginTop: 50 },
+      });
+      window.location.reload(true);
+
+    }
+    console.log("Hola?")
+  }
+
   mostrar();
   return (
     <List
       itemLayout="vertical"
       size="small"
       pagination={{
-        pageSize: 2,
+        pageSize: 3,
       }}
       dataSource={stateNombre}
       renderItem={(item) => (
@@ -81,23 +108,43 @@ const TablaListRestaurantes = () => {
               key="list-vertical-message"
             />,
           ]}
-          extra={<Avatar alt="Remy Sharp" src={item.photo} style={{height: "100%", width: "250px"}}/>}
+          extra={
+            <Avatar
+              alt="Remy Sharp"
+              src={item.photo}
+              style={{ height: "100%", width: "250px" }}
+            />
+          }
         >
           <List.Item.Meta
             avatar={
-              <img alt="" src="https://img.icons8.com/metro/26/000000/restaurant.png"/>
+              <img
+                alt="avatar restaurante"
+                src="https://img.icons8.com/metro/26/000000/restaurant.png"
+              />
             }
             title={<b>Restaurante: {item.nombres}</b>}
             description={item.description}
           />
           <Button
             size="small"
-            color="primary"
+            color="inherit"
             href={`/comensal/menu/${item.nombres}`}
           >
             Ver menú
           </Button>
-          <PopOverInfo nombre={item.nombres} color={"primary"}/>
+          <br />
+          <br />
+          <Button
+            size="small"
+            color="inherit"
+            onClick={() => handleDelete(item.nombres)}
+          >
+            Eliminar
+          </Button>
+          <br/>
+          <br/>
+          <PopOverInfo nombre={item.nombres} color={"primary"} />
         </List.Item>
       )}
     />

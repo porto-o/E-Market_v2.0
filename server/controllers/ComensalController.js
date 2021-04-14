@@ -819,7 +819,7 @@ const getStatus = (req, res) => {
       if (!statusData) {
         res
           .status(500)
-          .send({ message: "No tienes ninguna orden en progreso" });
+          .send({ message: "No tienes ninguna orden en progreso :(" });
       } else {
         const status = statusData.Estatus;
         res.status(200).send({ status });
