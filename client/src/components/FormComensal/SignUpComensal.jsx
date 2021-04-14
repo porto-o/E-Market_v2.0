@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, Tooltip, Checkbox, Button, notification } from "antd";
+import AvatarUpload from "../utils/AvatarUpload";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { signUpApi } from "../../api/ComensalApi";
 
@@ -30,6 +31,9 @@ const RegistrationFormComensal = () => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
+    
+    values.photo = localStorage.getItem("PhotoBlob")
+
     const result = await signUpApi(values);
     if (result.ok === false) {
       notification["error"]({
@@ -41,6 +45,7 @@ const RegistrationFormComensal = () => {
         message: result.message,
         style: { width: 500, marginTop: 50 },
       });
+      localStorage.removeItem("PhotoBlob")
     }
     window.location = "/signin";
   };
@@ -129,6 +134,13 @@ const RegistrationFormComensal = () => {
       </Form.Item>
 
       <Form.Item
+        name="photo"
+        label="Foto de perfil"
+      >
+        <AvatarUpload />
+      </Form.Item>
+
+      <Form.Item
         name="agreement"
         valuePropName="checked"
         rules={[
@@ -146,12 +158,14 @@ const RegistrationFormComensal = () => {
           <a href={"/politicas"}>Políticas de términos y condiciones de uso</a>
         </Checkbox>
       </Form.Item>
+
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Vamos!
+          ¡Vamos!
         </Button>
       </Form.Item>
     </Form>
   );
 };
+
 export default RegistrationFormComensal;

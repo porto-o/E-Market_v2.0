@@ -171,7 +171,6 @@ const Status = () => {
         // Call your backend to create the Checkout Session
 
         const response = await fetch(`http://localhost:3977/api/v1/payStripe/${id}`, {method: 'POST'});
-        window.location = "http://localhost:3000/comensal/success"
         const session = await response.json();
 
         // When the customer clicks on the button, redirect them to Checkout.
@@ -193,8 +192,9 @@ const Status = () => {
         const getStatus = async () => {
 
             const result = await getStatusComensalApi(id)
+            console.log(result)
             if (result.message) {
-                window.location = "/comensal"
+                //window.location = "/comensal"
             } else {
                 if (result.status === "Enviada") {
                     setStatus(0, stateStatus)

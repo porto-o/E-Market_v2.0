@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import { FuncionesPerfil, MiLista, MisPedidos, MetodosPago} from "../../components/Comensal/Cards";
+import { FuncionesPerfil, MiLista, MisPedidos, MetodosPago, Perfil} from "../../components/Comensal/Cards";
 
 const useStyles = makeStyles((theme) =>({
 
@@ -38,6 +38,11 @@ const profile = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={4} style={{ textAlign: "center" }}>
+                    <Grid container spaicing={3} direction="column">
+                        <Grid item>
+                            <Perfil />
+                        </Grid>
+                    </Grid>
                     <Grid container spaicing={3} direction="column">
                         <Grid item>
                             <FuncionesPerfil />

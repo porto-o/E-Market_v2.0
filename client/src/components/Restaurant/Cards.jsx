@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, Component} from "react";
 import {Card, Form, Input, notification} from 'antd';
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Button, ButtonGroup} from "@material-ui/core";
 import {
+    getInfoResApi,
+    changeAdministratorRestaurantApi,
+    changePhoneRestaurantApi,
+    changeEmailRestaurantApi,
     changeNameRestaurantApi,
     CodeApi,
     deleteAccountRestaurantApi,
@@ -11,7 +15,7 @@ import {
     changePasswordRestaurantApi,
     getPresentacionApi
 } from "../../api/RestaurantApi";
-import {ACCESS_TOKEN} from "../../utils/constants";
+import {ACCESS_TOKEN, CODE_RESTAURANT} from "../../utils/constants";
 import jwtDecode from "jwt-decode";
 import { logout } from "../../api/auth";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
@@ -87,78 +91,49 @@ export function HistorialP() {
     )
 }
 
-export function Pin() {
-
-    const [stateCode, setCode] = useState(0)
-    const getCode =  () => {
+export function Perfil() {
+    const [stateInfo, setInfo] = useState(0)
+    const getInfo =  () => {
         window.onload = async () => {
             const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
-            const id = token.id
-            const result = await CodeApi(id)
-            console.log(result)
-            setCode(result.code, stateCode)
+            const name = token.userName
+            const result = await getInfoResApi(name)
+            setInfo(result, stateInfo);
         }
 
     }
-    getCode()
+    getInfo();
+    const {Meta} = Card;
+    return (
+        <Form onSubmitCapture={getInfo}>
+            <Card
+                cover={<img src={stateInfo.photo} style={{ width: "100%"}}/>}
+            >
+                <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description={stateInfo.presentation +
+                "\n" + stateInfo.email + "\n" + stateInfo.phone + "\n" + stateInfo.admin}
+                />
+            </Card>
+        </Form>
+    )
+}
+
+export function Pin() {
+    var code;
+    const getCode =  () => {
+        code = localStorage.getItem(CODE_RESTAURANT)
+    }
+    getCode();
     const {Meta} = Card;
     return (
         <Form onSubmitCapture={getCode}>
             <Card hoverable>
                 <Meta title="Comparte este código: "/>
-                <div id="codigo">{stateCode}</div>
+                <div id="codigo">{code}</div>
             </Card>
 
         </Form>
 
-    )
-}
-
-export function Nosotros() {
-    const {Meta} = Card;
-
-    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN))
-    const id = token.id
-    var pres = ""
-
-    const [statePres, setPres] = useState()
-    const presentacion = () => {
-        window.onload = async () => {
-            const result = await getPresentacionApi(id)
-            console.log(result)
-            if (result.message) {
-                console.log("no hay")
-            } else {
-                pres = result.pres
-                setPres(pres, statePres)
-            }
-        }
-    }
-
-    presentacion()
-
-
-
-    return (
-        <Card
-            cover={<img alt="example"
-                        src="https://porfirios.com.mx/blog/wp-content/uploads/2019/03/Apertura-TOREO-blog-604x270.png"/>}
-        >
-            <Meta title="Nosotros" description={statePres}/>
-        </Card>
-    )
-}
-
-export function Perfil() {
-    const {Meta} = Card;
-    return (
-        <Card
-            cover={<img alt="example"
-                        src="https://porfirios.com.mx/blog/wp-content/uploads/2019/03/Apertura-TOREO-blog-604x270.png"/>}
-        >
-            <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description="RESTAURANTE"/>
-        </Card>
-    )
+    );
 }
 
 export function FuncionesPerfil() {
@@ -214,6 +189,58 @@ export function FuncionesPerfil() {
             });
         }
     };
+    const changeEmail = async (values) => {
+        const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+        const id = token.id
+        const newEmail = values.email;
+        const result = await changeEmailRestaurantApi(id, newEmail);
+        if (result.response) {
+            notification["error"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        } else {
+            notification["success"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        }
+    };
+    const changePhone = async (values) => {
+        const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+        const id = token.id
+        const newPhone = values.phone;
+        const result = await changePhoneRestaurantApi(id, newPhone);
+        if (result.response) {
+            notification["error"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        } else {
+            notification["success"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        }
+    };
+    const changeAdministrator = async (values) => {
+        const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+        const id = token.id
+        const newAdministrator = values.administrator;
+        const result = await changeAdministratorRestaurantApi(id, newAdministrator);
+        if (result.response) {
+            notification["error"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        } else {
+            notification["success"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        }
+    };
+    const changePhoto = async (values) => {};
     const deleteAccount = async(e) => {
         e.preventDefault();
         const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
@@ -290,6 +317,7 @@ export function FuncionesPerfil() {
                             </React.Fragment>
                         )}
                     </PopupState>
+
                     <PopupState variant="popover" popupId="demo-popup-menu">
                         {(popupState) => (
                             <React.Fragment>
@@ -359,6 +387,143 @@ export function FuncionesPerfil() {
                             </React.Fragment>
                         )}
                     </PopupState>
+
+                    <PopupState variant="popover" popupId="demo-popup-menu">
+                        {(popupState) => (
+                            <React.Fragment>
+                                <Button size="large"
+                                        color="Secondary"
+                                        {...bindTrigger(popupState)}>
+                                    Cambiar Email
+                                </Button>
+                                <Menu {...bindMenu(popupState)}>
+                                    <Paper>
+                                        <Form {...formItemLayout}
+                                              form={form}
+                                              name="register"
+                                              onFinish={changeEmail}
+                                              scrollToFirstError
+                                        >
+                                            <Form.Item
+                                                name="email"
+                                                label="E-mail"
+                                                rules={[
+                                                    {
+                                                        type: "email",
+                                                        message: "!El e-mail ingresado no es válido!",
+                                                    },
+                                                    {
+                                                        required: true,
+                                                        message: "Porfavor ingresa un e-mail!",
+                                                    },
+                                                ]}
+                                            >
+                                                <Input />
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout}>
+                                                <Button type="primary"
+                                                        size="large"
+                                                        color="secondary"
+                                                        variant="contained"
+                                                        onClick={popupState.close}>
+                                                    Cambiar
+                                                </Button>
+                                            </Form.Item>
+                                        </Form>
+                                    </Paper>
+                                </Menu>
+                            </React.Fragment>
+                        )}
+                    </PopupState>
+
+                    <PopupState variant="popover" popupId="demo-popup-menu">
+                        {(popupState) => (
+                            <React.Fragment>
+                                <Button size="large"
+                                        color="Secondary"
+                                        {...bindTrigger(popupState)}>
+                                    Cambiar Número
+                                </Button>
+                                <Menu {...bindMenu(popupState)}>
+                                    <Paper>
+                                        <Form {...formItemLayout}
+                                              form={form}
+                                              name="register"
+                                              onFinish={changePhone}
+                                              scrollToFirstError
+                                        >
+                                            <Form.Item
+                                                name="phone"
+                                                label="Teléfono"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: "¡Porfavor ingresa el número de contacto!",
+                                                    },
+                                                ]}
+                                            >
+                                                <Input />
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout}>
+                                                <Button type="primary"
+                                                        size="large"
+                                                        color="secondary"
+                                                        variant="contained"
+                                                        onClick={popupState.close}>
+                                                    Cambiar
+                                                </Button>
+                                            </Form.Item>
+                                        </Form>
+                                    </Paper>
+                                </Menu>
+                            </React.Fragment>
+                        )}
+                    </PopupState>
+
+                    <PopupState variant="popover" popupId="demo-popup-menu">
+                        {(popupState) => (
+                            <React.Fragment>
+                                <Button size="large"
+                                        color="Secondary"
+                                        {...bindTrigger(popupState)}>
+                                    Cambiar Administrador
+                                </Button>
+                                <Menu {...bindMenu(popupState)}>
+                                    <Paper>
+                                        <Form {...formItemLayout}
+                                              form={form}
+                                              name="register"
+                                              onFinish={changeAdministrator}
+                                              scrollToFirstError
+                                        >
+                                            <Form.Item
+                                                name="administrator"
+                                                label="Administrador"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: "¡Porfavor ingresa el nombre del administrador!",
+                                                    },
+                                                ]}
+                                            >
+                                                <Input />
+                                            </Form.Item>
+                                            <Form.Item {...tailFormItemLayout}>
+                                                <Button type="primary"
+                                                        size="large"
+                                                        color="secondary"
+                                                        variant="contained"
+                                                        onClick={popupState.close}>
+                                                    Cambiar
+                                                </Button>
+                                            </Form.Item>
+                                        </Form>
+                                    </Paper>
+                                </Menu>
+                            </React.Fragment>
+                        )}
+                    </PopupState>
+
                     <PopupState variant="popover" popupId="demo-popup-menu">
                         {(popupState) => (
                             <React.Fragment>

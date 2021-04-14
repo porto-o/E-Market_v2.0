@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { PedidosM, EditarM, HistorialP, Nosotros } from "../../components/Restaurant/Cards";
+import {PedidosM, EditarM, HistorialP, Nosotros, Perfil} from "../../components/Restaurant/Cards";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +39,7 @@ const HomeRest = () => {
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={6}>
-                  <Nosotros />
+                  <Perfil/>
               </Grid>
           </Grid>
         </React.Fragment>

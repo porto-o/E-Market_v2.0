@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -6,13 +6,14 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
-import { getRestaurantApi } from "../../api/ComensalApi";
+import {getRestaurantApi} from "../../api/ComensalApi";
 import Button from "@material-ui/core/Button";
 import { notification } from "antd";
-import { ListItemText } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Menu from "../../pages/Comensal/Menu";
 import EliminarRest from "../../pages/Comensal/EliminarRestaurante";
+import PopOverInfo from "../Restaurant/PopOverInfo";
+import ListaRestaurantesTest from "./ListaRestaurantesTest";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListaRestaurantes(props) {
-  console.log(props.valor);
+
   const classes = useStyles();
   const [stateNombre, setNombres] = useState([]);
   var nombres;
@@ -50,46 +51,25 @@ export default function ListaRestaurantes(props) {
       } else {
         result.filter(function (el) {
           nombres = el.restaurantName;
+
           id = el._id;
           arrayNombres.push(nombres);
+
           // eslint-disable-next-line
           return nombres, id;
         });
-
         setNombres([...arrayNombres, ...stateNombre]);
       }
     };
   };
   mostrar();
+
   return (
     <Router>
-      {stateNombre.map((item) => (
-        <List className={classes.root}>
-          <ListItem>
-            <ListItemAvatar>
-              <MenuBookIcon />
-            </ListItemAvatar>
-            <ListItemText>{item}</ListItemText>
-            <Button
-              size="small"
-              color="primary"
-              className={classes.button}
-              href={`/comensal/menu/${item}`}
-            >
-              Ver menú
-            </Button>
-          </ListItem>
-        </List>
-      ))}
-      <Switch>
-        <Route path="/comensal/menu/:nombres" exact={true} component={Menus} />
-        <Route
-          path="/comensal/menu/elminar/:nombre/:id"
-          exact={true}
-          component={Eliminar}
-        />
-      </Switch>
+
+<ListaRestaurantesTest/>
     </Router>
+
   );
 }
 

@@ -5,7 +5,6 @@ const authenticator = require("../middlewares/authenticated")
 
 api.post("/signupRestaurante", RestaurantController.SignUp);
 api.post("/signInRestaurante", RestaurantController.SignIn);
-api.put("/restaurante-code/:id", RestaurantController.getCode);
 //Menu
 api.put("/saveMenu", RestaurantController.saveMenu);
 api.get("/getMenu/:id", RestaurantController.getMenu);
@@ -16,11 +15,16 @@ api.post("/deleteAccountRestaurant/:id", RestaurantController.DeleteAccount);
 api.post("/changePasswordRestaurant/:id/:pass", RestaurantController.ChangePassword);
 api.post("/changeNameRestaurant/:id/:name", RestaurantController.ChangeName);
 api.post("/changePresentationRestaurant/:id/:presentation", RestaurantController.ChangePresentation);
-api.get("/getPresentacionRes/:id", RestaurantController.getPresentacion)
+api.post("/changeEmailRestaurant/:id/:email", RestaurantController.ChangeEmail);
+api.post("/changePhoneRestaurant/:id/:phone", RestaurantController.ChangePhone);
+api.post("/changeAdministratorRestaurant/:id/:administrator", RestaurantController.ChangeAdministrator);
+api.post("/changePhotoRestaurant/:id/:photo", RestaurantController.ChangePhoto);
+//api.get("/getPresentacionRes/:id", RestaurantController.getPresentacion);
+api.get("/getInfoRestaurant/:nombre", RestaurantController.getInfoRes);
 //Orders
-api.get("/getCurrentOrders/:nombre", RestaurantController.getCurrentOrders)
+api.get("/getCurrentOrders/:nombre", RestaurantController.getCurrentOrders);
 api.post("/", RestaurantController.updateOrderStatus);
 api.post("/cancelOrderRestaurant/:id", RestaurantController.cancelOrder);
 api.post("/setStatus/:state/:idOrden", RestaurantController.setStatus);
-api.get("/getHistoryOrders/:nombre", RestaurantController.getHistoryOrders)
+api.get("/getHistoryOrders/:nombre", RestaurantController.getHistoryOrders);
 module.exports = api;

@@ -23,7 +23,6 @@ const Llenar = () => {
 
     window.onload = async () => {
         const result = await getMenuApi(nombres)
-        console.log(result)
         if (result.message) {
             notification.info({
                 message: result.message,
@@ -80,9 +79,9 @@ const Menu = () => {
 
     };
 
+
     const ordenar = async () => {
         const token = jwtDecode(localStorage.getItem("accessToken"));
-
         if (arrayOrden === "" || arrayOrden === null || !arrayOrden) {
             notification.info({
                 message: "Porfavor selecciona un platillo.",
