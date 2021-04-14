@@ -9,7 +9,7 @@ api.get("/getRestaurante/:id", ComensalController.getRestaurants);
 api.get("/getMenus/:nombre", ComensalController.getMenus);
 api.post("/eliminarRestComensal/:nombre/:id", ComensalController.eliminarRestaurante);
 api.get("/getInfoComensal/:nombre", ComensalController.getInfoComensal);
-//api.get("/getPresentacion/:id", ComensalController.getPresentacion);
+api.get("/getRecomendados", ComensalController.getRecomendados);
 //Account
 api.post("/deleteAccountComensal/:id", ComensalController.DeleteAccount);
 api.post("/changePasswordComensal/:id/:pass", ComensalController.ChangePassword);

@@ -19,10 +19,9 @@ const refreshAccessToken = (req, res) => {
   const isTokenExpired = willExpireToken(refreshToken);
 
   if (isTokenExpired) {
-    res.status(404).send({ message: "El refreshToken ha expirado" });
+    res.send({ message: "El refreshToken ha expirado" });
   } else {
     const { id } = jwt.decodedToken(refreshToken);
-
     Comensal.findOne({ _id: id }, (err, userStored) => {
       if (err) {
         res.status(500).send({ message: "Error del servidor." });
