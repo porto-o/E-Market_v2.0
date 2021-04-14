@@ -82,6 +82,7 @@ export function getPresentacionApi(id){
 */
 
 export function getInfoResApi(nombre){
+
     const url = `${BASE_PATH}/${API_VERSION}/getInfoRestaurant/${nombre}`;
     const params = {
         method: "GET",

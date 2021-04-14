@@ -1,4 +1,4 @@
-import React, {useState, Component} from "react";
+import React, {useState} from "react";
 import {Card, Form, Input, notification} from 'antd';
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -9,11 +9,9 @@ import {
     changePhoneRestaurantApi,
     changeEmailRestaurantApi,
     changeNameRestaurantApi,
-    CodeApi,
     deleteAccountRestaurantApi,
     changePresentationRestaurantApi,
     changePasswordRestaurantApi,
-    getPresentacionApi
 } from "../../api/RestaurantApi";
 import {ACCESS_TOKEN, CODE_RESTAURANT} from "../../utils/constants";
 import jwtDecode from "jwt-decode";
@@ -107,7 +105,7 @@ export function Perfil() {
     return (
         <Form onSubmitCapture={getInfo}>
             <Card
-                cover={<img src={stateInfo.photo} style={{ width: "100%"}}/>}
+                cover={<img alt="" src={stateInfo.photo} style={{ width: "100%"}}/>}
             >
                 <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description={stateInfo.presentation +
                 "\n" + stateInfo.email + "\n" + stateInfo.phone + "\n" + stateInfo.admin}

@@ -348,7 +348,7 @@ export function Perfil() {
   return (
       <Form onSubmitCapture={getInfo}>
         <Card
-            cover={<img src={stateInfo.photo} style={{ width: "100%"}}/>}
+            cover={<img alt="" src={stateInfo.photo} style={{ width: "100%"}}/>}
         >
           <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description={stateInfo.email}
           />

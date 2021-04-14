@@ -57,7 +57,7 @@ const BtnAgregarRest = () => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button style={{marginBottom: "5%"}} variant="outlined" color="primary" onClick={handleClickOpen}>
         Agregar restaurante
       </Button>
       <Dialog

@@ -52,6 +52,27 @@ export function SignInApi(data) {
     });
 }
 
+export function getRecomendadosApi(){
+    const url =`${BASE_PATH}/${API_VERSION}/getRecomendados/`;
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+
+}
+
 export function AddRestaurantApi(id, data){
   const url = `${BASE_PATH}/${API_VERSION}/addRestaurant/${id}/${data}`;
   const params = {
@@ -329,28 +350,6 @@ export function getTicketsApi(nombre){
             return err.message;
         });
 
-}
-
-export function getPresentacionApi(id){
-    const url = `${BASE_PATH}/${API_VERSION}/getPresentacion/${id}`;
-
-    const params = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
 }
 
 export function verificarFirma(firma){
