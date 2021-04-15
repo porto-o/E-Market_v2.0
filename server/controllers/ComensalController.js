@@ -196,21 +196,41 @@ const AddRestaurant = (req, res) => {
     }
 };
 
+//INFO
+
 const getInfoComensal = (req, res) => {
     const params = req.params;
-
-    Comensal.findOne({userName: params.nombre}, (err, reSearch) => {
-        if (err) {
-            console.log("Error al obtener información: " + err);
-        } else {
-            const info = {
-                name: reSearch.userName,
-                email: reSearch.email,
-                photo: reSearch.photo,
-            };
-            res.status(200).send(info);
-        }
-    });
+    const nombre = params.nombre;
+    const id = params.id;
+    if (id == null || id == "" || id == "null") {
+        Comensal.findOne({userName: nombre}, (err, reSearch) => {
+                if (err) {
+                    console.log("Error al obtener información: " + err);
+                } else {
+                    const info = {
+                        name: reSearch.userName,
+                        email: reSearch.email,
+                        photo: reSearch.photo,
+                    };
+                    res.status(200).send(info);
+                }
+            }
+        );
+    } else {
+        Comensal.findById({_id: id}, (err, reSearch) => {
+                if (err) {
+                    console.log("Error al obtener información: " + err);
+                } else {
+                    const info = {
+                        name: reSearch.userName,
+                        email: reSearch.email,
+                        photo: reSearch.photo,
+                    };
+                    res.status(200).send(info);
+                }
+            }
+        );
+    }
 };
 
 const getRestaurants = (req, res) => {
@@ -443,6 +463,7 @@ const ChangePhoto = (req, res) => {
     const params = req.params;
     const idComensal = params.id;
     const newPhoto = params.photo;
+    console.log(newPhoto)
     if (idComensal == null || idComensal == "") {
         console.log("Error al cambiar foto, id nulo");
     } else {

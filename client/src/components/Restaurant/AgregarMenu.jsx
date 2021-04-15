@@ -4,7 +4,9 @@ import {Button, Container, FormGroup, Modal, ModalBody, ModalFooter, ModalHeader
 import {deleteMenu, getMenuApi, SaveMenuApi} from "../../api/RestaurantApi";
 import jwtDecode from "jwt-decode";
 import {ACCESS_TOKEN} from "../../utils/constants";
-import {notification} from "antd";
+import AvatarUpload from "../utils/AvatarUpload";
+
+import { Form, Input, Checkbox, notification } from "antd";
 
 const data = [];
 let nombreVista;
@@ -14,10 +16,30 @@ let arrayNombres = []
 let arrayDescripcion = []
 let arrayPrecio = []
 
-
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+    },
+};
+const tailFormItemLayout = {
+    wrapperCol: {
+        xs: {
+            span: 24,
+            offset: 0,
+        },
+        sm: {
+            span: 16,
+            offset: 5,
+        },
+    },
+};
 
 class TablaMenu extends React.Component {
-
 
     cargar = () => {
         window.onload = async () => {
@@ -63,8 +85,6 @@ class TablaMenu extends React.Component {
             precio: data.precio,
         },
     };
-
-
 
     mostrarModalActualizar = (dato) => {
         this.setState({
@@ -113,11 +133,11 @@ class TablaMenu extends React.Component {
 
     };
 
-    deleteMenuAM = async(dish, pos) => {
+    deleteMenuAM = async(dish) => {
         //e.preventDefault();
         const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
         const id = token.id;
-        const result = await deleteMenu(id, dish, pos);
+        const result = await deleteMenu(id, dish);
 
         if(result.response){
             notification["error"]({
@@ -327,6 +347,25 @@ class TablaMenu extends React.Component {
                                 type="text"
                                 onChange={this.handleChange}
                             />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <label>
+                                Tiempo de preparación:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="tiempoPrep"
+                                type="text"
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <label>
+                                Imagen del platillo:
+                            </label>
+                            <AvatarUpload />
                         </FormGroup>
 
                     </ModalBody>

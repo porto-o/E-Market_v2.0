@@ -37,8 +37,7 @@ const TablaListRestaurantes = () => {
       } else {
         result.filter(function (el) {
           const consulta = async () => {
-            result2 = await getInfoResApi(el.restaurantName);
-
+            result2 = await getInfoResApi(null,el.restaurantName);
             listData.push({
               nombres: result2.name,
               photo: result2.photo,
@@ -47,7 +46,6 @@ const TablaListRestaurantes = () => {
             setNombres([...listData, ...stateNombre]);
           };
           consulta();
-          return null;
         });
       }
     };
@@ -81,7 +79,7 @@ const TablaListRestaurantes = () => {
               key="list-vertical-message"
             />,
           ]}
-          extra={<Avatar alt="Remy Sharp" src={item.photo} style={{height: "100%", width: "250px"}}/>}
+          extra={<Avatar alt="Remy Sharp" src={item.photo} style={{height: "75%", width: "75%"}}/>}
         >
           <List.Item.Meta
             avatar={

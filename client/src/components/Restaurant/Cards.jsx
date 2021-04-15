@@ -94,8 +94,9 @@ export function Perfil() {
     const getInfo =  () => {
         window.onload = async () => {
             const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+            const id = token.id;
             const name = token.userName
-            const result = await getInfoResApi(name)
+            const result = await getInfoResApi(id,name)
             setInfo(result, stateInfo);
         }
 
@@ -107,7 +108,7 @@ export function Perfil() {
             <Card
                 cover={<img alt="" src={stateInfo.photo} style={{ width: "100%"}}/>}
             >
-                <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description={stateInfo.presentation +
+                <Meta title={stateInfo.name} description={stateInfo.presentation +
                 "\n" + stateInfo.email + "\n" + stateInfo.phone + "\n" + stateInfo.admin}
                 />
             </Card>

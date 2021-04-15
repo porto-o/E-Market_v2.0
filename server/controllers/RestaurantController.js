@@ -90,26 +90,55 @@ const SignIn = (req, res) => {
     });
 };
 
+//Info
 
 const getInfoRes = (req, res) => {
     const params = req.params;
-    Restaurante.findOne({'userName': params.nombre}, (err, reSearch) => {
-        if (err) {
-            console.log(err);
-        } else {
-            const info = {
-                name: reSearch.userName,
-                phone: reSearch.phone,
-                code: reSearch.codeRes,
-                presentation: reSearch.presentation,
-                admin: reSearch.administrator,
-                email: reSearch.email,
-                photo: reSearch.photo
-            };
-            res.status(200).send({info});
-        }
-    });
+    const nombre = params.nombre;
+    const id = params.id;
+    if (id == null || id == "" || id == "null") {
+        Restaurante.findOne({'userName': nombre}, (err, reSearch) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(nombre);
+                    const info = {
+                        name: reSearch.userName,
+                        phone: reSearch.phone,
+                        code: reSearch.codeRes,
+                        presentation: reSearch.presentation,
+                        admin: reSearch.administrator,
+                        email: reSearch.email,
+                        photo: reSearch.photo
+                    };
+                    res.status(200).send({info});
+                }
+            }
+        );
+    } else {
+        Restaurante.findById({_id: id}, (err, reSearch1) => {
+                if (err) {
+                    console.log(err);
+                } else {
+
+                    console.log(id);
+                    const info = {
+
+                        name: reSearch1.userName,
+                        phone: reSearch1.phone,
+                        code: reSearch1.codeRes,
+                        presentation: reSearch1.presentation,
+                        admin: reSearch1.administrator,
+                        email: reSearch1.email,
+                        photo: reSearch1.photo
+                    };
+                    res.status(200).send({info});
+                }
+            }
+        );
+    }
 };
+
 
 //MENU
 
@@ -229,7 +258,20 @@ const deleteMenu = (req, res) => {
     const params = req.params;
     const idRestaurante = params.id;
     const dishName = params.dish;
-    const dishPosition = params.pos;
+    MenuModel.updateOne({Restaurante: idRestaurante},{$pull: {Menu: {nombre: {$eq: dishName}}}}, (error1, resMMFOAU) => {
+            if (error) {
+                console.log("Error al encontar el platillo", error1);
+            } else {
+                if (!resMMFOAU) {
+                    console.log("No se encontro el platillo");
+                } else {
+                    console.log("Paltillo removido", resMMFOAU);
+                }
+            }
+        }
+    );
+    //const dishPosition = params.pos;
+    /*
     MenuModel.findOne(
         {$and: [{Restaurante: idRestaurante}, {"Menu.nombre": dishName}]},
         (error, resMMFO) => {
@@ -259,6 +301,7 @@ const deleteMenu = (req, res) => {
             }
         }
     );
+    */
 };
 
 function random() {

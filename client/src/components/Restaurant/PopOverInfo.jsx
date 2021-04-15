@@ -25,7 +25,7 @@ class PopOverInfo extends Component {
 
     handleInfo = async () => {
         console.log(this.props.nombre)
-        const info = await getInfoResApi(this.props.nombre);
+        const info = await getInfoResApi(null , this.props.nombre);
 
         phone = info.phone;
         codeRes = info.code;

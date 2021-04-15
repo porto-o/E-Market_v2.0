@@ -132,7 +132,7 @@ export function FuncionesPerfil() {
 
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     const id = token.id;
-console.log(values)
+    console.log(values)
     const result = await changePhotoComensalApi(id, values);
 
     if (result.response) {
@@ -296,7 +296,7 @@ console.log(values)
                         <Form
                             {...formItemLayout}
                             form={form}
-                            name="changePhoto"
+                            name="register"
                             onFinish={changePhoto}
                         >
                           <Form.Item
@@ -338,7 +338,8 @@ export function Perfil() {
     window.onload = async () => {
       const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
       const name = token.userName
-      const result = await getInfoComensalApi(name)
+      const id = token.id;
+      const result = await getInfoComensalApi(id, name)
       setInfo(result, stateInfo);
     }
 
@@ -350,7 +351,7 @@ export function Perfil() {
         <Card
             cover={<img alt="" src={stateInfo.photo} style={{ width: "100%"}}/>}
         >
-          <Meta title={jwtDecode(localStorage.getItem(ACCESS_TOKEN)).userName} description={stateInfo.email}
+          <Meta title={stateInfo.name} description={stateInfo.email}
           />
         </Card>
       </Form>
