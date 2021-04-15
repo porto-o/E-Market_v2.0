@@ -214,41 +214,42 @@ const getInfoComensal = (req, res) => {
 };
 
 const getRestaurants = (req, res) => {
-  const body = req.params;
-  const idComensal = body.id;
 
-  MiLista.findOne({ Comensal: idComensal }, (err, listData) => {
-    if (err) {
-      res.status(404).send({ message: "Error del servidor." });
-    } else {
-      if (!listData) {
-        res.status(500).send({ message: "No tienes restaurantes" });
-      } else {
-        listData.Restaurantes.filter(function (el) {
-          Restaurant.findOne(
-            { userName: el.restaurantName },
-            (err2, reSearch) => {
-              if (err2) {
-                console.log("Error al obtener la info: " + err2);
-              } else {
-                const info = {
-                  phone: reSearch.phone,
-                  code: reSearch.codeRes,
-                  presentation: reSearch.presentation,
-                  admin: reSearch.administrator,
-                  email: reSearch.email,
-                  photo: reSearch.photo,
-                };
-              }
+    const body = req.params;
+    const idComensal = body.id;
+
+    MiLista.findOne({Comensal: idComensal}, (err, listData) => {
+        if (err) {
+            res.status(404).send({message: "Error del servidor."});
+        } else {
+            if (!listData) {
+                res.status(500).send({message: "No tienes restaurantes"});
+            } else {
+                listData.Restaurantes.filter(function (el) {
+                    Restaurant.findOne(
+                        {userName: el.restaurantName},
+                        (err2, reSearch) => {
+                            if (err2) {
+                                console.log("Error al obtener la información: " + err2);
+                            } else {
+                                const info = {
+                                    phone: reSearch.phone,
+                                    code: reSearch.codeRes,
+                                    presentation: reSearch.presentation,
+                                    admin: reSearch.administrator,
+                                    email: reSearch.email,
+                                    photo: reSearch.photo,
+                                };
+                            }
+                        }
+                    );
+                });
+                //console.log(listData.Restaurantes);
+                res.status(200).send(listData.Restaurantes);
             }
-          );
-        });
-        //console.log(listData.Restaurantes);
-        res.status(200).send(listData.Restaurantes);
-      }
-    }
-  });
-};
+        }
+    });
+}
 
 //Account
 
@@ -271,6 +272,7 @@ const DeleteAccount = (req, res) => {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         console.log("Cuenta eliminada");
+
         res.status(200).send(
           {
             message: "Cuenta eliminada exitosamente.",
@@ -396,19 +398,26 @@ const eliminarRestaurante = (req, res) => {
   const nombre = params.nombre;
   const id = params.id;
 
-  MiLista.updateOne({ Comensal: id }, {$pull: {Restaurantes: {restaurantName: {$eq: nombre}}}},(err, deleteData) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send({message: "Error en el servidor"});
-    } else {
-      if (!deleteData) {
-        res.status(404).send({message: "Error en el servidor, no encuentro ese restaurante"})
+  MiLista.updateOne(
+    { Comensal: id },
+    { $pull: { Restaurantes: { restaurantName: { $eq: nombre } } } },
+    (err, deleteData) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ message: "Error en el servidor" });
       } else {
-        res.status(200).send(null)
-
+        if (!deleteData) {
+          res
+            .status(404)
+            .send({
+              message: "Error en el servidor, no encuentro ese restaurante",
+            });
+        } else {
+          res.status(200).send(null);
+        }
       }
     }
-  });
+  );
 };
 
 const ChangePhoto = (req, res) => {
@@ -1017,4 +1026,4 @@ module.exports = {
   getTickets,
   verificarFirma,
   ChangePhoto,
-};
+}

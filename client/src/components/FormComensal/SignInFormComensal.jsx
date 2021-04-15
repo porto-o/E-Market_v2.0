@@ -9,10 +9,13 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { SignInApi } from "../../api/ComensalApi";
-import { notification } from "antd";
+import { notification, Collapse } from "antd";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../utils/constants";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
+import FacebookSignIn from "../FormRest/FacebookSignIn";
+
+const { Panel } = Collapse;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -76,66 +79,77 @@ const SignInComensal = () => {
   };
 
   return (
-    <div
-      id="principal"
-      className={classes.root}
-      onChange={changeForm}
-      onSubmit={login}
-      align={"center"}
-    >
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}></Avatar>
-          <Typography component="h1" variant="h5">
-            ¡Vamos a comer!
-          </Typography>
-          <form
-            action="/signin"
-            method="POST"
-            className={classes.form}
-            noValidate
+    <>
+      <Collapse accordion defaultActiveKey={["1"]}>
+        <Panel header="Iniciar sesión con Facebook"  key="1" >
+          <FacebookSignIn />
+        </Panel>
+        <Panel header="Iniciar sesión con E-Market" key="2">
+        <div
+            id="principal"
+            className={classes.root}
+            onChange={changeForm}
+            onSubmit={login}
+            align={"center"}
           >
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Nombre de usuario"
-              name="userName"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Inciar sesión
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link to={"/signup"}>{"No tienes una cuenta? Registrate"}</Link>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-      </Container>
-    </div>
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}></Avatar>
+                <Typography component="h1" variant="h5">
+                  ¡Vamos a comer!
+                </Typography>
+                <form
+                  action="/signin"
+                  method="POST"
+                  className={classes.form}
+                  noValidate
+                >
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Nombre de usuario"
+                    name="userName"
+                    autoFocus
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Contraseña"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Inciar sesión
+                  </Button>
+                  <Grid container>
+                    <Grid item xs></Grid>
+                    <Grid item>
+                      <Link to={"/signup"}>
+                        {"No tienes una cuenta? Registrate"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </form>
+              </div>
+            </Container>
+          </div>
+        </Panel>
+      </Collapse>
+    </>
   );
 };
 
