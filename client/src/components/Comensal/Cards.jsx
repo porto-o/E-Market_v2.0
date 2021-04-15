@@ -92,6 +92,7 @@ export function FuncionesPerfil() {
     logout();
     window.location = "/";
   };
+  
   const changeName = async (e) => {
     e.preventDefault();
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
