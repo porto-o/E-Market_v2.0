@@ -5,6 +5,7 @@ import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {IconButton} from "@material-ui/core";
 import jwtDecode from "jwt-decode";
+import {ACCESS_TOKEN} from "../../utils/constants";
 
 const mockData = [];
 
@@ -61,7 +62,7 @@ const Llenar = () => {
 
 const Menu = () => {
     const {nombres} = useParams();
-
+    const token = (localStorage.getItem(ACCESS_TOKEN))
 
     const [targetKeys, setTargetKeys] = useState();
     const [selectedKeys, setSelectedKeys] = useState([]);
@@ -122,7 +123,7 @@ const Menu = () => {
                 render={item => `${item.title}: ${item.description}.......$ ${item.price}`}
 
             />
-            <IconButton color="primary" aria-label="add to shopping cart" onClick={ordenar} href={"/comensal/status"}>
+            <IconButton color="primary" aria-label="add to shopping cart" onClick={ordenar} href={`/comensal/status/${token}/${nombres}`}>
                 <AddShoppingCartIcon/> Ordenar
             </IconButton>
         </div>

@@ -93,22 +93,41 @@ const SignIn = (req, res) => {
 
 const getInfoRes = (req, res) => {
     const params = req.params;
-    Restaurante.findOne({'userName': params.nombre}, (err, reSearch) => {
-        if (err) {
-            console.log(err);
-        } else {
-            const info = {
-                name: reSearch.userName,
-                phone: reSearch.phone,
-                code: reSearch.codeRes,
-                presentation: reSearch.presentation,
-                admin: reSearch.administrator,
-                email: reSearch.email,
-                photo: reSearch.photo
-            };
-            res.status(200).send({info});
-        }
-    });
+    if(params.nombre != null) {
+        Restaurante.findOne({'userName': params.nombre}, (err, reSearch) => {
+            if (err) {
+                console.log(err);
+            } else {
+                const info = {
+                    name: reSearch.userName,
+                    phone: reSearch.phone,
+                    code: reSearch.codeRes,
+                    presentation: reSearch.presentation,
+                    admin: reSearch.administrator,
+                    email: reSearch.email,
+                    photo: reSearch.photo
+                };
+                res.status(200).send({info});
+            }
+        });
+    }else if(params.id){
+        Restaurante.findById(params.id, (err, reSearch) => {
+            if (err) {
+                console.log(err);
+            } else {
+                const info = {
+                    name: reSearch.userName,
+                    phone: reSearch.phone,
+                    code: reSearch.codeRes,
+                    presentation: reSearch.presentation,
+                    admin: reSearch.administrator,
+                    email: reSearch.email,
+                    photo: reSearch.photo
+                };
+                res.status(200).send({info});
+            }
+        });
+    }
 };
 
 //MENU

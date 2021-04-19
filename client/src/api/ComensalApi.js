@@ -284,8 +284,8 @@ export function eliminarRestauranteApi(nombre, id){
 
 }
 
-export function getStatusComensalApi(id) {
-    const url = `${BASE_PATH}/${API_VERSION}/statusOrden/${id}`;
+export function getStatusComensalApi(nombre) {
+    const url = `${BASE_PATH}/${API_VERSION}/statusOrden/${nombre}`;
 
     const params = {
         method: "GET",

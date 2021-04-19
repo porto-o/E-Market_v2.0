@@ -7,7 +7,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../utils/constants";
 
 
 const responseFacebook = async (response) => {
-    if (response.name != undefined) {
+    if (response.name !== undefined) {
       const values = {
         userName: response.name,
         password: "9AKj9GocPc58Uqlcew4&ciTQLU*bIieSz&@s9OMELZ*3WPdd"

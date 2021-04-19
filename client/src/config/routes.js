@@ -55,7 +55,7 @@ const routes = [
         exact: true,
       },
       {
-        path: "/comensal/status",
+        path: "/comensal/status/:token/:nombreRes",
         component: Status,
         exact: true,
       },
