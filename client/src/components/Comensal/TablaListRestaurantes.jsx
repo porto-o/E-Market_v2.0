@@ -40,7 +40,7 @@ const TablaListRestaurantes = () => {
       } else {
         result.filter(function (el) {
           const consulta = async () => {
-            result2 = await getInfoResApi(el.restaurantName);
+            result2 = await getInfoResApi(null,el.restaurantName);
             listData.push({
               nombres: result2.name,
               photo: result2.photo,
@@ -55,7 +55,7 @@ const TablaListRestaurantes = () => {
     };
   };
   /**
-   * 
+   *
    */
   const handleDelete = async (nombre) => {
     //console.log(stateNombre)

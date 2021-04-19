@@ -81,9 +81,10 @@ export function getPresentacionApi(id){
 }
 */
 
-export function getInfoResApi(nombre){
+export function getInfoResApi(id, nombre){
 
-    const url = `${BASE_PATH}/${API_VERSION}/getInfoRestaurant/${nombre}`;
+    const url = `${BASE_PATH}/${API_VERSION}/getInfoRestaurant/${id}/${nombre}/`;
+    console.log(nombre);
     const params = {
         method: "GET",
         headers: {
@@ -372,9 +373,9 @@ export function setStatusApi (state, id) {
         });
 }
 
-export function deleteMenu (id, dish, pos ){
-    const url = `${BASE_PATH}/${API_VERSION}/deleteMenu/${id}/${dish}/${pos}`;
-    console.log("Llegue al api con", dish, id, pos)
+export function deleteMenu (id, dish){
+    const url = `${BASE_PATH}/${API_VERSION}/deleteMenu/${id}/${dish}`;
+    console.log("Llegue al api con", dish, id)
     const params = {
         method: "POST",
         headers: {

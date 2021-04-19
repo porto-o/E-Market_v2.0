@@ -295,8 +295,11 @@ const DeleteAccount = (req, res) => {
 
                 res.status(200).send(
                     {
-                        message: "Cuenta eliminada exitosamente.",
-                    }
+                      message: "Cuenta eliminada exitosamente.",
+                    } /*, {
+                              accessToken: localStorage.removeItem(),
+                              refreshToken: localStorage.removeItem(),
+                          }*/
                 );
             }
         });
