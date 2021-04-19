@@ -23,7 +23,7 @@ export default function MediaCard() {
 const {nombreRes} = useParams()
   const llenar = () => {
     window.onload = async () => {
-      const result = await getInfoResApi(nombreRes);
+      const result = await getInfoResApi(null,nombreRes);
       if (result.message) {
         console.log("no hay");
       } else {
