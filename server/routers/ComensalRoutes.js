@@ -8,8 +8,8 @@ api.post("/addRestaurant/:id/:data", ComensalController.AddRestaurant);
 api.get("/getRestaurante/:id", ComensalController.getRestaurants);
 api.get("/getMenus/:nombre", ComensalController.getMenus);
 api.post("/eliminarRestComensal/:nombre/:id", ComensalController.eliminarRestaurante);
-api.get("/getInfoComensal/:nombre", ComensalController.getInfoComensal);
-//api.get("/getPresentacion/:id", ComensalController.getPresentacion);
+api.get("/getInfoComensal/:id/:nombre", ComensalController.getInfoComensal);
+api.get("/getRecomendados", ComensalController.getRecomendados);
 //Account
 api.post("/deleteAccountComensal/:id", ComensalController.DeleteAccount);
 api.post("/changePasswordComensal/:id/:pass", ComensalController.ChangePassword);
@@ -18,6 +18,7 @@ api.post("/changePhotoComensal/:id/:photo", ComensalController.ChangePhoto);
 //Orders
 api.get("/getTickets/:nombre", ComensalController.getTickets);
 api.post("/ordenar/:order/:restaurantName/:idComensal", ComensalController.addOrder);
+api.post("/rateComensal/:restName/:rate", ComensalController.rateComensal);
 //api.post("/", ComensalController.deleteDishFromOrder);
 api.post("/cancelOrder/:id", ComensalController.cancelOrder);
 //

@@ -196,57 +196,80 @@ const AddRestaurant = (req, res) => {
   }
 };
 
-const getInfoComensal = (req, res) => {
-  const params = req.params;
+//INFO
 
-  Comensal.findOne({ userName: params.nombre }, (err, reSearch) => {
-    if (err) {
-      console.log("Error al obtener información: "+err);
+const getInfoComensal = (req, res) => {
+    const params = req.params;
+    const nombre = params.nombre;
+    const id = params.id;
+    if (id == null || id == "" || id == "null") {
+        Comensal.findOne({userName: nombre}, (err, reSearch) => {
+                if (err) {
+                    console.log("Error al obtener información: " + err);
+                } else {
+                    const info = {
+                        name: reSearch.userName,
+                        email: reSearch.email,
+                        photo: reSearch.photo,
+                    };
+                    res.status(200).send(info);
+                }
+            }
+        );
     } else {
-      const info = {
-        name: reSearch.userName,
-        email: reSearch.email,
-        photo: reSearch.photo
-      };
-      res.status(200).send(info);
+        Comensal.findById({_id: id}, (err, reSearch) => {
+                if (err) {
+                    console.log("Error al obtener información: " + err);
+                } else {
+                    const info = {
+                        name: reSearch.userName,
+                        email: reSearch.email,
+                        photo: reSearch.photo,
+                    };
+                    res.status(200).send(info);
+                }
+            }
+        );
     }
-  });
 };
 
 const getRestaurants = (req, res) => {
 
-  const body = req.params;
-  const idComensal = body.id;
+    const body = req.params;
+    const idComensal = body.id;
 
-  MiLista.findOne({ Comensal: idComensal }, (err, listData) => {
-    if (err) {
-      res.status(404).send({ message: "Error del servidor." });
-    } else {
-      if (!listData) {
-        res.status(500).send({ message: "No tienes restaurantes" });
-      } else {
-        listData.Restaurantes.filter(function (el) {
-            Restaurant.findOne({userName: el.restaurantName}, (err2,reSearch) => {
-              if(err2){
-                console.log("Error al obtener la info: "+err2)
-              }else{
-                const info = {
-                  phone: reSearch.phone,
-                  code: reSearch.codeRes,
-                  presentation: reSearch.presentation,
-                  admin: reSearch.administrator,
-                  email: reSearch.email,
-                  photo: reSearch.photo
-                };
-              }
-            })
-        })
-        console.log(listData.Restaurantes)
-        res.status(200).send(listData.Restaurantes);
-      }
-    }
-  });
-};
+    MiLista.findOne({Comensal: idComensal}, (err, listData) => {
+        if (err) {
+            res.status(404).send({message: "Error del servidor."});
+        } else {
+            if (!listData) {
+                res.status(500).send({message: "No tienes restaurantes"});
+            } else {
+                listData.Restaurantes.filter(function (el) {
+                    Restaurant.findOne(
+                        {userName: el.restaurantName},
+                        (err2, reSearch) => {
+                            if (err2) {
+                                console.log("Error al obtener la información: " + err2);
+                            } else {
+                                const info = {
+                                    phone: reSearch.phone,
+                                    code: reSearch.codeRes,
+                                    presentation: reSearch.presentation,
+                                    admin: reSearch.administrator,
+                                    email: reSearch.email,
+                                    photo: reSearch.photo,
+                                };
+                            }
+                        }
+                    );
+                });
+                //console.log(listData.Restaurantes);
+                res.status(200).send(listData.Restaurantes);
+            }
+        }
+    });
+}
 
 //Account
 
@@ -256,7 +279,7 @@ const DeleteAccount = (req, res) => {
   if (idComensal == null || idComensal == "") {
     console.log("Error al eliminar Cuenta id nulo");
   } else {
-    MiLista.findOneAndDelete({Comensal: idComensal}, (err, resDelete) => {
+    MiLista.findOneAndDelete({ Comensal: idComensal }, (err, resDelete) => {
       if (err) {
         console.log("Error al eliminar la lista", err);
       } else {
@@ -269,24 +292,23 @@ const DeleteAccount = (req, res) => {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         console.log("Cuenta eliminada");
-        res
-          .status(200)
-          .send(
-            {
-              message: "Cuenta eliminada exitosamente.",
-            }
-                /*,
+
         res.status(200).send(
           {
             message: "Cuenta eliminada exitosamente.",
-          } /*, {
-                    accessToken: localStorage.removeItem(),
-                    refreshToken: localStorage.removeItem(),
-                }*/
-        );
-      }
-    });
-  }
+          }
+          /*,
+                  res.status(200).send(
+                    {
+                      message: "Cuenta eliminada exitosamente.",
+                    } /*, {
+                              accessToken: localStorage.removeItem(),
+                              refreshToken: localStorage.removeItem(),
+                          }*/
+                );
+            }
+        });
+    }
 };
 
 const getMenus = (req, res) => {
@@ -396,52 +418,34 @@ const eliminarRestaurante = (req, res) => {
   const nombre = params.nombre;
   const id = params.id;
 
-  Restaurant.findOne({ userName: nombre }, (err, resData) => {
-    if (err) {
-      console.log("error 1: " + err);
-    } else {
-      if (!resData) {
-        console.log("No encuentro el restaurante");
+  MiLista.updateOne(
+    { Comensal: id },
+    { $pull: { Restaurantes: { restaurantName: { $eq: nombre } } } },
+    (err, deleteData) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ message: "Error en el servidor" });
       } else {
-        MiLista.findOne({ Comensal: id }, (err, deleteData) => {
-          if (err) {
-            console.log(err);
-          } else {
-            if (!deleteData) {
-              console.log("no lo encuentro");
-            } else {
-              console.log("lo encontre");
-              //console.log(deleteData.Restaurantes)
-              const miLista = deleteData.Restaurantes;
-              var n;
-
-              for (let i = 0; i < miLista.length; i++) {
-                if (
-                  miLista[i].restaurantName.valueOf() ==
-                  resData.userName.valueOf()
-                ) {
-                  console.log(miLista[i].restaurantName);
-                  n = i;
-                  var restaurantes = "Restaurante[" + n.valueOf() + "]";
-                  MiLista.findOneAndDelete({
-                    restaurantes: miLista[i].restaurantName.valueOf(),
-                  });
-                } else {
-                  console.log("xD re troll");
-                }
-              }
-            }
-          }
-        });
+        if (!deleteData) {
+          res
+            .status(404)
+            .send({
+              message: "Error en el servidor, no encuentro ese restaurante",
+            });
+        } else {
+          res.status(200).send(null);
+        }
       }
     }
-  });
+  );
 };
 
 const ChangePhoto = (req, res) => {
+
     const params = req.params;
     const idComensal = params.id;
     const newPhoto = params.photo;
+    console.log(newPhoto)
     if (idComensal == null || idComensal == "") {
         console.log("Error al cambiar foto, id nulo");
     } else {
@@ -449,18 +453,22 @@ const ChangePhoto = (req, res) => {
             console.log("Error al cambiar foto, foto nula o invalida");
             //Enviar mensaje l cliente
         } else {
-            Comensal.findByIdAndUpdate({_id: idComensal},{photo: newPhoto}, (err, resUpdate) => {
-                if (err) {
-                    console.log("Error al cambiar el foto", err)
-                    res.status(500).send({message: "Error del servidor."});
-                } else {
-                    console.log("Foto modificado")
-                    res.status(200).send({message: "Foto modificado exitosamente."});
+            Comensal.findByIdAndUpdate(
+                {_id: idComensal},
+                {photo: newPhoto},
+                (err, resUpdate) => {
+                    if (err) {
+                        console.log("Error al cambiar el foto", err);
+                        res.status(500).send({message: "Error del servidor."});
+                    } else {
+                        console.log("Foto modificado");
+                        res.status(200).send({message: "Foto modificado exitosamente."});
+                    }
                 }
-            });
+            );
         }
     }
-}
+};
 
 //Orders
 
@@ -791,14 +799,14 @@ const pay = (req, res) => {
                               // más las cosas del la firma
 
                               /*
-                                                    ticket.save((error4, resTS) => {
-                                                        if (error4) {
-                                                            console.log("Error al guardar la orden en el restaurante");
-                                                        } else {
-                                                            console.log("Orden guardad exitosamente en el restaurante");
-                                                        }
-                                                    });
-                                                    */
+                                                                                  ticket.save((error4, resTS) => {
+                                                                                      if (error4) {
+                                                                                          console.log("Error al guardar la orden en el restaurante");
+                                                                                      } else {
+                                                                                          console.log("Orden guardad exitosamente en el restaurante");
+                                                                                      }
+                                                                                  });
+                                                                                  */
 
                               // 3 ELIMINAMOS LA ORDEN DEL CLIENTE
                               OrdersModel.findOneAndDelete(
@@ -842,7 +850,7 @@ const getStatus = (req, res) => {
       if (!statusData) {
         res
           .status(500)
-          .send({ message: "No tienes ninguna orden en progreso" });
+          .send({ message: "No tienes ninguna orden en progreso :(" });
       } else {
         const status = statusData.Estatus;
         res.status(200).send({ status });
@@ -864,8 +872,6 @@ const setStripe = async (req, res) => {
         var platillos = menuData.Platillos;
         var total = menuData.Total;
 
-
-
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           locale: "es",
@@ -883,6 +889,7 @@ const setStripe = async (req, res) => {
           ],
           mode: "payment",
 
+          // cambiar las url de localhost al dominio de producción
           success_url: "http://localhost:3000/comensal/success",
           cancel_url: "http://localhost:3000/comensal/status",
         });
@@ -1007,10 +1014,58 @@ const verificarFirma = (req, res) => {
   }
 };
 
+const getRecomendados = (req, res) => {
+  console.log("s");
+  Restaurant.find((err, restaurantes) => {
+    if (err) {
+      console.log("Error al obtener los restaurantes recomendados");
+      res.status(500);
+    } else {
+      res.status(200).send(restaurantes);
+    }
+  });
+};
+
+const rateComensal = (req, res) => {
+  const params = req.params;
+  const restaurantName = params.restName;
+  const rate = parseFloat(params.rate);
+  Restaurant.findOne({userName: restaurantName}, (err, rateResult) => {
+    
+      if (err){
+        res.status(500).send({message : "Error al buscar restaurante"});
+      }else{
+        if(rateResult.rate == 0 || rateResult.rate == null || rateResult.rate=="0" || rateResult.rate == ""){
+          Restaurant.updateOne({userName : restaurantName}, {rate : rate}, (err1, restUpdate) => {
+            if (err){
+              res.status(500).send({message : "Error al actualizar calificación"});
+            }else{
+              res.status(200).send({message : "Calificación enviada"});
+
+            }
+          });
+        }else{
+          var newRate = (parseFloat(rateResult.rate) + rate) / 2;
+          Restaurant.updateOne({userName : restaurantName}, {rate : newRate}, (err1, restUpdate) => {
+            if (err1){
+              res.status(500).send({message : "Error al actualizar calificación"});
+            }else{
+              res.status(200).send({message : "Calificación enviada"});
+
+            }
+          });
+        }
+      }
+
+    }
+  );
+}
+
 module.exports = {
   SignUp,
   SignIn,
   DeleteAccount,
+  getRecomendados,
   ChangePassword,
   ChangeName,
   AddRestaurant,
@@ -1028,4 +1083,5 @@ module.exports = {
   getTickets,
   verificarFirma,
   ChangePhoto,
-};
+  rateComensal,
+}

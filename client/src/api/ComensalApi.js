@@ -52,6 +52,27 @@ export function SignInApi(data) {
     });
 }
 
+export function getRecomendadosApi(){
+    const url =`${BASE_PATH}/${API_VERSION}/getRecomendados/`;
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+
+}
+
 export function AddRestaurantApi(id, data){
   const url = `${BASE_PATH}/${API_VERSION}/addRestaurant/${id}/${data}`;
   const params = {
@@ -72,8 +93,8 @@ export function AddRestaurantApi(id, data){
     });
 }
 
-export function getInfoComensalApi(nombre){
-    const url = `${BASE_PATH}/${API_VERSION}/getInfoComensal/${nombre}`;
+export function getInfoComensalApi(id, nombre){
+    const url = `${BASE_PATH}/${API_VERSION}/getInfoComensal/${id}/${nombre}`;
     const params = {
         method: "GET",
         headers: {
@@ -85,7 +106,6 @@ export function getInfoComensalApi(nombre){
             return response.json();
         })
         .then((result) => {
-            console.log(result)
             return result;
         })
         .catch((err) => {
@@ -176,6 +196,7 @@ export function changePasswordComensalApi (id, pass) {
 }
 
 export function changePhotoComensalApi (id, photo) {
+    console.log(photo)
     const url = `${BASE_PATH}/${API_VERSION}/changePhotoComensal/${id}/${photo}`;
     const params = {
         method: "POST",
@@ -331,28 +352,6 @@ export function getTicketsApi(nombre){
 
 }
 
-export function getPresentacionApi(id){
-    const url = `${BASE_PATH}/${API_VERSION}/getPresentacion/${id}`;
-
-    const params = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
-}
-
 export function verificarFirma(firma){
     const url = `${BASE_PATH}/${API_VERSION}/verificarFirma`;
 
@@ -374,4 +373,23 @@ export function verificarFirma(firma){
         .catch((err) => {
             return err.message;
         });
+        export function RateComensalApi(restName, rate) {
+          const url = `${BASE_PATH}/${API_VERSION}/rateComensal/${restName}/${rate}`;
+          const params = {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            }
+          };
+          return fetch(url, params)
+              .then((response) => {
+                return response.json();
+              })
+              .then((result) => {
+                return result;
+              })
+              .catch((err) => {
+                return err.message;
+              });
+        }
 }

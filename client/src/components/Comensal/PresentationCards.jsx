@@ -5,7 +5,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import {getInfoResApi, getPresentacionApi} from "../../api/RestaurantApi";
+import {getInfoResApi} from "../../api/RestaurantApi";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
 const useStyles = makeStyles({

@@ -8,7 +8,7 @@ api.post("/signInRestaurante", RestaurantController.SignIn);
 //Menu
 api.put("/saveMenu", RestaurantController.saveMenu);
 api.get("/getMenu/:id", RestaurantController.getMenu);
-api.post("/deleteMenu/:id/:dish/:pos", RestaurantController.deleteMenu);
+api.post("/deleteMenu/:id/:dish/", RestaurantController.deleteMenu);
 api.post("/updateMenu/:id/:dish/:name/:description/:price/:pos", RestaurantController.updateMenu);
 //Account
 api.post("/deleteAccountRestaurant/:id", RestaurantController.DeleteAccount);
@@ -20,7 +20,7 @@ api.post("/changePhoneRestaurant/:id/:phone", RestaurantController.ChangePhone);
 api.post("/changeAdministratorRestaurant/:id/:administrator", RestaurantController.ChangeAdministrator);
 api.post("/changePhotoRestaurant/:id/:photo", RestaurantController.ChangePhoto);
 //api.get("/getPresentacionRes/:id", RestaurantController.getPresentacion);
-api.get("/getInfoRestaurant/:nombre", RestaurantController.getInfoRes);
+api.get("/getInfoRestaurant/:id/:nombre", RestaurantController.getInfoRes);
 //Orders
 api.get("/getCurrentOrders/:nombre", RestaurantController.getCurrentOrders);
 api.post("/", RestaurantController.updateOrderStatus);

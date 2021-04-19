@@ -19,7 +19,7 @@ const RestauranteSchema = Schema({
   },
   role: String,
   clients: String,
-  
+  rate: String
 });
 
 module.exports = mongoose.model("Restaurante", RestauranteSchema);

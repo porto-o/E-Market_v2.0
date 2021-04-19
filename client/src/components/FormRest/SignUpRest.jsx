@@ -49,13 +49,13 @@ const RegistrationFormRestaurant = () => {
   };
 
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="register"
-      onFinish={onFinish}
-      scrollToFirstError
-    >
+      <Form
+          {...formItemLayout}
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          scrollToFirstError
+      >
       <Form.Item
         name="userName"
         label="Nombre del Restaurante"

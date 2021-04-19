@@ -75,63 +75,65 @@ const SignInRestaurant = () => {
   };
 
   return (
-    <div className={classes.root} onChange={changeForm} onSubmit={login}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}></Avatar>
-          <Typography component="h1" variant="h5">
-            ¡Vamos a trabajar!
-          </Typography>
-          <form
-            action="/signinRestaurant"
-            method="POST"
-            className={classes.form}
-            noValidate
-          >
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Nombre del Restaurante"
-              name="userName"
-              autoComplete
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+    <>
+      <div className={classes.root} onChange={changeForm} onSubmit={login}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}></Avatar>
+            <Typography component="h1" variant="h5">
+              ¡Vamos a trabajar!
+            </Typography>
+            <form
+              action="/signinRestaurant"
+              method="POST"
+              className={classes.form}
+              noValidate
             >
-              Inciar sesión
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"No tienes una cuenta? Registrate"}
-                </Link>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                label="Nombre del Restaurante"
+                name="userName"
+                autoComplete
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Contraseña"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Inciar sesión
+              </Button>
+              <Grid container>
+                <Grid item xs></Grid>
+                <Grid item>
+                  <Link href="/signup" variant="body2">
+                    {"No tienes una cuenta? Registrate"}
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={8}></Box>
-      </Container>
-    </div>
+            </form>
+          </div>
+          <Box mt={8}></Box>
+        </Container>
+      </div>
+    </>
   );
 };
 

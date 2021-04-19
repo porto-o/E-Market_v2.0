@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { Popover, Button } from 'antd';
+import { Popover } from 'antd';
 import {getInfoResApi} from "../../api/RestaurantApi";
 import "../utils/StyleUpload.css";
+import Button from "@material-ui/core/Button";
 
 var phone;
 var codeRes;
@@ -23,7 +24,9 @@ class PopOverInfo extends Component {
     };
 
     handleInfo = async () => {
-        const info = await getInfoResApi(this.props.content);
+        console.log(this.props.nombre)
+        const info = await getInfoResApi(null , this.props.nombre);
+
         phone = info.phone;
         codeRes = info.code;
         email = info.email;
@@ -65,7 +68,7 @@ class PopOverInfo extends Component {
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}
                 >
-                    <Button type="primary">Informacion de contacto</Button>
+                    <Button  variant="contained" color={this.props.color}>Informacion de contacto</Button>
                 </Popover>
             </div>
         );
