@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt-nodejs"); // encriptar contraseñas
 const jwt = require("../services/jwt");
 const Stripe = require("stripe");
 const stripe = Stripe(
-    "sk_test_51I76NLIDgbX8kir9GV5rUDxDj0DVlwXg2bb0w20LR2Hs047utSxuomDtSIv8FtitbOUVSYsgk3zkxUsZjcNdw6u500QxT81uMm"
+  "sk_test_51I76NLIDgbX8kir9GV5rUDxDj0DVlwXg2bb0w20LR2Hs047utSxuomDtSIv8FtitbOUVSYsgk3zkxUsZjcNdw6u500QxT81uMm"
 );
 const Comensal = require("../models/ComensalModel");
 const Restaurant = require("../models/RestauranteModel");
@@ -16,21 +16,21 @@ const crypto = require("crypto");
 const fs = require("fs");
 
 const SignUp = (req, res) => {
-    const user = new Comensal();
-    const { userName, email, password, photo } = req.body;
-    user.userName = userName;
-    user.email = email.toLowerCase();
-    user.role = "comensal";
-    user.photo = photo;
+  const user = new Comensal();
+  const { userName, email, password, photo } = req.body;
+  user.userName = userName;
+  user.email = email.toLowerCase();
+  user.role = "comensal";
+  user.photo = photo;
 
-    if (!password) {
-        res.status(404).send({ message: "Las contraseñas son obligatorias." });
-    } else {
-        bcrypt.hash(password, null, null, function (err, hash) {
-            if (err) {
-                res.status(500).send({ message: "Error al encriptar la contraseña." });
-            } else {
-                user.password = hash;
+  if (!password) {
+    res.status(404).send({ message: "Las contraseñas son obligatorias." });
+  } else {
+    bcrypt.hash(password, null, null, function (err, hash) {
+      if (err) {
+        res.status(500).send({ message: "Error al encriptar la contraseña." });
+      } else {
+        user.password = hash;
 
                 user.save((err, userStored) => {
                     if (err) {
@@ -51,149 +51,149 @@ const SignUp = (req, res) => {
 };
 
 const SignIn = (req, res) => {
-    const params = req.body;
-    const userName = params.userName;
-    const password = params.password;
+  const params = req.body;
+  const userName = params.userName;
+  const password = params.password;
 
-    Comensal.findOne({ userName }, (err, userStored) => {
-        if (err) {
+  Comensal.findOne({ userName }, (err, userStored) => {
+    if (err) {
+      res.status(500).send({ message: "Error del servidor." });
+    } else {
+      if (!userStored) {
+        res.status(404).send({ message: "Usuario no encontrado." });
+      } else {
+        bcrypt.compare(password, userStored.password, (err, check) => {
+          if (err) {
             res.status(500).send({ message: "Error del servidor." });
-        } else {
-            if (!userStored) {
-                res.status(404).send({ message: "Usuario no encontrado." });
-            } else {
-                bcrypt.compare(password, userStored.password, (err, check) => {
-                    if (err) {
-                        res.status(500).send({ message: "Error del servidor." });
-                    } else if (!check) {
-                        res.status(404).send({ message: "La contraseña es incorrecta." });
-                    } else {
-                        res.status(200).send({
-                            accessToken: jwt.createAccessToken(userStored),
-                            refreshToken: jwt.createRefreshToken(userStored),
-                        });
-                    }
-                });
-            }
-        }
-    });
+          } else if (!check) {
+            res.status(404).send({ message: "La contraseña es incorrecta." });
+          } else {
+            res.status(200).send({
+              accessToken: jwt.createAccessToken(userStored),
+              refreshToken: jwt.createRefreshToken(userStored),
+            });
+          }
+        });
+      }
+    }
+  });
 };
 
 const AddRestaurant = (req, res) => {
-    const params = req.params;
-    const id = params.id;
-    const pin = JSON.parse(params.data);
-    const list = MiLista();
-    if (pin.pin == null || pin.pin == "") {
-        res.status(500).send({ message: "No se agrego ningun codigo" });
-    } else {
-        MiLista.findOne({ Comensal: id }, (err, listData) => {
+  const params = req.params;
+  const id = params.id;
+  const pin = JSON.parse(params.data);
+  const list = MiLista();
+  if (pin.pin == null || pin.pin == "") {
+    res.status(500).send({ message: "No se agrego ningun codigo" });
+  } else {
+    MiLista.findOne({ Comensal: id }, (err, listData) => {
+      if (err) {
+        res.status(500).send({ message: "Error al buscar una lista" });
+      } else {
+        if (!listData) {
+          //aqui la creamos
+          console.log("No hay lista vinculada a esta cuenta");
+          Restaurant.findOne({ codeRes: pin.pin }, (err, restaurantData) => {
             if (err) {
-                res.status(500).send({ message: "Error al buscar una lista" });
+              res
+                .status(500)
+                .send({ message: "Error al buscar el restaurante " });
             } else {
-                if (!listData) {
-                    //aqui la creamos
-                    console.log("No hay lista vinculada a esta cuenta");
-                    Restaurant.findOne({ codeRes: pin.pin }, (err, restaurantData) => {
-                        if (err) {
-                            res
-                                .status(500)
-                                .send({ message: "Error al buscar el restaurante " });
-                        } else {
-                            if (!restaurantData) {
-                                console.log("No existe el restaurante");
-                                res.status(404).send({
-                                    message:
-                                        "El cógido ingresado no corresponde a ningún restaurante.",
-                                });
-                            } else {
-                                const restaurantes = {
-                                    restaurantId: restaurantData.id,
-                                    restaurantName: restaurantData.userName,
-                                    restaurantPin: restaurantData.codeRes,
-                                };
-                                list.Comensal = id;
-                                list.Restaurantes = restaurantes;
-                                list.save((err, res2) => {
-                                    if (err) {
-                                        console.log("Error al guardar la lista", err);
-                                    } else {
-                                        console.log(("Se guardo correctamente la lista", res2));
-                                        res.status(200).send(res2);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                } else {
-                    //aqui actualiamos
-                    console.log("La cuenta tiene una lista");
-                    MiLista.findOne({ Comensal: id }, (err, existingListData) => {
-                        if (err) {
-                            console.log("error al encontrar la lista ", err);
-                        } else {
-                            Restaurant.findOne(
-                                { codeRes: pin.pin },
-                                (err, restaurantData) => {
-                                    if (err) {
-                                        res.status(500).send({
-                                            message:
-                                                "Error al buscar el restaurante, intente más tarde.",
-                                        });
-                                    } else {
-                                        if (!restaurantData) {
-                                            console.log("No existe el restaurante");
-                                            res.status(404).send({
-                                                message:
-                                                    "El cógido ingresado no corresponde a ningún restaurante.",
-                                            });
-                                        } else {
-                                            const array = existingListData.Restaurantes;
-                                            const indexes = [];
-                                            const element = {
-                                                restaurantName: restaurantData.userName,
-                                                restaurantPin: restaurantData.codeRes,
-                                            };
-                                            for (let i = 0; i < array.length; i++) {
-                                                if (array[i].restaurantName == element.restaurantName) {
-                                                    indexes.push(1);
-                                                }
-                                            }
-                                            if (indexes.length > 0) {
-                                                console.log("Ya existe", indexes.length);
-                                                res.status(500).send({
-                                                    message:
-                                                        "Ya tienes ese restaurante agregado a tu lista.",
-                                                });
-                                            } else {
-                                                array.push(element);
-                                                console.log(array);
-                                                MiLista.findOneAndUpdate(
-                                                    { Comensal: id },
-                                                    { Restaurantes: array },
-                                                    (Err, resUpdate) => {
-                                                        if (Err) {
-                                                            console.log(
-                                                                "error al actualizar el array de objetos ",
-                                                                Err
-                                                            );
-                                                        } else {
-                                                            console.log("Se actualizo ", resUpdate);
-                                                            res.status(200).send(resUpdate);
-                                                        }
-                                                    }
-                                                );
-                                            }
-                                        }
-                                    }
-                                }
-                            );
-                        }
-                    });
-                }
+              if (!restaurantData) {
+                console.log("No existe el restaurante");
+                res.status(404).send({
+                  message:
+                    "El cógido ingresado no corresponde a ningún restaurante.",
+                });
+              } else {
+                const restaurantes = {
+                  restaurantId: restaurantData.id,
+                  restaurantName: restaurantData.userName,
+                  restaurantPin: restaurantData.codeRes,
+                };
+                list.Comensal = id;
+                list.Restaurantes = restaurantes;
+                list.save((err, res2) => {
+                  if (err) {
+                    console.log("Error al guardar la lista", err);
+                  } else {
+                    console.log(("Se guardo correctamente la lista", res2));
+                    res.status(200).send(res2);
+                  }
+                });
+              }
             }
-        });
-    }
+          });
+        } else {
+          //aqui actualiamos
+          console.log("La cuenta tiene una lista");
+          MiLista.findOne({ Comensal: id }, (err, existingListData) => {
+            if (err) {
+              console.log("error al encontrar la lista ", err);
+            } else {
+              Restaurant.findOne(
+                { codeRes: pin.pin },
+                (err, restaurantData) => {
+                  if (err) {
+                    res.status(500).send({
+                      message:
+                        "Error al buscar el restaurante, intente más tarde.",
+                    });
+                  } else {
+                    if (!restaurantData) {
+                      console.log("No existe el restaurante");
+                      res.status(404).send({
+                        message:
+                          "El cógido ingresado no corresponde a ningún restaurante.",
+                      });
+                    } else {
+                      const array = existingListData.Restaurantes;
+                      const indexes = [];
+                      const element = {
+                        restaurantName: restaurantData.userName,
+                        restaurantPin: restaurantData.codeRes,
+                      };
+                      for (let i = 0; i < array.length; i++) {
+                        if (array[i].restaurantName == element.restaurantName) {
+                          indexes.push(1);
+                        }
+                      }
+                      if (indexes.length > 0) {
+                        console.log("Ya existe", indexes.length);
+                        res.status(500).send({
+                          message:
+                            "Ya tienes ese restaurante agregado a tu lista.",
+                        });
+                      } else {
+                        array.push(element);
+                        console.log(array);
+                        MiLista.findOneAndUpdate(
+                          { Comensal: id },
+                          { Restaurantes: array },
+                          (Err, resUpdate) => {
+                            if (Err) {
+                              console.log(
+                                "error al actualizar el array de objetos ",
+                                Err
+                              );
+                            } else {
+                              console.log("Se actualizo ", resUpdate);
+                              res.status(200).send(resUpdate);
+                            }
+                          }
+                        );
+                      }
+                    }
+                  }
+                }
+              );
+            }
+          });
+        }
+      }
+    });
+  }
 };
 
 //INFO
@@ -297,14 +297,6 @@ const DeleteAccount = (req, res) => {
                     {
                         message: "Cuenta eliminada exitosamente.",
                     }
-                    /*,
-                            res.status(200).send(
-                              {
-                                message: "Cuenta eliminada exitosamente.",
-                              } /*, {
-                                        accessToken: localStorage.removeItem(),
-                                        refreshToken: localStorage.removeItem(),
-                                    }*/
                 );
             }
         });
