@@ -150,6 +150,7 @@ export function FuncionesPerfil() {
     }
   };
 
+
   return (
     <Card>
       <CardContent>
