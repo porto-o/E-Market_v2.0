@@ -146,6 +146,7 @@ export function FuncionesPerfil() {
         style: { width: 500, marginTop: 50 },
       });
       window.location.reload(true);
+      localStorage.removeItem("PhotoBlob");
     }
   };
 
