@@ -42,7 +42,8 @@ const Recomendados = () => {
         placement: "bottomRight"
       })
     }else{
-      if (stateInfo === "") {
+      // eslint-disable-next-line
+      if (stateInfo == "") {
         result.filter(function (el) {
           listData.push({
             userName: el.userName,

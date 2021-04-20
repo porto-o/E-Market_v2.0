@@ -43,7 +43,6 @@ const RegistrationFormComensal = () => {
 
   const onFinish = async (values) => {
     values.photo = localStorage.getItem("PhotoBlob");
-
     const result = await signUpApi(values);
     if (result.ok === false) {
       notification["error"]({
