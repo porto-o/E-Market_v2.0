@@ -11,10 +11,11 @@ api.post("/eliminarRestComensal/:nombre/:id", ComensalController.eliminarRestaur
 api.get("/getInfoComensal/:id/:nombre", ComensalController.getInfoComensal);
 api.get("/getRecomendados", ComensalController.getRecomendados);
 //Account
+
 api.post("/deleteAccountComensal/:id", ComensalController.DeleteAccount);
 api.post("/changePasswordComensal/:id/:pass", ComensalController.ChangePassword);
 api.post("/changeNameComensal/:id/:name", ComensalController.ChangeName);
-api.post("/changePhotoComensal/:id/:photo", ComensalController.ChangePhoto);
+api.post("/changePhotoComensal", ComensalController.ChangePhoto);
 //Orders
 api.get("/getTickets/:nombre", ComensalController.getTickets);
 api.post("/ordenar/:order/:restaurantName/:idComensal", ComensalController.addOrder);

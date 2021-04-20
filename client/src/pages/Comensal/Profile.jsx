@@ -37,7 +37,7 @@ const profile = () => {
                         </Paper>
                     </Typography>
                 </Grid>
-                <Grid item xs={4} style={{ textAlign: "center" }}>
+                <Grid item xs={4} style={{ textAlign: "center" }} spacing={3}>
                     <Grid container spaicing={3} direction="column">
                         <Grid item>
                             <Perfil />

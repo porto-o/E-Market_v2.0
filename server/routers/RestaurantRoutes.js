@@ -18,7 +18,7 @@ api.post("/changePresentationRestaurant/:id/:presentation", RestaurantController
 api.post("/changeEmailRestaurant/:id/:email", RestaurantController.ChangeEmail);
 api.post("/changePhoneRestaurant/:id/:phone", RestaurantController.ChangePhone);
 api.post("/changeAdministratorRestaurant/:id/:administrator", RestaurantController.ChangeAdministrator);
-api.post("/changePhotoRestaurant/:id/:photo", RestaurantController.ChangePhoto);
+api.post("/changePhotoRestaurant", RestaurantController.ChangePhoto);
 //api.get("/getPresentacionRes/:id", RestaurantController.getPresentacion);
 api.get("/getInfoRestaurant/:id/:nombre", RestaurantController.getInfoRes);
 //Orders

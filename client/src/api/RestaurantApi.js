@@ -305,6 +305,28 @@ export function changeAdministratorRestaurantApi(id, newAdministrator) {
         });
 }
 
+export function changePhotoRestaurantApi (values) {
+
+    const url = `${BASE_PATH}/${API_VERSION}/changePhotoRestaurant/`;
+    const params = {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+            "Content-type": "application/json",
+        }
+    };
+    return fetch(url, params)
+        .then((response) => {
+            return response.json();
+        })
+        .then((result) => {
+            return result;
+        })
+        .catch((err) => {
+            return err.message;
+        });
+}
+
 export function getOrdenesApi (nombre) {
 
     const url = `${BASE_PATH}/${API_VERSION}/getCurrentOrders/${nombre}`;

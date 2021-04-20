@@ -195,11 +195,12 @@ export function changePasswordComensalApi (id, pass) {
       });
 }
 
-export function changePhotoComensalApi (id, photo) {
-    console.log(photo)
-    const url = `${BASE_PATH}/${API_VERSION}/changePhotoComensal/${id}/${photo}`;
+export function changePhotoComensalApi (values) {
+
+    const url = `${BASE_PATH}/${API_VERSION}/changePhotoComensal/`;
     const params = {
         method: "POST",
+        body: JSON.stringify(values),
         headers: {
             "Content-type": "application/json",
         }

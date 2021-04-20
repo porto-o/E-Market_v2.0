@@ -441,11 +441,9 @@ const eliminarRestaurante = (req, res) => {
 };
 
 const ChangePhoto = (req, res) => {
-
-    const params = req.params;
+    const params = req.body;
     const idComensal = params.id;
     const newPhoto = params.photo;
-    console.log(newPhoto)
     if (idComensal == null || idComensal == "") {
         console.log("Error al cambiar foto, id nulo");
     } else {
@@ -461,8 +459,7 @@ const ChangePhoto = (req, res) => {
                         console.log("Error al cambiar el foto", err);
                         res.status(500).send({message: "Error del servidor."});
                     } else {
-                        console.log("Foto modificado");
-                        res.status(200).send({message: "Foto modificado exitosamente."});
+                        res.status(200).send({message: "Foto modificada exitosamente."});
                     }
                 }
             );

@@ -12,6 +12,7 @@ import {
     deleteAccountRestaurantApi,
     changePresentationRestaurantApi,
     changePasswordRestaurantApi,
+    changePhotoRestaurantApi,
 } from "../../api/RestaurantApi";
 import {ACCESS_TOKEN, CODE_RESTAURANT} from "../../utils/constants";
 import jwtDecode from "jwt-decode";
@@ -19,6 +20,7 @@ import { logout } from "../../api/auth";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import Menu from '@material-ui/core/Menu';
 import Paper from "@material-ui/core/Paper";
+import AvatarUpload from "../utils/AvatarUpload";
 
 const formItemLayout = {
     labelCol: {
@@ -239,7 +241,27 @@ export function FuncionesPerfil() {
             });
         }
     };
-    //const changePhoto = async (values) => {};
+
+    const changePhoto = async () => {
+        const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+        const id = token.id;
+        const photo = localStorage.getItem("PhotoBlob");
+        var values = {id: id, photo: photo};
+        const result = await changePhotoRestaurantApi(values);
+
+        if (result.response) {
+            notification["error"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+        } else {
+            notification["success"]({
+                message: result.message,
+                style: { width: 500, marginTop: 50 },
+            });
+            window.location.reload(true);
+        }
+    };
     
     const deleteAccount = async(e) => {
         e.preventDefault();
@@ -517,6 +539,44 @@ export function FuncionesPerfil() {
                                                     Cambiar
                                                 </Button>
                                             </Form.Item>
+                                        </Form>
+                                    </Paper>
+                                </Menu>
+                            </React.Fragment>
+                        )}
+                    </PopupState>
+
+                    <PopupState variant="popover" popupId="demo-popup-menu">
+                        {(popupState) => (
+                            <React.Fragment>
+                                <Button
+                                    size="large"
+                                    color="Secondary"
+                                    {...bindTrigger(popupState)}
+                                >
+                                    Cambiar Foto
+                                </Button>
+                                <Menu {...bindMenu(popupState)}>
+                                    <Paper>
+                                        <Form
+                                            {...formItemLayout}
+                                            form={form}
+                                            name="register"
+                                            onFinish={changePhoto}
+                                        >
+                                            <Form.Item
+                                                name="photo"
+                                                label="Foto de perfil"
+                                            >
+                                                <AvatarUpload />
+                                            </Form.Item>
+                                            <Button type="primary"
+                                                    size="large"
+                                                    color="secondary"
+                                                    variant="contained"
+                                                    onClick={popupState.close}>
+                                                Cambiar
+                                            </Button>
                                         </Form>
                                     </Paper>
                                 </Menu>

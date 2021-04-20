@@ -128,12 +128,12 @@ export function FuncionesPerfil() {
       });
     }
   };
-  const changePhoto = async (values) => {
-
+  const changePhoto = async () => {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     const id = token.id;
-    console.log(values)
-    const result = await changePhotoComensalApi(id, values);
+    const photo = localStorage.getItem("PhotoBlob");
+    var values = {id: id, photo: photo};
+    const result = await changePhotoComensalApi(values);
 
     if (result.response) {
       notification["error"]({
@@ -145,6 +145,7 @@ export function FuncionesPerfil() {
         message: result.message,
         style: { width: 500, marginTop: 50 },
       });
+      window.location.reload(true);
     }
   };
 
@@ -349,7 +350,7 @@ export function Perfil() {
   return (
       <Form onSubmitCapture={getInfo}>
         <Card
-            cover={<img alt="" src={stateInfo.photo} style={{ width: "100%"}}/>}
+            cover={<img alt="" src={stateInfo.photo} style={{ width: "75%"}}/>}
         >
           <Meta title={stateInfo.name} description={stateInfo.email}
           />

@@ -493,7 +493,7 @@ const ChangeAdministrator = (req, res) => {
 }
 
 const ChangePhoto = (req, res) => {
-    const params = req.params;
+    const params = req.body;
     const idRestaurant = params.id;
     const newPhoto = params.photo;
     if (idRestaurant == null || idRestaurant == "") {
@@ -508,8 +508,7 @@ const ChangePhoto = (req, res) => {
                     console.log("Error al cambiar la foto", err)
                     res.status(500).send({message: "Error del servidor."});
                 } else {
-                    console.log("Foto modificado")
-                    res.status(200).send({message: "Foto modificado exitosamente."});
+                    res.status(200).send({message: "Foto modificada exitosamente."});
                 }
             });
         }
