@@ -23,7 +23,7 @@ api.post("/ordenar/:order/:restaurantName/:idComensal", ComensalController.addOr
 api.post("/cancelOrder/:id", ComensalController.cancelOrder);
 //
 api.get("/getMenus/:nombre", ComensalController.getMenus);
-api.get("/statusOrden/:idComensal", ComensalController.getStatus);
+api.get("/statusOrden/:id", ComensalController.getStatus);
 api.post("/payStripe/:id", ComensalController.setStripe);
 
 api.post("/verificarFirma",ComensalController.verificarFirma);

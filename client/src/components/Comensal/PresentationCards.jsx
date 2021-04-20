@@ -6,8 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import {getInfoResApi} from "../../api/RestaurantApi";
-import jwtDecode from "jwt-decode";
-import { ACCESS_TOKEN } from "../../utils/constants";
+import {useParams} from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     maxWidth: 1500,
@@ -21,11 +20,10 @@ export default function MediaCard() {
   const classes = useStyles();
 
   const [stateRestaurant, setRestaurant] = useState("");
-  const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
-
+const {nombreRes} = useParams()
   const llenar = () => {
     window.onload = async () => {
-      const result = await getInfoResApi(token.userName);
+      const result = await getInfoResApi(null,nombreRes);
       if (result.message) {
         console.log("no hay");
       } else {

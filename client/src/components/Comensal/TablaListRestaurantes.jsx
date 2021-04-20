@@ -8,7 +8,9 @@ import { getInfoResApi } from "../../api/RestaurantApi";
 import PopOverInfo from "../Restaurant/PopOverInfo";
 import Avatar from "@material-ui/core/Avatar";
 import { Button } from "@material-ui/core";
-
+import {
+  BrowserRouter as Router
+} from "react-router-dom";
 const listData = [];
 
 const IconText = ({ icon, text }) => (
@@ -81,6 +83,7 @@ const TablaListRestaurantes = () => {
 
   mostrar();
   return (
+<Router>
     <List
       itemLayout="vertical"
       size="small"
@@ -148,6 +151,7 @@ const TablaListRestaurantes = () => {
         </List.Item>
       )}
     />
+</Router>
   );
 };
 

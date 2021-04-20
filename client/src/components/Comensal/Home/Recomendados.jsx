@@ -8,9 +8,10 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { getRecomendadosApi } from "../../../api/ComensalApi";
-import { Collapse } from "antd";
+import {Collapse} from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import PopOverInfo from "../../Restaurant/PopOverInfo";
+import {notification} from "antd/es";
 
 const { Panel } = Collapse;
 
@@ -34,26 +35,35 @@ const Recomendados = () => {
 
   const mostrar = async () => {
     const result = await getRecomendadosApi();
-    console.log(result);
     // eslint-disable-next-line
-    if (stateInfo == "") {
-      result.filter(function (el) {
-        listData.push({
-          userName: el.userName,
-          phone: el.phone,
-          photo: el.photo,
-          administrator: el.administrator,
-          presentation: el.presentation,
-          code: el.code,
-          email: el.email,
+    if(result.message) {
+      notification.info({
+        message: result.message,
+        placement: "bottomRight"
+      })
+    }else{
+      // eslint-disable-next-line
+      if (stateInfo == "") {
+        result.filter(function (el) {
+          listData.push({
+            userName: el.userName,
+            phone: el.phone,
+            photo: el.photo,
+            administrator: el.administrator,
+            presentation: el.presentation,
+            code: el.code,
+            email: el.email,
+          });
+          return null;
         });
-        return null;
-      });
-      setStateInfo([...listData, ...stateInfo]);
-    } else {
-      console.log("no");
+        setStateInfo([...listData, ...stateInfo]);
+      } else {
+        console.log("no");
+      }
     }
+
   };
+
   return (
     <Collapse
       bordered={false}
@@ -61,8 +71,8 @@ const Recomendados = () => {
       expandIcon={({ isActive }) => (
         <CaretRightOutlined rotate={isActive ? 90 : 0} />
       )}
-      onChange={mostrar}
       className="site-collapse-custom-collapse"
+      onChange={mostrar}
     >
       <Panel
         header="Recomendados"

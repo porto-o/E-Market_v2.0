@@ -11,7 +11,7 @@ import {
 import AvatarUpload from "../utils/AvatarUpload";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { signUpApi } from "../../api/ComensalApi";
-import FacebookLoginComp from "../FormRest/FacebookSignUp";
+import FacebookLoginComp from "./FacebookSignUp";
 
 const { Panel } = Collapse;
 
@@ -43,7 +43,6 @@ const RegistrationFormComensal = () => {
 
   const onFinish = async (values) => {
     values.photo = localStorage.getItem("PhotoBlob");
-
     const result = await signUpApi(values);
     if (result.ok === false) {
       notification["error"]({
@@ -62,9 +61,9 @@ const RegistrationFormComensal = () => {
 
   return (
     <>
-      <Collapse accordion defaultActiveKey={["1"]}>
-        <Panel header="Registro con Facebook" key="1">
-          <FacebookLoginComp />
+      <Collapse accordion defaultActiveKey={["2"]}>
+        <Panel header="Registro con Facebook" key="1" >
+          <FacebookLoginComp/>
         </Panel>
         <Panel header="Registro con E-Market" key="2">
           <Form

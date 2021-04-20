@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import {ACCESS_TOKEN} from "../../utils/constants";
 import AvatarUpload from "../utils/AvatarUpload";
 
-import { Form, Input, Checkbox, notification } from "antd";
+import { notification } from "antd";
 
 const data = [];
 let nombreVista;
@@ -14,30 +14,7 @@ let descripcionVista;
 let precioVista;
 let arrayNombres = []
 let arrayDescripcion = []
-let arrayPrecio = []
-
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 5 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
-};
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 5,
-        },
-    },
-};
+let arrayPrecio = [];
 
 class TablaMenu extends React.Component {
 

@@ -4,11 +4,7 @@ import { signUpApi } from "../../api/ComensalApi";
 import { notification } from 'antd'
 
 const responseFacebook = async (response) => {
-  if (response.name != undefined) {
-    console.log("este es el nombre de usuario: " + response.name);
-    console.log("este es el email: " + response.email);
-    console.log("esta es la url de la foto: " + response.picture.data.url);
-
+  if (response.name !== undefined) {
     const values = {
       userName: response.name,
       email: response.email,

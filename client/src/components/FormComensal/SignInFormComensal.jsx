@@ -13,7 +13,7 @@ import { notification, Collapse } from "antd";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../utils/constants";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
-import FacebookSignIn from "../FormRest/FacebookSignIn";
+import FacebookSignIn from "./FacebookSignIn";
 
 const { Panel } = Collapse;
 
@@ -80,7 +80,7 @@ const SignInComensal = () => {
 
   return (
     <>
-      <Collapse accordion defaultActiveKey={["1"]}>
+      <Collapse accordion defaultActiveKey={["2"]}>
         <Panel header="Iniciar sesión con Facebook"  key="1" >
           <FacebookSignIn />
         </Panel>

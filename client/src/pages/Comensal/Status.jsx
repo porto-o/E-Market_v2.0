@@ -17,6 +17,8 @@ import { notification, Steps } from "antd";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
 import { getStatusComensalApi, cancelOrderApi } from "../../api/ComensalApi";
+import { BASE_PATH } from "../../api/config";
+import {useParams} from "react-router-dom";
 
 const stripePromise = loadStripe(
   "pk_test_51I76NLIDgbX8kir9ZnIVCe2dFDOsNrbBrhtP6OEGohHsbqYU3qJDKHC0l1fkbtrrLIs6okl7umdxAdiV60pFSL9L00RuOGSI0v"
@@ -33,7 +35,6 @@ const Status = () => {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     const id = token.id;
     const result = await cancelOrderApi(id);
-
     if (result.response) {
       notification["error"]({
         message: result.message,
@@ -56,7 +57,7 @@ const Status = () => {
     // Call your backend to create the Checkout Session
 
     const response = await fetch(
-      `http://localhost:3977/api/v1/payStripe/${id}`,
+      `${BASE_PATH}/v1/payStripe/${id}`,
       { method: "POST" }
     );
     const session = await response.json();
@@ -72,15 +73,20 @@ const Status = () => {
       // using `result.error.message`.
     }
   };
+  const {nombreRes} = useParams();
+console.log(nombreRes);
 
   (function () {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     var id = token.id;
     const getStatus = async () => {
       const result = await getStatusComensalApi(id);
-      console.log(result);
       if (result.message) {
-        //window.location = "/comensal"
+        notification.info({
+          message: result.message,
+          placement: "bottomRight"
+        })
+        window.location = "/comensal"
       } else {
         if (result.status === "Enviada") {
           setStatus(0, stateStatus);
@@ -97,7 +103,7 @@ const Status = () => {
         }
       }
     };
-    setInterval(getStatus, 3000);
+    setInterval(getStatus, 1000);
   })();
 
   return (
