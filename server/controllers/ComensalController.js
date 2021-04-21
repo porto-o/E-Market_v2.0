@@ -467,7 +467,7 @@ const addOrder = (req, res) => {
   const orderDate = new Date();
   const orderSent = params.order;
   const dishes = orderSent.split(",");
-  const orderStatus = params.orderStatus;
+
 
   if (comensal == null || comensal == "") {
     console.log("Error al agregar la orden, id del comensal nulo");

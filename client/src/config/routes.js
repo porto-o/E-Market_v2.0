@@ -23,8 +23,8 @@ import RecordOrders from "../pages/Restaurante/RecordOrders";
 import Error404 from "../pages/Error404";
 import EliminarRestaurante from "../pages/Comensal/EliminarRestaurante"
 import Success from "../pages/Comensal/successPay";
-import History from "../components/Restaurant/History";
 import Politicas from "../components/Politicas";
+import TableHistory from "../components/Restaurant/TableHistory";
 //comensal
 
 const routes = [
@@ -113,7 +113,7 @@ const routes = [
       },
       {
         path: "/restaurante/history",
-        component: History,
+        component: TableHistory,
         exact: true
       },
       {

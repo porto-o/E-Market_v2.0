@@ -42,7 +42,7 @@ const NavbarRest = () => {
     return (
         <div className={classes.root}>
 
-            <AppBar position="relative" color="secondary">
+            <AppBar position="static" color="secondary">
                 <Toolbar>
                     <IconButton
                         edge="start"

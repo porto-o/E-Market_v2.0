@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
+import ReactDOM from 'react-dom'
 import {notification, Transfer} from 'antd';
 import {useParams} from "react-router-dom"
 import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import {IconButton} from "@material-ui/core";
+import {CircularProgress, IconButton} from "@material-ui/core";
 import jwtDecode from "jwt-decode";
 import {ACCESS_TOKEN} from "../../utils/constants";
 
@@ -19,44 +20,7 @@ let nombrePedido
 var arrayOrden = []
 
 
-const Llenar = () => {
-    const {nombres} = useParams();
 
-    window.onload = async () => {
-        const result = await getMenuApi(nombres)
-        if (result.message) {
-            notification.info({
-                message: result.message,
-                placement: 'bottomLeft'
-            })
-
-        } else {
-
-            result.filter(function (el) {
-                nombreVista = el.nombre
-                descripcionVista = el.descripcion
-                precioVista = el.precio
-                arrayNombres.push(nombreVista)
-                arrayDescripcion.push(descripcionVista)
-                arrayPrecio.push(precioVista)
-                return (nombreVista, descripcionVista);
-            })
-
-            notification.info({
-                message: "Si el menú no aparece, de click en el botón arriba a la izquierda de la tabla de la izquierda.",
-                placement: "bottomLeft"
-            })
-        }
-        for (let i = 0; i < arrayNombres.length; i++) {
-            mockData.push({
-                key: i.toString(),
-                title: arrayNombres[i],
-                description: arrayDescripcion[i],
-                price: arrayPrecio[i]
-            });
-        }
-    }
-}
 
 //const initialTargetKeys = mockData.filter(item => +item.title > 10).map(item => item.title);
 
@@ -75,15 +39,13 @@ const Menu = () => {
             arrayOrden.push(nombrePedido)
 
         }
-
         setTargetKeys(nextTargetKeys);
-
     };
 
 
     const ordenar = async () => {
         const token = jwtDecode(localStorage.getItem("accessToken"));
-        if (arrayOrden === "" || arrayOrden === null || !arrayOrden) {
+        if (arrayOrden == "" || arrayOrden === null || !arrayOrden) {
             notification.info({
                 message: "Porfavor selecciona un platillo.",
                 placement: 'bottomLeft',
@@ -91,10 +53,12 @@ const Menu = () => {
         } else {
             const id = token.id
             // eslint-disable-next-line
-            const result = await ordenarApi(arrayOrden,nombres,id)
+           await ordenarApi(arrayOrden,nombres,id)
             while (arrayOrden.length > 0) {
                 arrayOrden.pop();
             }
+            window.location = `/comensal/status/${token}/${nombres}`
+
         }
     }
 
@@ -104,10 +68,46 @@ const Menu = () => {
         setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
     };
 
+    const Llenar = async () => {
+        const {nombres} = useParams();
+        console.log(nombres)
+        window.onload = async () => {
+            const result = await getMenuApi(nombres)
+            if (result.message) {
+                notification.info({
+                    message: result.message,
+                    placement: 'bottomLeft'
+                })
+
+            } else {
+
+                result.filter(function (el) {
+                    nombreVista = el.nombre
+                    descripcionVista = el.descripcion
+                    precioVista = el.precio
+                    arrayNombres.push(nombreVista)
+                    arrayDescripcion.push(descripcionVista)
+                    arrayPrecio.push(precioVista)
+                    return (nombreVista, descripcionVista);
+                })
+
+                for (let i = 0; i < arrayNombres.length; i++) {
+                    mockData.push({
+                        key: i.toString(),
+                        title: arrayNombres[i],
+                        description: arrayDescripcion[i],
+                        price: arrayPrecio[i]
+                    });
+                }
+
+            }
+
+        }
+    }
 
     Llenar()
     return (
-        <div>
+        <div id="menu" align={"center"}>
             <Transfer
                 dataSource={mockData}
                 titles={[`Menú de ${nombres}`, 'Mi orden']}
@@ -123,7 +123,7 @@ const Menu = () => {
                 render={item => `${item.title}: ${item.description}.......$ ${item.price}`}
 
             />
-            <IconButton color="primary" aria-label="add to shopping cart" onClick={ordenar} href={`/comensal/status/${token}/${nombres}`}>
+            <IconButton id="btnOrdenar"  color="primary" aria-label="add to shopping cart" onClick={ordenar}>
                 <AddShoppingCartIcon/> Ordenar
             </IconButton>
         </div>
