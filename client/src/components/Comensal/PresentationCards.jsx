@@ -5,8 +5,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import {getInfoResApi} from "../../api/RestaurantApi";
-import {useParams} from "react-router-dom";
+import { getInfoResApi } from "../../api/RestaurantApi";
+import { useParams } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     maxWidth: 1500,
@@ -20,10 +20,10 @@ export default function MediaCard() {
   const classes = useStyles();
 
   const [stateRestaurant, setRestaurant] = useState("");
-const {nombreRes} = useParams()
+  const { nombreRes } = useParams();
   const llenar = () => {
     window.onload = async () => {
-      const result = await getInfoResApi(null,nombreRes);
+      const result = await getInfoResApi(null, nombreRes);
       if (result.message) {
         console.log("no hay");
       } else {
@@ -37,10 +37,7 @@ const {nombreRes} = useParams()
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={stateRestaurant.photo}
-        />
+        <CardMedia className={classes.media} image={stateRestaurant.photo} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {stateRestaurant.name}

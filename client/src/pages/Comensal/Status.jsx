@@ -74,7 +74,6 @@ const Status = () => {
     }
   };
   const {nombreRes} = useParams();
-console.log(nombreRes);
 
   (function () {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));

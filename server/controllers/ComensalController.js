@@ -847,7 +847,7 @@ const getStatus = (req, res) => {
   });
 };
 
-const setStripe = async (req, res) => {
+const setStripe =  (req, res) => {
   const params = req.params;
   const idUser = params.id;
   OrdersModel.findOne({ Comensal: idUser }, async (err, menuData) => {
@@ -859,7 +859,7 @@ const setStripe = async (req, res) => {
       } else {
         var platillos = menuData.Platillos;
         var total = menuData.Total;
-
+        console.log("antes de generar la sesión para el pago de stripe linea 862 del comensal")
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           locale: "es",

@@ -112,7 +112,7 @@ const routes = [
         exact: true,
       },
       {
-        path: "/restaurante/history",
+        path: "/restaurante/history/:nombreRes",
         component: TableHistory,
         exact: true
       },

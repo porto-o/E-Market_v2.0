@@ -1,15 +1,13 @@
-import React from 'react'
+import React from 'react';
+import {useParams} from "react-router-dom";
 import ReactDOM from 'react-dom'
 import {notification, Table} from "antd"
 import es_ES from 'antd/lib/locale/es_ES';
 import {ConfigProvider} from "antd/es";
 import {getHistorialApi} from "../../api/RestaurantApi";
-import jwtDecode from "jwt-decode";
-import {ACCESS_TOKEN} from "../../utils/constants";
 import {CircularProgress} from "@material-ui/core";
 
 // CONSTANTES
-
 var ganancias = 0;
 var arrayFinal = []
 
@@ -51,10 +49,7 @@ const columns = [
 ];
 
 const data = [];
-
-const llenado = async () => {
-    const token = jwtDecode(localStorage.getItem("accessToken"))
-    const nombreRes = token.userName;
+const llenado = async (nombreRes) => {
     var dish, id, total,day, month, year;
     const result = await getHistorialApi(nombreRes)
     if(result.message) {
@@ -83,15 +78,18 @@ const llenado = async () => {
             })
         }
         console.log(data)
-        const element = <ConfigProvider locale={es_ES}>
+        
+    }
+    const element = <ConfigProvider locale={es_ES}>
             <Table columns={columns} dataSource={data}/>
         </ConfigProvider>
-        ReactDOM.render(element, document.getElementById('hola'))
-    }
-}
-llenado()
-const TableHistory = () => {
+    ReactDOM.render(element, document.getElementById('hola'))
 
+}
+//llenado()
+const TableHistory = () => {
+    const {nombreRes} = useParams();
+    llenado(nombreRes)
     return (
         <div id="hola" align={"center"}>
             <CircularProgress/>
