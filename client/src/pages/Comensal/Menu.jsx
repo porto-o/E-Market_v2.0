@@ -100,6 +100,10 @@ const Menu = () => {
                     });
                 }
 
+                notification.success({
+                    message: "Haz click en el cuadrado que se ubica arriba al izquierda de la tabla",
+                    placement: 'bottomLeft'
+                })
             }
 
         }

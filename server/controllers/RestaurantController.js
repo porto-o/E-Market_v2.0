@@ -145,13 +145,16 @@ const getInfoRes = (req, res) => {
 
 const saveMenu = (req, res) => {
     const params = req.body;
-    const {nombre, descripcion, precio, id} = params;
+    const {nombre, descripcion, precio, id, dishPhoto, tiempoPrep} = params;
+    console.log(dishPhoto + tiempoPrep)
     const ventas = "0";
     const obj = {
         nombre: nombre,
         precio: precio,
         descripcion: descripcion,
         ventas: ventas,
+        dishPhoto: dishPhoto,
+        tiempoPrep: tiempoPrep
     };
     const menu = MenuModel();
     //precios no menores a 10 pesos

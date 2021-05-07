@@ -60,6 +60,8 @@ class TablaMenu extends React.Component {
             nomPlatillo: data.nomPlatillo,
             description: data.description,
             precio: data.precio,
+            tiempoPrep: data.tiempoPrep,
+            dishPhoto: data.dishPhoto
         },
     };
 
@@ -166,9 +168,9 @@ class TablaMenu extends React.Component {
     };
 
     guardar = async () => {
-        console.log(this.state.form)
-        const result = await SaveMenuApi(this.state.form);
-        console.log(result)
+        const photoDish = localStorage.getItem("PhotoBlob")
+        this.state.form.dishPhoto = photoDish
+        await SaveMenuApi(this.state.form);
         window.location = "/restaurante/editmenu"
 
     }
@@ -339,7 +341,7 @@ class TablaMenu extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <label>
+                            <label name="dishPhoto"  onChange={this.handleChange}>
                                 Imagen del platillo:
                             </label>
                             <AvatarUpload />

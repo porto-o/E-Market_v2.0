@@ -28,11 +28,13 @@ export default class AvatarUpload extends Component {
   };
 
   handleChange = (info) => {
+    console.log(info.file.status)
+
     if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
     }
-    if (info.file.status === "done") {
+    if (info.file.status === "done" || info.file.status === "error") {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl) => {
         this.setState({

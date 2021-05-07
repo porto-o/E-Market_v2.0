@@ -18,7 +18,7 @@ import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
 import { getStatusComensalApi, cancelOrderApi } from "../../api/ComensalApi";
 import { BASE_PATH } from "../../api/config";
-import {useParams} from "react-router-dom";
+//import {useParams} from "react-router-dom";
 
 const stripePromise = loadStripe(
   "pk_test_51I76NLIDgbX8kir9ZnIVCe2dFDOsNrbBrhtP6OEGohHsbqYU3qJDKHC0l1fkbtrrLIs6okl7umdxAdiV60pFSL9L00RuOGSI0v"
@@ -73,7 +73,7 @@ const Status = () => {
       // using `result.error.message`.
     }
   };
-  const {nombreRes} = useParams();
+  //const {nombreRes} = useParams();
 
   (function () {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));

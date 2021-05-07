@@ -8,8 +8,8 @@ import {getHistorialApi} from "../../api/RestaurantApi";
 import {CircularProgress} from "@material-ui/core";
 
 // CONSTANTES
-var ganancias = 0;
-var arrayFinal = []
+//var ganancias = 0;
+//var arrayFinal = []
 
 const columns = [
     {
@@ -50,7 +50,7 @@ const columns = [
 
 const data = [];
 const llenado = async (nombreRes) => {
-    var dish, id, total,day, month, year;
+    var dish, id, total, year;
     const result = await getHistorialApi(nombreRes)
     if(result.message) {
         notification.info({
