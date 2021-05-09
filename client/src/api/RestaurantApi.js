@@ -106,12 +106,13 @@ export function getInfoResApi(id, nombre){
 export function SaveMenuApi(data) {
 
     const id = jwtDecode(localStorage.getItem(REFRESH_TOKEN));
-
     const daticos = {
         "nombre": data.nomPlatillo,
         "descripcion": data.description,
         "precio": data.precio,
-        "id": id.id
+        "id": id.id,
+        "photoDish": data.dishPhoto,
+        "tiempoPrep": data.tiempoPrep
     }
 
     const url = `${BASE_PATH}/${API_VERSION}/saveMenu`;
@@ -151,6 +152,7 @@ export function getMenuApi(id){
             return response.json();
         })
         .then((result) => {
+            console.log(result)
             return result;
         })
         .catch((err) => {

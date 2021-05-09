@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import ReactDOM from 'react-dom'
 import {notification, Transfer} from 'antd';
 import {useParams} from "react-router-dom"
 import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import {CircularProgress, IconButton} from "@material-ui/core";
+import {IconButton} from "@material-ui/core";
 import jwtDecode from "jwt-decode";
-import {ACCESS_TOKEN} from "../../utils/constants";
 
 const mockData = [];
 
@@ -26,7 +24,6 @@ var arrayOrden = []
 
 const Menu = () => {
     const {nombres} = useParams();
-    const token = (localStorage.getItem(ACCESS_TOKEN))
 
     const [targetKeys, setTargetKeys] = useState();
     const [selectedKeys, setSelectedKeys] = useState([]);
@@ -45,6 +42,7 @@ const Menu = () => {
 
     const ordenar = async () => {
         const token = jwtDecode(localStorage.getItem("accessToken"));
+        // eslint-disable-next-line
         if (arrayOrden == "" || arrayOrden === null || !arrayOrden) {
             notification.info({
                 message: "Porfavor selecciona un platillo.",

@@ -10,8 +10,14 @@ const authRoutesComensal = require("./routers/authRoutes");
 const ComensalRouters = require("./routers/ComensalRoutes");
 const RestaurantRouters = require("./routers/RestaurantRoutes");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+/*
+  **En caso de que falle algo y no sepas por que, habilita estas cosas xD**
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+*/
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}))
 // Configure Header
 // ...
 app.use((req, res, next) => {

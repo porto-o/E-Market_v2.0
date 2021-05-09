@@ -28,8 +28,6 @@ export default class AvatarUpload extends Component {
   };
 
   handleChange = (info) => {
-    console.log(info.file.status)
-
     if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;

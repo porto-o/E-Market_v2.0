@@ -15,7 +15,8 @@ const MenuSchema = Schema({
             precio: String,
             descripcion: String,
             ventas: String,
-            foto: String,
+            dishPhoto: String,
+            tiempoPrep: String
         }],
         required: true
     }

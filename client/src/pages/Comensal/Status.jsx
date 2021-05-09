@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import ReactDOM from "react-dom";
+
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -18,6 +20,7 @@ import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
 import { getStatusComensalApi, cancelOrderApi } from "../../api/ComensalApi";
 import { BASE_PATH } from "../../api/config";
+import CuentaRegresiva from "../../components/utils/CuentaRegresiva";
 //import {useParams} from "react-router-dom";
 
 const stripePromise = loadStripe(
@@ -56,10 +59,9 @@ const Status = () => {
     var id = token.id;
     // Call your backend to create the Checkout Session
 
-    const response = await fetch(
-      `${BASE_PATH}/v1/payStripe/${id}`,
-      { method: "POST" }
-    );
+    const response = await fetch(`${BASE_PATH}/v1/payStripe/${id}`, {
+      method: "POST",
+    });
     const session = await response.json();
 
     // When the customer clicks on the button, redirect them to Checkout.
@@ -74,7 +76,7 @@ const Status = () => {
     }
   };
   //const {nombreRes} = useParams();
-
+  let tiempo = 0;
   (function () {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     var id = token.id;
@@ -83,9 +85,9 @@ const Status = () => {
       if (result.message) {
         notification.info({
           message: result.message,
-          placement: "bottomRight"
-        })
-        window.location = "/comensal"
+          placement: "bottomRight",
+        });
+        window.location = "/comensal";
       } else {
         if (result.status === "Enviada") {
           setStatus(0, stateStatus);
@@ -105,12 +107,23 @@ const Status = () => {
     setInterval(getStatus, 1000);
   })();
 
+  const getReloj = async () => {
+    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+    var id = token.id;
+    const result2 = await getStatusComensalApi(id);
+    tiempo = result2.tiempo;
+    Reloj(tiempo);
+  };
+
+  getReloj();
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography variant="h4" gutterBottom>
             <Paper className={classes.header}>Estatus de mi Orden</Paper>
+            <div id="contador"></div>
           </Typography>
         </Grid>
         <Grid item xs={9}>
@@ -203,5 +216,20 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 }));
+
+const Reloj = (props) => {
+  const startingMinutes = props;
+  let time = startingMinutes * 60;
+
+  setInterval(updateCountDown, 1000);
+  function updateCountDown() {
+    const minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    time--;
+    ReactDOM.render(`${minutes}:${seconds}`, document.getElementById("contador"))
+  }
+
+};
 
 export default Status;

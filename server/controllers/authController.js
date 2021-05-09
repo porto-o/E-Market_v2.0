@@ -27,7 +27,7 @@ const refreshAccessToken = (req, res) => {
         res.status(500).send({ message: "Error del servidor." });
       } else {
         if (!userStored) {
-          res.status(404).send({ message: "Usuario no encontrado." });
+          //res.status(404).send({ message: "Usuario no encontrado." });
           Restaurante.findOne({ _id: id }, (err, userStored) => {
             if (err) {
               res.status(500).send({ message: "Error del servidor." });

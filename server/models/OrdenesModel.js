@@ -35,6 +35,10 @@ const OrdenesSchema = Schema({
     Estatus: {
         type: String,
         required: true
+    },
+    Tiempo: {
+        type: Number,
+        required: true
     }
 
 });

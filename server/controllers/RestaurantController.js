@@ -145,15 +145,14 @@ const getInfoRes = (req, res) => {
 
 const saveMenu = (req, res) => {
     const params = req.body;
-    const {nombre, descripcion, precio, id, dishPhoto, tiempoPrep} = params;
-    console.log(dishPhoto + tiempoPrep)
+    const {nombre, descripcion, precio, id, photoDish, tiempoPrep} = params;
     const ventas = "0";
     const obj = {
         nombre: nombre,
         precio: precio,
         descripcion: descripcion,
         ventas: ventas,
-        dishPhoto: dishPhoto,
+        dishPhoto: photoDish,
         tiempoPrep: tiempoPrep
     };
     const menu = MenuModel();
@@ -170,7 +169,7 @@ const saveMenu = (req, res) => {
                     console.log("no existe todavía un menu registrado");
                     //agregar el restaurante con su primer platillo
                     menu.Restaurante = id;
-                    menu.Menu = req.body;
+                    menu.Menu = obj;
                     menu.save((erro, resSave) => {
                         if (erro) {
                             console.log("Error al guardar por primera vez", erro);
@@ -191,7 +190,6 @@ const saveMenu = (req, res) => {
                                 if (!resMMFOAU) {
                                     console.log("Error menú no encontrado");
                                 } else {
-                                    console.log("Platillo guardado", resMMFOAU);
                                     MenuModel.findOne(
                                         {Restaurante: id},
                                         "Menu",
@@ -600,7 +598,6 @@ const getCurrentOrders = (req, res) => {
                     platillosConcatenados = "";
                 }
 
-                console.log(arrayConcatenados);
                 /*
                  * ID del comensal de la orden
                  * totales

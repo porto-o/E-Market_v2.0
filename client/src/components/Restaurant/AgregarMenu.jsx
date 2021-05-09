@@ -12,9 +12,13 @@ const data = [];
 let nombreVista;
 let descripcionVista;
 let precioVista;
+let fotoVista;
+let tiempoVista;
 let arrayNombres = []
 let arrayDescripcion = []
 let arrayPrecio = [];
+let arrayFotos = [];
+let arrayTiempos = [];
 
 class TablaMenu extends React.Component {
 
@@ -22,8 +26,7 @@ class TablaMenu extends React.Component {
         window.onload = async () => {
             const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN))
             const result = await getMenuApi(token.id)
-            console.log(result)
-
+            
             if (result.message) {
                 notification.error({
                     message: result.message,
@@ -34,20 +37,25 @@ class TablaMenu extends React.Component {
                     nombreVista = el.nombre
                     descripcionVista = el.descripcion
                     precioVista = el.precio
+                    fotoVista = el.dishPhoto
+                    tiempoVista = el.tiempoPrep
                     arrayNombres.push(nombreVista)
                     arrayDescripcion.push(descripcionVista)
                     arrayPrecio.push(precioVista)
+                    arrayFotos.push(fotoVista)
+                    arrayTiempos.push(tiempoVista)
                     return (nombreVista, descripcionVista);
                 })
                 for (let i = 0; i < arrayNombres.length; i++) {
                     data.push({
-                        id: i.toString(),
+                        id: i+1,
                         nomPlatillo: arrayNombres[i],
                         description: arrayDescripcion[i],
-                        precio: arrayPrecio[i]
+                        precio: arrayPrecio[i],
+                        foto: arrayFotos[i],
+                        tiempo: arrayTiempos[i]
                     });
                 }
-                console.log(Object.values(data))
             }
         }
     }
@@ -189,20 +197,24 @@ class TablaMenu extends React.Component {
                         <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Foto</th>
                             <th>Nombre del platillo</th>
                             <th>Descripción</th>
                             <th>Precio</th>
+                            <th>Tiempo de preparación</th>
                             <th>Acción</th>
                         </tr>
                         </thead>
 
                         <tbody>
                         {this.state.data.map((dato) => (
-                            <tr key={dato.id}>
+                            <tr key={dato.id} style={{textAlign: "center", margin: "auto"}}>
                                 <td>{dato.id}</td>
+                                <td><img src={dato.foto} alt="Foto platillo" style={{width: "100px"}}></img></td>
                                 <td>{dato.nomPlatillo}</td>
                                 <td>{dato.description}</td>
-                                <td>{dato.precio}</td>
+                                <td>$ {dato.precio}</td>
+                                <td>{dato.tiempo} minutos</td>
                                 <td>
 
                                     <Button

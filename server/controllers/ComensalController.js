@@ -11,7 +11,7 @@ const OrdersModel = require("../models/OrdenesModel");
 const Menu = require("../models/MenuModel");
 const VentasModel = require("../models/VentasModel");
 const TicketsModel = require("../models/TicketsModel");
-const PDF = require("html-pdf");
+const pdf = require("html-pdf");
 const crypto = require("crypto");
 const fs = require("fs");
 
@@ -328,7 +328,6 @@ const getMenus = (req, res) => {
                 "El restaurante aún no tiene un menú. Comunícate con el gerente.",
             });
           } else {
-            console.log(resMenu.Menu);
             res.status(200).send(resMenu.Menu);
           }
         }
@@ -431,30 +430,30 @@ const eliminarRestaurante = (req, res) => {
 };
 
 const ChangePhoto = (req, res) => {
-    const params = req.body;
-    const idComensal = params.id;
-    const newPhoto = params.photo;
-    if (idComensal == null || idComensal == "") {
-        console.log("Error al cambiar foto, id nulo");
+  const params = req.body;
+  const idComensal = params.id;
+  const newPhoto = params.photo;
+  if (idComensal == null || idComensal == "") {
+    console.log("Error al cambiar foto, id nulo");
+  } else {
+    if (newPhoto == null || newPhoto == "") {
+      console.log("Error al cambiar foto, foto nula o invalida");
+      //Enviar mensaje l cliente
     } else {
-        if (newPhoto == null || newPhoto == "") {
-            console.log("Error al cambiar foto, foto nula o invalida");
-            //Enviar mensaje l cliente
-        } else {
-            Comensal.findByIdAndUpdate(
-                {_id: idComensal},
-                {photo: newPhoto},
-                (err, resUpdate) => {
-                    if (err) {
-                        console.log("Error al cambiar el foto", err);
-                        res.status(500).send({message: "Error del servidor."});
-                    } else {
-                        res.status(200).send({message: "Foto modificada exitosamente."});
-                    }
-                }
-            );
+      Comensal.findByIdAndUpdate(
+        { _id: idComensal },
+        { photo: newPhoto },
+        (err, resUpdate) => {
+          if (err) {
+            console.log("Error al cambiar el foto", err);
+            res.status(500).send({ message: "Error del servidor." });
+          } else {
+            res.status(200).send({ message: "Foto modificada exitosamente." });
+          }
         }
+      );
     }
+  }
 };
 
 //Orders
@@ -467,7 +466,6 @@ const addOrder = (req, res) => {
   const orderDate = new Date();
   const orderSent = params.order;
   const dishes = orderSent.split(",");
-
 
   if (comensal == null || comensal == "") {
     console.log("Error al agregar la orden, id del comensal nulo");
@@ -497,16 +495,22 @@ const addOrder = (req, res) => {
                   //res.status(500).send({message: "No se encontro el restaurante"})
                 } else {
                   const restaurantMenuArray = resMFO.Menu;
+                  //console.log(restaurantMenuArray)
                   const dishesObject = [];
                   var obj;
                   let total = 0;
+                  let tiempo = 0;
+                  let tiempos = 0;
                   for (let j = 0; j < dishes.length; j++) {
                     for (let i = 0; i < restaurantMenuArray.length; i++) {
                       if (restaurantMenuArray[i].nombre == dishes[j]) {
                         total += parseFloat(restaurantMenuArray[i].precio);
+                        tiempos = parseInt(restaurantMenuArray[i].tiempoPrep);
+                        tiempo += tiempos;
                         obj = {
                           nombre: dishes[j],
                           precio: restaurantMenuArray[i].precio,
+                          tiempoPrep: tiempo
                         };
                         dishesObject.push(obj);
                       }
@@ -525,6 +529,7 @@ const addOrder = (req, res) => {
                           order.Total = total.valueOf();
                           order.Fecha = orderDate;
                           order.Platillos = dishesObject;
+                          order.Tiempo = tiempo;
                           order.Estatus = "Enviada";
                           order.save((err, resSave) => {
                             if (err) {
@@ -666,166 +671,6 @@ const getTickets = (req, res) => {
   });
 };
 
-const pay = (req, res) => {
-  const params = req.params;
-  const idOrder = params.order;
-  const idComensal = params.comensal;
-  const venta = VentasModel();
-  const ticket = TicketsModel();
-  Comensal.findOne({ _id: idComensal }, (error3, resCFO) => {
-    if (error3) {
-      console.log("Error al buscar al cliente");
-    } else {
-      if (!resCFO) {
-        console.log("No se encontro al Comensal");
-      } else {
-        const comensalName = resCFO.userName;
-        OrdersModel.findOne({ Comensal: idComensal }, (error, resOMFO) => {
-          if (error) {
-            console.log("Error al buscar la orden", error);
-          } else {
-            if (!resOMFO) {
-              console.log("No existe la orden");
-            } else {
-              const dishesObject = resOMFO.Platillos;
-              const restaurantName = resOMFO.Restaurante;
-              const total = resOMFO.Total;
-              Restaurant.findOne(
-                { userName: restaurantName },
-                (error1, resRFO) => {
-                  if (error) {
-                    console.log("Error al buscar restaurante", error1);
-                  } else {
-                    if (!resOMFO) {
-                      console.log("No existe el restarante");
-                    } else {
-                      const idRestaurant = resRFO._id;
-                      Menu.findOne(
-                        { Restaurante: idRestaurant },
-                        (error2, resMFO) => {
-                          if (error2) {
-                            console.log("Error al buscar el menú", error2);
-                          } else {
-                            if (!resMFO) {
-                              console.log("Menú no encontrado");
-                            } else {
-                              const restaurantMenuArray = resMFO.Menu;
-                              //sumar ventas al restaurante
-                              for (let i = 0; i < dishesObject.length; i++) {
-                                for (
-                                  let j = 0;
-                                  j < restaurantMenuArray.length;
-                                  j++
-                                ) {
-                                  console.log(
-                                    dishesObject[i].nombre ==
-                                      restaurantMenuArray[j].nombre
-                                  );
-                                  if (
-                                    dishesObject[i].nombre ==
-                                    restaurantMenuArray[j].nombre
-                                  ) {
-                                    var sumaVentas =
-                                      parseFloat(
-                                        restaurantMenuArray[j].ventas
-                                      ) + 1;
-                                    Menu.updateOne(
-                                      { "Menu.nombre": dishesObject[i].nombre },
-                                      {
-                                        $set: {
-                                          "Menu.$.ventas": sumaVentas.valueOf(),
-                                        },
-                                      },
-                                      (erro, resup) => {
-                                        if (erro) {
-                                          console.log(
-                                            "No se actualizo la venta unu",
-                                            erro
-                                          );
-                                        } else {
-                                          console.log(
-                                            "Actualización de ventas exitosa"
-                                          );
-                                        }
-                                      }
-                                    );
-                                  }
-                                }
-                              }
-                              // Removemos la orden del restaurante y generamos una al restaurante, ademas generamos el tiket
-                              /*
-                               * 1.- Guarda la orden para el restaurante
-                               * 2.- Crea el ticket
-                               * 3.- Borra la orden del comensal
-                               */
-                              // 1 GUARDAR LA ORDEN EN EL RESTAURANTE
-                              venta.Comensal = comensalName;
-                              venta.Restaurante = restaurantName;
-                              venta.Total = total;
-                              venta.Fecha = new Date();
-                              venta.Platillos = dishesObject;
-                              venta.save((error4, resVS) => {
-                                if (error4) {
-                                  console.log(
-                                    "Error al guardar la orden en el restaurante"
-                                  );
-                                } else {
-                                  console.log(
-                                    "Orden guardad exitosamente en el restaurante"
-                                  );
-                                }
-                              });
-
-                              // 2 CREAMOS EL TICKET
-
-                              ticket.Comensal = comensalName;
-                              ticket.Restaurante = restaurantName;
-                              ticket.Total = total;
-                              ticket.Fecha = new Date();
-                              ticket.Platillos = dishesObject;
-                              // más las cosas del la firma
-
-                              /*
-                                                                                                                ticket.save((error4, resTS) => {
-                                                                                                                    if (error4) {
-                                                                                                                        console.log("Error al guardar la orden en el restaurante");
-                                                                                                                    } else {
-                                                                                                                        console.log("Orden guardad exitosamente en el restaurante");
-                                                                                                                    }
-                                                                                                                });
-                                                                                                                */
-
-                              // 3 ELIMINAMOS LA ORDEN DEL CLIENTE
-                              OrdersModel.findOneAndDelete(
-                                { Comensal: idComensal },
-                                (error5, resOMFOAD) => {
-                                  if (error5) {
-                                    console.log(
-                                      "Error al eliminar la orden del comensal"
-                                    );
-                                  } else {
-                                    console.log(
-                                      "Orden eliminada despues del pago"
-                                    );
-                                  }
-                                }
-                              );
-                            }
-                          }
-                        }
-                      );
-                    }
-                  }
-                }
-              );
-            }
-          }
-        });
-      }
-    }
-  });
-};
-
 const getStatus = (req, res) => {
   const params = req.params;
   const id = params.id;
@@ -841,13 +686,14 @@ const getStatus = (req, res) => {
           .send({ message: "No tienes ninguna orden en progreso." });
       } else {
         const status = statusData.Estatus;
-        res.status(200).send({ status });
+        const tiempo = statusData.Tiempo;
+        res.status(200).send({ status, tiempo });
       }
     }
   });
 };
 
-const setStripe =  (req, res) => {
+const setStripe = (req, res) => {
   const params = req.params;
   const idUser = params.id;
   OrdersModel.findOne({ Comensal: idUser }, async (err, menuData) => {
@@ -859,30 +705,23 @@ const setStripe =  (req, res) => {
       } else {
         var platillos = menuData.Platillos;
         var total = menuData.Total;
-        console.log("antes de generar la sesión para el pago de stripe linea 862 del comensal")
-        const session = await stripe.checkout.sessions.create({
-          payment_method_types: ["card"],
-          locale: "es",
-          line_items: [
-            {
-              price_data: {
-                currency: "mxn",
-                product_data: {
-                  name: `${platillos.map((item) => item.nombre)}`,
-                },
-                unit_amount: total + 0 + 0,
-              },
-              quantity: 1,
-            },
-          ],
-          mode: "payment",
-
-          // cambiar las url de localhost al dominio del cliente en producción
-          success_url: "http://localhost:3000/comensal/success",
-          cancel_url: "http://localhost:3000/comensal/status",
-        });
+        console.log(
+          "antes de generar la sesión para el pago de stripe linea 862 del comensal"
+        );
+        
+          const session = await pagoStrip(platillos, total);
 
         //Generando PDF
+        const content = `
+        <h1>Ticket E-Market</h1>
+        <p>Generando un PDF con un HTML sencillo</p>
+        `;
+        
+        pdf.create(content).toFile('./ticket.pdf', function(err,res) {
+          if(err)
+            console.log(err)
+          console.log(res)
+        })
 
         const venta = VentasModel();
         const ticket = TicketsModel();
@@ -903,7 +742,6 @@ const setStripe =  (req, res) => {
                 if (error4) {
                   console.log("Error al guardar la orden en el restaurante");
                 } else {
-                  console.log("Orden guardada exitosamente en el restaurante");
                   ticket.Comensal = comensalName;
                   ticket.Restaurante = menuData.Restaurante;
                   ticket.Total = total;
@@ -916,7 +754,7 @@ const setStripe =  (req, res) => {
                       );
                     } else {
                       console.log(
-                        "Orden guardad exitosamente en el restaurante"
+                        "Orden guardada exitosamente en el restaurante"
                       );
                       OrdersModel.findOneAndDelete(
                         { Comensal: idUser },
@@ -943,6 +781,34 @@ const setStripe =  (req, res) => {
     }
   });
 };
+
+
+const pagoStrip = async (platillos, total) => {
+  console.log("llegando al pago")
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    locale: "es",
+    line_items: [
+      {
+        price_data: {
+          currency: "mxn",
+          product_data: {
+            name: `${platillos.map((item) => item.nombre)}`,
+          },
+          unit_amount: total + 0 + 0,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+
+    // cambiar las url de localhost al dominio del cliente en producción
+    success_url: "http://localhost:3000/comensal/success",
+    cancel_url: "http://localhost:3000/comensal/status",
+  });
+
+  return session
+}
 
 const getPresentacion = (req, res) => {
   const params = req.params;
@@ -1003,7 +869,6 @@ const verificarFirma = (req, res) => {
 };
 
 const getRecomendados = (req, res) => {
-  console.log("s");
   Restaurant.find((err, restaurantes) => {
     if (err) {
       console.log("Error al obtener los restaurantes recomendados");
@@ -1036,7 +901,6 @@ module.exports = {
   getStatus,
   setStripe,
   getOrder,
-  pay,
   getPresentacion,
   getTickets,
   verificarFirma,

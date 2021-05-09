@@ -11,7 +11,6 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import HomeComensal from "../pages/Comensal/HomeComensal";
 import Menu from "../pages/Comensal/Menu";
-import Pay from "../pages/Comensal/Pay";
 import PaymentMethods from "../pages/Comensal/PaymentMethods";
 import Profile from "../pages/Comensal/Profile";
 import Status from "../pages/Comensal/Status";
@@ -57,11 +56,6 @@ const routes = [
       {
         path: "/comensal/status/:token/:nombreRes",
         component: Status,
-        exact: true,
-      },
-      {
-        path: "/comensal/pay",
-        component: Pay,
         exact: true,
       },
       {
