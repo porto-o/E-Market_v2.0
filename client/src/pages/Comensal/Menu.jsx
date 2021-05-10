@@ -1,137 +1,167 @@
-import React, {useState} from 'react';
-import {notification, Transfer} from 'antd';
-import {useParams} from "react-router-dom"
-import {getMenuApi, ordenarApi} from "../../api/ComensalApi";
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import {IconButton} from "@material-ui/core";
+import React, { Component } from "react";
+import { Transfer, Button, notification, ConfigProvider } from "antd";
+import { useParams } from "react-router";
+import { getMenuApi, ordenarApi } from "../../api/ComensalApi";
+import { IconButton } from "@material-ui/core";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import jwtDecode from "jwt-decode";
+import es_ES from "antd/lib/locale/es_ES";
 
-const mockData = [];
+let nombreVista, descripcionVista, fotoVista, precioVista;
+let arrayNombres = [];
+let arrayDescripcion = [];
+let arrayFoto = [];
+let arrayPrecio = [];
+var arrayOrden = [];
 
-let nombreVista;
-let descripcionVista;
-let precioVista;
-let arrayNombres = []
-let arrayDescripcion = []
-let arrayPrecio = []
-let nombrePedido
-var arrayOrden = []
+export default class Menu extends Component {
+  state = {
+    mockData: [],
+    targetKeys: [],
+  };
 
+  componentDidMount() {
+    this.getMock();
+  }
 
+  getMock = async () => {
+    const el = document.getElementById("paramsUrl");
+    const nombre = el.textContent || el.innerText;
+    const targetKeys = [];
+    var mockData = [];
 
+    const result = await getMenuApi(nombre);
+    if (result.message) {
+      notification.info({
+        message: result.message,
+        placement: "bottomLeft",
+      });
+    } else {
+      result.filter(function (el) {
+        nombreVista = el.nombre;
+        descripcionVista = el.descripcion;
+        precioVista = el.precio;
+        fotoVista = el.dishPhoto;
+        arrayNombres.push(nombreVista);
+        arrayDescripcion.push(descripcionVista);
+        arrayPrecio.push(precioVista);
+        arrayFoto.push(fotoVista);
+      });
 
-//const initialTargetKeys = mockData.filter(item => +item.title > 10).map(item => item.title);
-
-const Menu = () => {
-    const {nombres} = useParams();
-
-    const [targetKeys, setTargetKeys] = useState();
-    const [selectedKeys, setSelectedKeys] = useState([]);
-
-
-    const onChange = (nextTargetKeys) => {
-        for (let i = 0; i < nextTargetKeys.length; i++) {
-            const indice = nextTargetKeys[i]
-            nombrePedido = mockData[indice].title
-            arrayOrden.push(nombrePedido)
-
+      for (let i = 0; i < arrayNombres.length; i++) {
+        const data = {
+          key: arrayNombres[i],
+          title: arrayNombres[i],
+          description: arrayDescripcion[i],
+          precio: arrayPrecio[i],
+          foto: arrayFoto[i],
+          chosen: 0,
+        };
+        if (data.chosen) {
+          targetKeys.push(data.key);
         }
-        setTargetKeys(nextTargetKeys);
-    };
-
-
-    const ordenar = async () => {
-        const token = jwtDecode(localStorage.getItem("accessToken"));
-        // eslint-disable-next-line
-        if (arrayOrden == "" || arrayOrden === null || !arrayOrden) {
-            notification.info({
-                message: "Porfavor selecciona un platillo.",
-                placement: 'bottomLeft',
-            })
-        } else {
-            const id = token.id
-            // eslint-disable-next-line
-           await ordenarApi(arrayOrden,nombres,id)
-            while (arrayOrden.length > 0) {
-                arrayOrden.pop();
-            }
-            window.location = `/comensal/status/${token}/${nombres}`
-
-        }
+        mockData.push(data);
+      }
+      this.setState({ mockData, targetKeys });
     }
+  };
 
-    const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-        console.log('sourceSelectedKeys:', sourceSelectedKeys);
-        console.log('targetSelectedKeys:', targetSelectedKeys);
-        setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-    };
+  handleChange = (targetKeys) => {
+    this.setState({ targetKeys });
+    arrayOrden = targetKeys;
+  };
 
-    const Llenar = async () => {
-        const {nombres} = useParams();
-        console.log(nombres)
-        window.onload = async () => {
-            const result = await getMenuApi(nombres)
-            if (result.message) {
-                notification.info({
-                    message: result.message,
-                    placement: 'bottomLeft'
-                })
-
-            } else {
-
-                result.filter(function (el) {
-                    nombreVista = el.nombre
-                    descripcionVista = el.descripcion
-                    precioVista = el.precio
-                    arrayNombres.push(nombreVista)
-                    arrayDescripcion.push(descripcionVista)
-                    arrayPrecio.push(precioVista)
-                    return (nombreVista, descripcionVista);
-                })
-
-                for (let i = 0; i < arrayNombres.length; i++) {
-                    mockData.push({
-                        key: i.toString(),
-                        title: arrayNombres[i],
-                        description: arrayDescripcion[i],
-                        price: arrayPrecio[i]
-                    });
-                }
-
-                notification.success({
-                    message: "Haz click en el cuadrado que se ubica arriba al izquierda de la tabla",
-                    placement: 'bottomLeft'
-                })
-            }
-
-        }
+  handleOrdenar = async () => {
+    const el = document.getElementById("paramsUrl");
+    const nombre = el.textContent || el.innerText;
+    const token = jwtDecode(localStorage.getItem("accessToken"));
+    const token2 = localStorage.getItem("accessToken");
+    // eslint-disable-next-line
+    console.log("arrayOrden en ordenar ", arrayOrden);
+    if (arrayOrden == "" || arrayOrden === null || !arrayOrden) {
+      notification.info({
+        message: "Porfavor selecciona un platillo.",
+        placement: "bottomLeft",
+      });
+    } else {
+      const id = token.id;
+      // eslint-disable-next-line
+      await ordenarApi(arrayOrden, nombre, id);
+      while (arrayOrden.length > 0) {
+        arrayOrden.pop();
+      }
+      window.location = `/comensal/status/${token2}/${nombre}`;
     }
+  };
 
-    Llenar()
+  render() {
     return (
-        <div id="menu" align={"center"}>
-            <Transfer
-                dataSource={mockData}
-                titles={[`Menú de ${nombres}`, 'Mi orden']}
-                targetKeys={targetKeys}
-                listStyle={{
-                    width: 800,
-                    height: 300,
-
-                }}
-                selectedKeys={selectedKeys}
-                onChange={onChange}
-                onSelectChange={onSelectChange}
-                render={item => `${item.title}: ${item.description}.......$ ${item.price}`}
-
-            />
-            <IconButton id="btnOrdenar"  color="primary" aria-label="add to shopping cart" onClick={ordenar}>
-                <AddShoppingCartIcon/> Ordenar
-            </IconButton>
-        </div>
-
+      <div align={"center"}>
+        <ConfigProvider locale={es_ES}>
+          <Child />
+          <br></br>
+          <br></br>
+          <Transfer
+            dataSource={this.state.mockData}
+            listStyle={{
+              width: 800,
+              height: 400,
+              alignContent: "center",
+            }}
+            operations={["Añadir", "Quitar"]}
+            targetKeys={this.state.targetKeys}
+            onChange={this.handleChange}
+            pagination
+            render={(item) => (
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <tr>
+                  <th style={{ borderCollapse: "collapse" }}>Foto</th>
+                  <th style={{ borderCollapse: "collapse" }}>Nombre</th>
+                  <th style={{ borderCollapse: "collapse" }}>Descripción</th>
+                  <th style={{ borderCollapse: "collapse" }}>Precio (MXN)</th>
+                </tr>
+                <tr>
+                  <td style={{ borderCollapse: "collapse", padding: "5px" }}>
+                    <img
+                      src={item.foto}
+                      alt="Foto platillo"
+                      style={{ width: "150px" }}
+                    />
+                  </td>
+                  <td style={{ borderCollapse: "collapse", padding: "5px" }}>
+                    <p>{item.title}</p>
+                  </td>
+                  <td style={{ borderCollapse: "collapse", padding: "5px" }}>
+                    <p>{item.description}</p>
+                  </td>
+                  <td style={{ borderCollapse: "collapse", padding: "5px" }}>
+                    <p>$ {item.precio}</p>
+                  </td>
+                </tr>
+              </table>
+            )}
+          />
+          <IconButton
+            id="btnOrdenar"
+            color="primary"
+            aria-label="add to shopping cart"
+            onClick={this.handleOrdenar}
+          >
+            <AddShoppingCartIcon /> Ordenar
+          </IconButton>
+        </ConfigProvider>
+      </div>
     );
-};
+  }
+}
 
-
-export default Menu
+function Child() {
+  let { nombres } = useParams();
+  return (
+    <>
+      <span id="paramsUrl">
+        <b>{nombres}</b>
+      </span>
+    </>
+  );
+}

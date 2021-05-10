@@ -3,14 +3,15 @@ import { List, notification, Space } from "antd";
 import { LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
 import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
-import { eliminarRestauranteApi, getRestaurantApi } from "../../api/ComensalApi";
+import {
+  eliminarRestauranteApi,
+  getRestaurantApi,
+} from "../../api/ComensalApi";
 import { getInfoResApi } from "../../api/RestaurantApi";
 import PopOverInfo from "../Restaurant/PopOverInfo";
 import Avatar from "@material-ui/core/Avatar";
 import { Button } from "@material-ui/core";
-import {
-  BrowserRouter as Router
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 const listData = [];
 
 const IconText = ({ icon, text }) => (
@@ -40,7 +41,7 @@ const TablaListRestaurantes = () => {
       } else {
         result.filter(function (el) {
           const consulta = async () => {
-            result2 = await getInfoResApi(null,el.restaurantName);
+            result2 = await getInfoResApi(null, el.restaurantName);
             listData.push({
               nombres: result2.name,
               photo: result2.photo,
@@ -62,9 +63,9 @@ const TablaListRestaurantes = () => {
     //const filtredData = stateNombre.filter(item => item.nombres !== nombre);
     //setNombres(["",...stateNombre])
     //setNombres([...filtredData, ...stateNombre]);
-    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN))
-    const id = token.id
-    const result = await eliminarRestauranteApi(nombre,id)
+    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
+    const id = token.id;
+    const result = await eliminarRestauranteApi(nombre, id);
     if (result.message) {
       notification["warning"]({
         message: result.message,
@@ -76,82 +77,81 @@ const TablaListRestaurantes = () => {
         style: { width: 500, marginTop: 50 },
       });
       window.location.reload(true);
-
     }
-    console.log("Hola?")
-  }
+    console.log("Hola?");
+  };
 
   mostrar();
   return (
-<Router>
-    <List
-      itemLayout="vertical"
-      size="small"
-      pagination={{
-        pageSize: 3,
-      }}
-      dataSource={stateNombre}
-      renderItem={(item) => (
-        <List.Item
-          key={item}
-          actions={[
-            <IconText
-              icon={StarOutlined}
-              text="156"
-              key="list-vertical-star-o"
-            />,
-            <IconText
-              icon={LikeOutlined}
-              text="156"
-              key="list-vertical-like-o"
-            />,
-            <IconText
-              icon={MessageOutlined}
-              text="2"
-              key="list-vertical-message"
-            />,
-          ]}
-          extra={
-            <Avatar
-              alt="Remy Sharp"
-              src={item.photo}
-              style={{ height: "100%", width: "250px" }}
-            />
-          }
-        >
-          <List.Item.Meta
-            avatar={
-              <img
-                alt="avatar restaurante"
-                src="https://img.icons8.com/metro/26/000000/restaurant.png"
+    <Router>
+      <List
+        itemLayout="vertical"
+        size="small"
+        pagination={{
+          pageSize: 3,
+        }}
+        dataSource={stateNombre}
+        renderItem={(item) => (
+          <List.Item
+            key={item}
+            actions={[
+              <IconText
+                icon={StarOutlined}
+                text="156"
+                key="list-vertical-star-o"
+              />,
+              <IconText
+                icon={LikeOutlined}
+                text="156"
+                key="list-vertical-like-o"
+              />,
+              <IconText
+                icon={MessageOutlined}
+                text="2"
+                key="list-vertical-message"
+              />,
+            ]}
+            extra={
+              <Avatar
+                alt="Remy Sharp"
+                src={item.photo}
+                style={{ height: "100%", width: "250px" }}
               />
             }
-            title={<b>Restaurante: {item.nombres}</b>}
-            description={item.description}
-          />
-          <Button
-            size="small"
-            color="inherit"
-            href={`/comensal/menu/${item.nombres}`}
           >
-            Ver menú
-          </Button>
-          <br />
-          <br />
-          <Button
-            size="small"
-            color="inherit"
-            onClick={() => handleDelete(item.nombres)}
-          >
-            Eliminar
-          </Button>
-          <br/>
-          <br/>
-          <PopOverInfo nombre={item.nombres} color={"primary"} />
-        </List.Item>
-      )}
-    />
-</Router>
+            <List.Item.Meta
+              avatar={
+                <img
+                  alt="avatar restaurante"
+                  src="https://img.icons8.com/metro/26/000000/restaurant.png"
+                />
+              }
+              title={<b>Restaurante: {item.nombres}</b>}
+              description={item.description}
+            />
+            <Button
+              size="small"
+              color="inherit"
+              href={`/comensal/menu/${item.nombres}`}
+            >
+              Ver menú
+            </Button>
+            <br />
+            <br />
+            <Button
+              size="small"
+              color="inherit"
+              onClick={() => handleDelete(item.nombres)}
+            >
+              Eliminar
+            </Button>
+            <br />
+            <br />
+            <PopOverInfo nombre={item.nombres} color={"primary"} />
+          </List.Item>
+        )}
+      />
+    </Router>
   );
 };
 

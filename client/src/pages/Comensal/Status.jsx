@@ -78,6 +78,7 @@ const Status = () => {
   //const {nombreRes} = useParams();
   let tiempo = 0;
   (function () {
+    console.log("de nuevo")
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     var id = token.id;
     const getStatus = async () => {
@@ -104,10 +105,11 @@ const Status = () => {
         }
       }
     };
-    setInterval(getStatus, 1000);
+    setInterval(getStatus, 3000);
   })();
 
   const getReloj = async () => {
+    console.log("Ejecución getReloj")
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     var id = token.id;
     const result2 = await getStatusComensalApi(id);
@@ -115,7 +117,6 @@ const Status = () => {
     Reloj(tiempo);
   };
 
-  getReloj();
 
   return (
     <div className={classes.root}>
@@ -124,6 +125,7 @@ const Status = () => {
           <Typography variant="h4" gutterBottom>
             <Paper className={classes.header}>Estatus de mi Orden</Paper>
             <div id="contador"></div>
+            <Button onClick={getReloj}>Click para mostrar reloj</Button>
           </Typography>
         </Grid>
         <Grid item xs={9}>

@@ -96,13 +96,11 @@ const getInfoRes = (req, res) => {
     const params = req.params;
     const nombre = params.nombre;
     const id = params.id;
-    console.log(nombre, id)
     if (id == null || id == "" || id == "null") {
         Restaurante.findOne({'userName': nombre}, (err, reSearch) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(nombre);
                     const info = {
                         name: reSearch.userName,
                         phone: reSearch.phone,
@@ -122,7 +120,6 @@ const getInfoRes = (req, res) => {
                     console.log(err);
                 } else {
 
-                    console.log(id);
                     const info = {
 
                         name: reSearch1.userName,

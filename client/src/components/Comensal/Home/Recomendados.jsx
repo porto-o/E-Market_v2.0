@@ -29,9 +29,11 @@ const useStyles = makeStyles((theme) => ({
 var listData = [];
 
 const Recomendados = () => {
+
   const classes = useStyles();
 
   const [stateInfo, setStateInfo] = useState([]);
+
 
   const mostrar = async () => {
     const result = await getRecomendadosApi();
