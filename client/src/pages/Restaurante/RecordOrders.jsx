@@ -73,7 +73,7 @@ export default function RecordOrders() {
           platilloNombres = el.platillos;
           total = el.total;
           idOrden = el.idOrden;
-          return platilloNombres, total;
+          return null;
         });
 
         for (let i = 0; i < platilloNombres.length; i++) {

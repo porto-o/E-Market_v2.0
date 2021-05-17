@@ -710,18 +710,8 @@ const setStripe = (req, res) => {
         );
         
           const session = await pagoStrip(platillos, total);
-
         //Generando PDF
-        const content = `
-        <h1>Ticket E-Market</h1>
-        <p>Generando un PDF con un HTML sencillo</p>
-        `;
         
-        pdf.create(content).toFile('./ticket.pdf', function(err,res) {
-          if(err)
-            console.log(err)
-          console.log(res)
-        })
 
         const venta = VentasModel();
         const ticket = TicketsModel();
@@ -784,7 +774,8 @@ const setStripe = (req, res) => {
 
 
 const pagoStrip = async (platillos, total) => {
-  console.log("llegando al pago")
+
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     locale: "es",
@@ -803,12 +794,13 @@ const pagoStrip = async (platillos, total) => {
     mode: "payment",
 
     // cambiar las url de localhost al dominio del cliente en producción
-    success_url: "http://localhost:3000/comensal/success",
+    success_url: `http://localhost:3000/comensal/success`,
     cancel_url: "http://localhost:3000/comensal/status",
   });
 
   return session
 }
+
 
 const getPresentacion = (req, res) => {
   const params = req.params;
@@ -904,5 +896,5 @@ module.exports = {
   getPresentacion,
   getTickets,
   verificarFirma,
-  ChangePhoto,
+  ChangePhoto
 };

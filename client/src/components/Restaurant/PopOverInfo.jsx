@@ -68,7 +68,7 @@ class PopOverInfo extends Component {
                     visible={this.state.visible}
                     onVisibleChange={this.handleVisibleChange}
                 >
-                    <Button  variant="contained" color={this.props.color}>Informacion de contacto</Button>
+                    <Button  variant="contained" color={this.props.color}>Información de contacto</Button>
                 </Popover>
             </div>
         );

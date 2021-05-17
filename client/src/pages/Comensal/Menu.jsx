@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Transfer, Button, notification, ConfigProvider } from "antd";
+import { Transfer,  notification, ConfigProvider } from "antd";
 import { useParams } from "react-router";
 import { getMenuApi, ordenarApi } from "../../api/ComensalApi";
 import { IconButton } from "@material-ui/core";
@@ -46,6 +46,7 @@ export default class Menu extends Component {
         arrayDescripcion.push(descripcionVista);
         arrayPrecio.push(precioVista);
         arrayFoto.push(fotoVista);
+        return null
       });
 
       for (let i = 0; i < arrayNombres.length; i++) {
@@ -63,6 +64,7 @@ export default class Menu extends Component {
         mockData.push(data);
       }
       this.setState({ mockData, targetKeys });
+      console.log(this.state.mockData)
     }
   };
 
@@ -77,7 +79,6 @@ export default class Menu extends Component {
     const token = jwtDecode(localStorage.getItem("accessToken"));
     const token2 = localStorage.getItem("accessToken");
     // eslint-disable-next-line
-    console.log("arrayOrden en ordenar ", arrayOrden);
     if (arrayOrden == "" || arrayOrden === null || !arrayOrden) {
       notification.info({
         message: "Porfavor selecciona un platillo.",

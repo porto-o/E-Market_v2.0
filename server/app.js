@@ -37,4 +37,6 @@ app.use(`/api/${API_VERSION}`, authRoutesComensal);
 app.use(`/api/${API_VERSION}`, ComensalRouters);
 app.use(`/api/${API_VERSION}`, RestaurantRouters);
 
+
+
 module.exports = app;

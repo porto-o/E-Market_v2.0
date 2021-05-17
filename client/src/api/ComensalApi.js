@@ -1,5 +1,4 @@
 import { BASE_PATH, API_VERSION } from "./config";
-
 export function signUpApi(data) {
   const url = `${BASE_PATH}/${API_VERSION}/signupComensal`;
   const params = {
@@ -52,34 +51,13 @@ export function SignInApi(data) {
     });
 }
 
-export function getRecomendadosApi(){
-    const url =`${BASE_PATH}/${API_VERSION}/getRecomendados/`;
-    const params = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
-
-}
-
-export function AddRestaurantApi(id, data){
-  const url = `${BASE_PATH}/${API_VERSION}/addRestaurant/${id}/${data}`;
+export function getRecomendadosApi() {
+  const url = `${BASE_PATH}/${API_VERSION}/getRecomendados/`;
   const params = {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
   return fetch(url, params)
     .then((response) => {
@@ -93,66 +71,86 @@ export function AddRestaurantApi(id, data){
     });
 }
 
-export function getInfoComensalApi(id, nombre){
-    const url = `${BASE_PATH}/${API_VERSION}/getInfoComensal/${id}/${nombre}`;
-    const params = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
+export function AddRestaurantApi(id, data) {
+  const url = `${BASE_PATH}/${API_VERSION}/addRestaurant/${id}/${data}`;
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function getRestaurantApi(idComensal){
+export function getInfoComensalApi(id, nombre) {
+  const url = `${BASE_PATH}/${API_VERSION}/getInfoComensal/${id}/${nombre}`;
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
+}
+
+export function getRestaurantApi(idComensal) {
   const url = `${BASE_PATH}/${API_VERSION}/getRestaurante/${idComensal}`;
 
   const params = {
     method: "GET",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
 
   return fetch(url, params)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        return err.message;
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function deleteAccountComensalApi (id) {
+export function deleteAccountComensalApi(id) {
   const url = `${BASE_PATH}/${API_VERSION}//deleteAccountComensal/${id}`;
   const params = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
   return fetch(url, params)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        return err.message;
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
 export function changeNameComensalApi(id, newName) {
@@ -161,217 +159,211 @@ export function changeNameComensalApi(id, newName) {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
   return fetch(url, params)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        return err.message;
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function changePasswordComensalApi (id, pass) {
+export function changePasswordComensalApi(id, pass) {
   const url = `${BASE_PATH}/${API_VERSION}/changePasswordComensal/${id}/${pass}`;
   const params = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
   return fetch(url, params)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        return err.message;
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function changePhotoComensalApi (values) {
-
-    const url = `${BASE_PATH}/${API_VERSION}/changePhotoComensal/`;
-    const params = {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
+export function changePhotoComensalApi(values) {
+  const url = `${BASE_PATH}/${API_VERSION}/changePhotoComensal/`;
+  const params = {
+    method: "POST",
+    body: JSON.stringify(values),
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function getMenuApi(nombreRestaurante){
+export function getMenuApi(nombreRestaurante) {
   const url = `${BASE_PATH}/${API_VERSION}/getMenus/${nombreRestaurante}`;
 
   const params = {
     method: "GET",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
 
   return fetch(url, params)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        return err.message;
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function ordenarApi(order, restaurantName, idComensal){
+export function ordenarApi(order, restaurantName, idComensal) {
   const url = `${BASE_PATH}/${API_VERSION}/ordenar/${order}/${restaurantName}/${idComensal}`;
 
   const params = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-    }
+    },
   };
 
   return fetch(url, params)
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        return result;
-      })
-      .catch((err) => {
-        return err.message;
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function eliminarRestauranteApi(nombre, id){
+export function eliminarRestauranteApi(nombre, id) {
+  const url = `${BASE_PATH}/${API_VERSION}/eliminarRestComensal/${nombre}/${id}`;
 
-    const url = `${BASE_PATH}/${API_VERSION}/eliminarRestComensal/${nombre}/${id}`;
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
 
-    const params = {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
-
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
 export function getStatusComensalApi(nombre) {
-    const url = `${BASE_PATH}/${API_VERSION}/statusOrden/${nombre}`;
+  const url = `${BASE_PATH}/${API_VERSION}/statusOrden/${nombre}`;
 
-    const params = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
 
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
-
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function cancelOrderApi (id) {
+export function cancelOrderApi(id) {
+  const url = `${BASE_PATH}/${API_VERSION}/cancelOrder/${id}`;
 
-    const url = `${BASE_PATH}/${API_VERSION}/cancelOrder/${id}`
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
 
-    const params = {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function getTicketsApi(nombre){
-
-    const url = `${BASE_PATH}/${API_VERSION}/getTickets/${nombre}`;
-    const params = {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-        }
-    };
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
-
+export function getTicketsApi(nombre) {
+  const url = `${BASE_PATH}/${API_VERSION}/getTickets/${nombre}`;
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
 
-export function verificarFirma(firma){
-    const url = `${BASE_PATH}/${API_VERSION}/verificarFirma`;
+export function verificarFirma(firma) {
+  const url = `${BASE_PATH}/${API_VERSION}/verificarFirma`;
 
-    const params = {
-        method: "POST",
-        body: firma,
-        headers: {
-            "Content-type": "application/json, Access-Control-Allow-Origin"
-        }
-    };
+  const params = {
+    method: "POST",
+    body: firma,
+    headers: {
+      "Content-type": "application/json, Access-Control-Allow-Origin",
+    },
+  };
 
-    return fetch(url, params)
-        .then((response) => {
-            return response.json();
-        })
-        .then((result) => {
-            return result;
-        })
-        .catch((err) => {
-            return err.message;
-        });
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
 }
+

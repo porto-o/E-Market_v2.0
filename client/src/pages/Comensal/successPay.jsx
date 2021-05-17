@@ -1,83 +1,21 @@
-import React from "react"
-import {notification, Result} from 'antd';
-import { Form,Button} from 'antd';
-import {verificarFirma} from "../../api/ComensalApi";
-const layout = {
-    labelCol: {
-        span: 8,
-    },
-    wrapperCol: {
-        span: 16,
-    },
-};
-const tailLayout = {
-    wrapperCol: {
-        offset: 8,
-        span: 16,
-    },
-};
-
-const Success = () => {
-    return(
-        <>
-    <Result
-        status="success"
-        title="Pago realizado exitósamente"
-        subTitle="Gracias por usar E-Market"
-        extra={[
-            <Button type="primary" key="console" href={"/comensal"}>
-                Menú principal
-            </Button>
-        ]}
-    />
-    <Demo/>
-
-    </>
-
-    )
-}
-
-const Demo = () => {
-    const onFinish = async (values) => {
-        console.log(values.firma);
-        const firma = {
-            "firma": values.firma
-        }
-        const result = await verificarFirma(firma.firma)
-        if(result.message){
-            notification.info({
-                message: result.message,
-                placement: "bottomLeft"
-            })
-        }else{
-            notification.info({
-                message: "La firma para el ticket generado es válida.",
-                placement: "bottomLeft"
-            })
-        }
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Error:', errorInfo);
-    };
-
+import React, { Component } from "react";
+import { Result, Button } from "antd";
+export default class Success extends Component {
+  render() {
     return (
-        <Form
-            {...layout}
-            name="basic"
-            initialValues={{
-                remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-        >
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-                    Verificar firma
-                </Button>
-            </Form.Item>
-        </Form>
+      <div>
+        <Result
+          status="success"
+          title="Gracias por comprar con E-Market!"
+          subTitle="El ticket de tu compra te llegará al correo registrado en el pago."
+          extra={[
+            <Button type="primary" key="console" href="/comensal">
+              Inicio
+            </Button>,
+            <Button key="buy" disabled>Descargar ticket</Button>,
+          ]}
+        />
+      </div>
     );
-};
-
-export default Success
+  }
+}

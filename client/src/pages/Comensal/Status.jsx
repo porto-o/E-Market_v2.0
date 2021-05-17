@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactDOM from "react-dom";
-
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -20,8 +19,6 @@ import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../utils/constants";
 import { getStatusComensalApi, cancelOrderApi } from "../../api/ComensalApi";
 import { BASE_PATH } from "../../api/config";
-import CuentaRegresiva from "../../components/utils/CuentaRegresiva";
-//import {useParams} from "react-router-dom";
 
 const stripePromise = loadStripe(
   "pk_test_51I76NLIDgbX8kir9ZnIVCe2dFDOsNrbBrhtP6OEGohHsbqYU3qJDKHC0l1fkbtrrLIs6okl7umdxAdiV60pFSL9L00RuOGSI0v"
@@ -78,7 +75,7 @@ const Status = () => {
   //const {nombreRes} = useParams();
   let tiempo = 0;
   (function () {
-    console.log("de nuevo")
+    console.log("de nuevo");
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     var id = token.id;
     const getStatus = async () => {
@@ -109,14 +106,13 @@ const Status = () => {
   })();
 
   const getReloj = async () => {
-    console.log("Ejecución getReloj")
+    console.log("Ejecución getReloj");
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     var id = token.id;
     const result2 = await getStatusComensalApi(id);
     tiempo = result2.tiempo;
     Reloj(tiempo);
   };
-
 
   return (
     <div className={classes.root}>
@@ -128,7 +124,7 @@ const Status = () => {
             <Button onClick={getReloj}>Click para mostrar reloj</Button>
           </Typography>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={6}>
           <Paper className={classes.paper}>
             <Steps current={stateStatus}>
               <Step
@@ -148,22 +144,19 @@ const Status = () => {
               />
             </Steps>
           </Paper>
+          <Grid item xs={4} alignItems={"center"}>
+            <Paper className={classes.paper}>
+              <Button onclick={cancelOrder} id={"cancelButton"} hidden={false}>
+                <Cancel />
+              </Button>
+              <Button onClick={handleClick} id={"payButton"} hidden={true}>
+                <Pay />
+              </Button>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Paper className={classes.paper}>
-            <Button onclick={cancelOrder} id={"cancelButton"} hidden={false}>
-              <Cancel />
-            </Button>
-            <Button onClick={handleClick} id={"payButton"} hidden={true}>
-              <Pay />
-            </Button>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Typography variant="h5" gutterBottom className={classes.header}>
-              Carta de Presentación
-            </Typography>
             <MediaCard />
           </Paper>
         </Grid>
@@ -229,9 +222,11 @@ const Reloj = (props) => {
     let seconds = time % 60;
     seconds = seconds < 10 ? "0" + seconds : seconds;
     time--;
-    ReactDOM.render(`${minutes}:${seconds}`, document.getElementById("contador"))
+    ReactDOM.render(
+      `${minutes}:${seconds}`,
+      document.getElementById("contador")
+    );
   }
-
 };
 
 export default Status;
