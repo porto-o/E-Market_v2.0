@@ -10,6 +10,8 @@ import jwtDecode from "jwt-decode";
 import { ACCESS_TOKEN } from "../../../utils/constants";
 import { notification } from "antd";
 import { AddRestaurantApi } from "../../../api/ComensalApi";
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
 
 const BtnAgregarRest = () => {
   const [open, setOpen] = useState(false);
@@ -57,9 +59,14 @@ const BtnAgregarRest = () => {
 
   return (
     <div>
-      <Button style={{marginBottom: "5%"}} variant="outlined" color="primary" onClick={handleClickOpen}>
-        Agregar restaurante
-      </Button>
+      <Fab
+        color="primary"
+        aria-label="Agregar restaurante"
+        onClick={handleClickOpen}
+        style={{marginBottom: "30px", alignContent: "left"}}
+      >
+        <AddIcon />
+      </Fab>
       <Dialog
         open={open}
         onClose={handleClose}

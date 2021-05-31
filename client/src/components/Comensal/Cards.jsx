@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Form, Input, notification, Modal } from "antd";
+import { Card, Form, Input, notification, Modal, Image } from "antd";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Button, ButtonGroup } from "@material-ui/core";
@@ -12,7 +12,9 @@ import { ACCESS_TOKEN } from "../../utils/constants";
 import {
   deleteAccountComensalApi,
   changeNameComensalApi,
-  changePasswordComensalApi, getInfoComensalApi, changePhotoComensalApi,
+  changePasswordComensalApi,
+  getInfoComensalApi,
+  changePhotoComensalApi,
 } from "../../api/ComensalApi";
 import { logout } from "../../api/auth";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
@@ -132,7 +134,7 @@ export function FuncionesPerfil() {
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
     const id = token.id;
     const photo = localStorage.getItem("PhotoBlob");
-    var values = {id: id, photo: photo};
+    var values = { id: id, photo: photo };
     const result = await changePhotoComensalApi(values);
 
     if (result.response) {
@@ -149,7 +151,6 @@ export function FuncionesPerfil() {
       localStorage.removeItem("PhotoBlob");
     }
   };
-
 
   return (
     <Card>
@@ -286,39 +287,38 @@ export function FuncionesPerfil() {
 
           <PopupState variant="popover" popupId="demo-popup-menu">
             {(popupState) => (
-                <React.Fragment>
-                  <Button
-                      size="large"
-                      color="Secondary"
-                      {...bindTrigger(popupState)}
-                  >
-                    Cambiar Foto
-                  </Button>
-                  <Menu {...bindMenu(popupState)}>
-                    <Paper>
-                        <Form
-                            {...formItemLayout}
-                            form={form}
-                            name="register"
-                            onFinish={changePhoto}
-                        >
-                          <Form.Item
-                              name="photo"
-                              label="Foto de perfil"
-                          >
-                            <AvatarUpload />
-                          </Form.Item>
-                          <Button type="primary"
-                                  size="large"
-                                  color="secondary"
-                                  variant="contained"
-                                  onClick={popupState.close}>
-                            Cambiar
-                          </Button>
-                        </Form>
-                    </Paper>
-                  </Menu>
-                </React.Fragment>
+              <React.Fragment>
+                <Button
+                  size="large"
+                  color="Secondary"
+                  {...bindTrigger(popupState)}
+                >
+                  Cambiar Foto
+                </Button>
+                <Menu {...bindMenu(popupState)}>
+                  <Paper>
+                    <Form
+                      {...formItemLayout}
+                      form={form}
+                      name="register"
+                      onFinish={changePhoto}
+                    >
+                      <Form.Item name="photo" label="Foto de perfil">
+                        <AvatarUpload />
+                      </Form.Item>
+                      <Button
+                        type="primary"
+                        size="large"
+                        color="secondary"
+                        variant="contained"
+                        onClick={popupState.close}
+                      >
+                        Cambiar
+                      </Button>
+                    </Form>
+                  </Paper>
+                </Menu>
+              </React.Fragment>
             )}
           </PopupState>
 
@@ -336,29 +336,27 @@ export function FuncionesPerfil() {
 }
 
 export function Perfil() {
-  const [stateInfo, setInfo] = useState(0)
-  const getInfo =  () => {
+  const [stateInfo, setInfo] = useState(0);
+  const getInfo = () => {
     window.onload = async () => {
       const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
-      const name = token.userName
+      const name = token.userName;
       const id = token.id;
-      const result = await getInfoComensalApi(id, name)
+      const result = await getInfoComensalApi(id, name);
       setInfo(result, stateInfo);
-    }
-
-  }
+    };
+  };
   getInfo();
-  const {Meta} = Card;
+  const { Meta } = Card;
   return (
-      <Form onSubmitCapture={getInfo}>
-        <Card
-            cover={<img alt="" src={stateInfo.photo} style={{ width: "75%"}}/>}
-        >
-          <Meta title={stateInfo.name} description={stateInfo.email}
-          />
-        </Card>
-      </Form>
-  )
+    <Form onSubmitCapture={getInfo}>
+      <Card
+        cover={<Image alt="" src={stateInfo.photo}/>}
+      >
+        <Meta title={stateInfo.name} description={stateInfo.email} />
+      </Card>
+    </Form>
+  );
 }
 
 export function MisPedidos() {

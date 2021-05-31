@@ -12,7 +12,6 @@ export default class Success extends Component {
             <Button type="primary" key="console" href="/comensal">
               Inicio
             </Button>,
-            <Button key="buy" disabled>Descargar ticket</Button>,
           ]}
         />
       </div>

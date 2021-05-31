@@ -45,7 +45,9 @@ const NavbarComensal = () => {
             color="inherit"
             aria-label="menu"
           >
-            <FastfoodTwoToneIcon />
+            <Button href="/comensal" style={{ color: "white" }}>
+              <FastfoodTwoToneIcon />
+            </Button>
           </IconButton>
           <Typography variant="h6" className={classes.title} color="inherit">
             E-Market del Comensal {nombre}

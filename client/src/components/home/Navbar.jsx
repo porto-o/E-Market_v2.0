@@ -6,8 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import FastfoodTwoToneIcon from "@material-ui/icons/FastfoodTwoTone";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
 import "./menuTop.scss";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,34 +28,29 @@ const Navbar = () => {
     <div className={classes.root}>
       <AppBar position="relative" color="secondary">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <FastfoodTwoToneIcon />
-          </IconButton>
-          <Typography
-            href="/"
-            variant="h6"
-            className={classes.title}
-            color="inherit"
-          >
+          <Link to={"/"} style={{ color: "white" }}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <FastfoodTwoToneIcon />
+            </IconButton>
+          </Link>
+          <Typography variant="h6" className={classes.title} color="inherit">
             E-Market
           </Typography>
 
-          <Menu className="menu-top" mode="horizontal">
-            <Menu.Item className="menu-top__item">
-              <Link to={"/"}>Inicio</Link>
-            </Menu.Item>
-            <Menu.Item className="menu-top__item">
-              <Link to={"/signin"}>Iniciar Sesión</Link>
-            </Menu.Item>
-            <Menu.Item className="menu-top__item">
-              <Link to={"/signup"}>Registrarse</Link>
-            </Menu.Item>
-          </Menu>
+          <Button href="/" color="inherit">
+            Inicio
+          </Button>
+          <Button href="/signin" color="inherit">
+            Iniciar sesión 
+          </Button>
+          <Button href="/signup" color="inherit">
+            Registrarse
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

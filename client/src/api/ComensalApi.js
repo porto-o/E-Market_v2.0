@@ -52,11 +52,13 @@ export function SignInApi(data) {
 }
 
 export function getRecomendadosApi() {
+  const token = localStorage.getItem("accessToken")
   const url = `${BASE_PATH}/${API_VERSION}/getRecomendados/`;
   const params = {
     method: "GET",
     headers: {
       "Content-type": "application/json",
+      Authorization: token
     },
   };
   return fetch(url, params)
@@ -92,11 +94,14 @@ export function AddRestaurantApi(id, data) {
 }
 
 export function getInfoComensalApi(id, nombre) {
+  const token = localStorage.getItem("accessToken")
+  console.log(id, nombre)
   const url = `${BASE_PATH}/${API_VERSION}/getInfoComensal/${id}/${nombre}`;
   const params = {
     method: "GET",
     headers: {
       "Content-type": "application/json",
+      Authorization: token,
     },
   };
   return fetch(url, params)
@@ -215,13 +220,16 @@ export function changePhotoComensalApi(values) {
 }
 
 export function getMenuApi(nombreRestaurante) {
+  const token = localStorage.getItem("accessToken")
   const url = `${BASE_PATH}/${API_VERSION}/getMenus/${nombreRestaurante}`;
 
   const params = {
     method: "GET",
     headers: {
       "Content-type": "application/json",
+      Authorization: token
     },
+    
   };
 
   return fetch(url, params)
@@ -259,8 +267,8 @@ export function ordenarApi(order, restaurantName, idComensal) {
 }
 
 export function eliminarRestauranteApi(nombre, id) {
-  const url = `${BASE_PATH}/${API_VERSION}/eliminarRestComensal/${nombre}/${id}`;
 
+  const url = `${BASE_PATH}/${API_VERSION}/eliminarRestComensal/${nombre}/${id}`;
   const params = {
     method: "POST",
     headers: {

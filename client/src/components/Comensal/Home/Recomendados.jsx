@@ -13,9 +13,7 @@ import { notification } from "antd/es";
 
 const { Panel } = Collapse;
 
-
-
-let userNames,phone,photo,admin,presentation,code,email;
+let userNames, phone, photo, admin, presentation, code, email;
 let arrayUserNames = [];
 let arrayPhone = [];
 let arrayPhoto = [];
@@ -58,11 +56,11 @@ export default class Recomendados extends Component {
           arrayAdmin.push(admin);
           arrayPresentation.push(presentation);
           arrayCode.push(code);
-          arrayEmail.push(email)
+          arrayEmail.push(email);
           return null;
         });
-        
-        for(let i = 0; i < arrayUserNames.length; i++){
+
+        for (let i = 0; i < arrayUserNames.length; i++) {
           const data = {
             key: arrayUserNames[i],
             userName: arrayUserNames[i],
@@ -75,7 +73,7 @@ export default class Recomendados extends Component {
           };
           stateInfo.push(data);
         }
-        this.setState({stateInfo})
+        this.setState({ stateInfo });
       }
     }
   };
@@ -90,7 +88,6 @@ export default class Recomendados extends Component {
             <CaretRightOutlined rotate={isActive ? 90 : 0} />
           )}
           className="site-collapse-custom-collapse"
-          ghost
         >
           <Panel
             header="Recomendados"

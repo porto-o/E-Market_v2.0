@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ReactDOM from "react-dom";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -73,7 +72,6 @@ const Status = () => {
     }
   };
   //const {nombreRes} = useParams();
-  let tiempo = 0;
   (function () {
     console.log("de nuevo");
     const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
@@ -105,15 +103,6 @@ const Status = () => {
     setInterval(getStatus, 3000);
   })();
 
-  const getReloj = async () => {
-    console.log("Ejecución getReloj");
-    const token = jwtDecode(localStorage.getItem(ACCESS_TOKEN));
-    var id = token.id;
-    const result2 = await getStatusComensalApi(id);
-    tiempo = result2.tiempo;
-    Reloj(tiempo);
-  };
-
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -121,10 +110,9 @@ const Status = () => {
           <Typography variant="h4" gutterBottom>
             <Paper className={classes.header}>Estatus de mi Orden</Paper>
             <div id="contador"></div>
-            <Button onClick={getReloj}>Click para mostrar reloj</Button>
           </Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={10}>
           <Paper className={classes.paper}>
             <Steps current={stateStatus}>
               <Step
@@ -144,18 +132,18 @@ const Status = () => {
               />
             </Steps>
           </Paper>
-          <Grid item xs={4} alignItems={"center"}>
-            <Paper className={classes.paper}>
-              <Button onclick={cancelOrder} id={"cancelButton"} hidden={false}>
-                <Cancel />
-              </Button>
-              <Button onClick={handleClick} id={"payButton"} hidden={true}>
-                <Pay />
-              </Button>
-            </Paper>
-          </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={2} alignItems={"center"}>
+          <Paper className={classes.paper}>
+            <Button onclick={cancelOrder} id={"cancelButton"} hidden={false}>
+              <Cancel />
+            </Button>
+            <Button onClick={handleClick} id={"payButton"} hidden={true}>
+              <Pay />
+            </Button>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
           <Paper className={classes.paper}>
             <MediaCard />
           </Paper>
@@ -212,21 +200,5 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Reloj = (props) => {
-  const startingMinutes = props;
-  let time = startingMinutes * 60;
-
-  setInterval(updateCountDown, 1000);
-  function updateCountDown() {
-    const minutes = Math.floor(time / 60);
-    let seconds = time % 60;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    time--;
-    ReactDOM.render(
-      `${minutes}:${seconds}`,
-      document.getElementById("contador")
-    );
-  }
-};
 
 export default Status;

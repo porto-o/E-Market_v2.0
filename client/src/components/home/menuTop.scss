@@ -1,18 +1,11 @@
 .menu-top {
   position: sticky;
   top: 0;
-  background-color: blue;
+  background-color: transparent;
   display: flex;
   align-items: center;
 
-  li {
-    border: 0;
-    a {
-      color: #115555;
-      font-weight: bold;
-      &:hover {
-        color: red;
-      }
-    }
-  }
+}
+.menu-top__item {
+  color: blue;
 }

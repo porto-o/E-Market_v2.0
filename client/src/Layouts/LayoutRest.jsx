@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import SignInRest from "../components/FormRest/SignInFormRestaurant";
 import {ACCESS_TOKEN} from "../utils/constants";
 import jwtDecode from "jwt-decode";
+import FooterE from "./FooterE";
 
 
 const LayoutRest = (props) => {
@@ -43,7 +44,7 @@ const LayoutRest = (props) => {
             <Content style={{padding: "50px 80px"}}>
                 <LoadRoutes routes={routes} className="site-layout-content"/>
             </Content>
-            <Footer style={{textAlign: "center"}}>E-Market 2020</Footer>
+            <Footer><FooterE/></Footer>
         </>
     );
 

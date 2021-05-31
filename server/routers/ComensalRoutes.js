@@ -1,15 +1,16 @@
 const express = require("express");
 const ComensalController = require("../controllers/ComensalController");
 const api = express.Router();
+const md_auth = require("../middlewares/authenticated");
 
 api.post("/signupComensal", ComensalController.SignUp);
 api.post("/signInComensal", ComensalController.SignIn);
 api.post("/addRestaurant/:id/:data", ComensalController.AddRestaurant);
-api.get("/getRestaurante/:id", ComensalController.getRestaurants);
-api.get("/getMenus/:nombre", ComensalController.getMenus);
+api.get("/getRestaurante/:id",  ComensalController.getRestaurants);
+api.get("/getMenus/:nombre", [md_auth.ensureAuth], ComensalController.getMenus);
 api.post("/eliminarRestComensal/:nombre/:id", ComensalController.eliminarRestaurante);
-api.get("/getInfoComensal/:id/:nombre", ComensalController.getInfoComensal);
-api.get("/getRecomendados", ComensalController.getRecomendados);
+api.get("/getInfoComensal/:id/:nombre", [md_auth.ensureAuth], ComensalController.getInfoComensal);
+api.get("/getRecomendados", [md_auth.ensureAuth], ComensalController.getRecomendados);
 //Account
 
 api.post("/deleteAccountComensal/:id", ComensalController.DeleteAccount);

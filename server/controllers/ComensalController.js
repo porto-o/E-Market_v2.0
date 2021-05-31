@@ -794,8 +794,8 @@ const pagoStrip = async (platillos, total) => {
     mode: "payment",
 
     // cambiar las url de localhost al dominio del cliente en producción
-    success_url: `http://localhost:3000/comensal/success`,
-    cancel_url: "http://localhost:3000/comensal/status",
+    success_url: `https://e-marke7.netlify.app/comensal/success`,
+    cancel_url: "https://e-marke7.netlify.app/comensal/status",
   });
 
   return session
