@@ -31,6 +31,7 @@ export function signUpApi(data) {
 
 export function SignInApi(data) {
   const url = `${BASE_PATH}/${API_VERSION}/signInComensal`;
+  console.log(url)
   const params = {
     method: "POST",
     body: JSON.stringify(data),

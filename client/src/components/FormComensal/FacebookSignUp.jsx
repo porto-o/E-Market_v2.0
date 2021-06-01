@@ -12,6 +12,7 @@ const responseFacebook = async (response) => {
       password: "9AKj9GocPc58Uqlcew4&ciTQLU*bIieSz&@s9OMELZ*3WPdd"
     }
 
+    
     const result = await signUpApi(values);
     if (result.ok === false) {
       notification["error"]({

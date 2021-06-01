@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Transfer,  notification, ConfigProvider } from "antd";
+import { Transfer,  notification, ConfigProvider, Image } from "antd";
 import { useParams } from "react-router";
 import { getMenuApi, ordenarApi } from "../../api/ComensalApi";
 import { IconButton } from "@material-ui/core";
@@ -118,12 +118,11 @@ export default class Menu extends Component {
                 <tr>
                   <th style={{ borderCollapse: "collapse" }}>Foto</th>
                   <th style={{ borderCollapse: "collapse" }}>Nombre</th>
-                  <th style={{ borderCollapse: "collapse" }}>Descripción</th>
                   <th style={{ borderCollapse: "collapse" }}>Precio (MXN)</th>
                 </tr>
                 <tr>
                   <td style={{ borderCollapse: "collapse", padding: "5px" }}>
-                    <img
+                    <Image
                       src={item.foto}
                       alt="Foto platillo"
                       style={{ width: "150px" }}
@@ -131,9 +130,6 @@ export default class Menu extends Component {
                   </td>
                   <td style={{ borderCollapse: "collapse", padding: "5px" }}>
                     <p>{item.title}</p>
-                  </td>
-                  <td style={{ borderCollapse: "collapse", padding: "5px" }}>
-                    <p>{item.description}</p>
                   </td>
                   <td style={{ borderCollapse: "collapse", padding: "5px" }}>
                     <p>$ {item.precio}</p>

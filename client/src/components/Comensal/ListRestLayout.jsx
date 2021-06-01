@@ -6,7 +6,6 @@ import ListaRestaurantes from "./ListaRestaurantes";
 import Typography from "@material-ui/core/Typography";
 import BtnAgregarRest from "./Home/BtnAgregarRest";
 import Recomendados from "./Home/Recomendados";
-import { IntroJs as introJs } from "intro.js";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -23,16 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tutorial = () => {
-    introJs(".tabla-restaurantes").start()
 
-}
 const RestaurantesTables = () => {
   const classes = useStyles();
   return (
-    <div className="tabla-restaurantes" data-intro='Step one'>
+    <div className="tabla-restaurantes" >
       <div className={classes.root}>
-          <button onClick={tutorial}>asdfasdfas</button>
         <Grid container spacing={6}>
           <Grid item xs={8}>
             <Typography variant="h4" gutterBottom>

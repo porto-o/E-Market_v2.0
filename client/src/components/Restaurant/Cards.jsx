@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Form, Input, notification } from "antd";
+import { Card, Form, Input, notification, Image } from "antd";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Button, ButtonGroup } from "@material-ui/core";
@@ -125,13 +125,13 @@ export function Perfil() {
   return (
     <Form onSubmitCapture={getInfo}>
       <Card
-        cover={<img alt="" src={stateInfo.photo} style={{ width: "100%" }} />}
+        cover={<Image alt="logo restaurante" src={stateInfo.photo} width={"50%"}></Image>}
       >
         <Meta
           title={stateInfo.name}
           description={
             stateInfo.presentation +
-            "\n" +
+            "\n" + 
             stateInfo.email +
             "\n" +
             stateInfo.phone +
